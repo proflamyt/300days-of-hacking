@@ -11,7 +11,7 @@ git is already preinstalled in most linux distro
 
 > Folder should be structured like
 
-### A typical top-level directory layout
+###  Directory layout
 
     .
     
