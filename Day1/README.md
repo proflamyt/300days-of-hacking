@@ -1,7 +1,7 @@
 ### Git and GitHub
 
 ## Discord <https://discord.gg/6sAFNkGZ>
-## WhatsApp <wa.me/+2348025729256>
+## WhatsApp <https://wa.me/+2348025729256>
 
 Hey !! Let's get you started shall we?
 Today, I will be explaining how you can contribute to this repo.
