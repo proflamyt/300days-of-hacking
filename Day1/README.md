@@ -10,7 +10,9 @@ Now back to contributing to this repo or any other repository.
 I'm going to list a couple of important steps you'd have to take. Note : git is more extensive , we are only picking the important part to get you started .
 ## Steps:
 1. Register and Login into your GitHub account (that should be easy) . 
-2. The next thing we have to do is fork this repository . Forking in this case is making a copy of the repository to your personal repository.
+2.  The next thing we have to do is fork this repository . Forking in this case is making a copy of the repository to your personal repository.
+.  
+    ![image](https://github.com/proflamyt/300days-of-hacking/blob/199912b511d63ddcd0ddb6708ec5f9372f0e168a/Day1/resource/githubguides-bootcamp-fork.png)
 3. After this you should see the "300-days-of-hacking" on your list of repositories. 
 4. Now, you can make any changes you want to this repo ( it's yours now anyway)
 The changes in this case should be constructive (I hope). That's adding the description of the vulnerability you will be teaching us and the resources you want us to refer to, according to the structure specified in the home readme.
@@ -19,6 +21,7 @@ The changes in this case should be constructive (I hope). That's adding the desc
 
 
 
-Questions can be asked on the discord channel 
+
+## PS: Questions can be asked on the discord channel 
 
 
