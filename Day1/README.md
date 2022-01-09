@@ -18,7 +18,7 @@ I'm going to list a couple of important steps you'd have to take. Note : git is 
 The changes in this case should be constructive (I hope). That's adding the description of the vulnerability you will be teaching us and the resources you want us to refer to, according to the structure specified in the home readme.
 5. After you are satisfied with these changes on your own personal copy of the repo , now you can send the changes to us to add to our own version (original copy of 300-days-of-hacking) by opening a pull request .
 6. That's it, if you've made it this far... congratulations!!!.  If your changes are accepted by cHowTV , your push request will be merged . then you are now an official contributor to 300-days-of-hacking!!
-
+7. You can refer to this video to check how the steps listed bellow was performed <https://drive.google.com/drive/folders/1kzZsckk_lp1y674TiplTjYsAY-hCEoG1?usp=sharing>
 
 
 
