@@ -27,12 +27,6 @@ There are two ways to access a shell (bind shell and reverse shell)
     
  PS: Only netcat is mentioned here , there are tons of tools to make reverse connection [check payloadallthethings for reverse shell with other tools ](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
      
-## Check Listning Port
-  netstat -lt (tcp ports)
-  netstat -s: list network usage statistics by protocol
-  find / -perm -u=s -type f 2>/dev/null: Find files with the SUID bit,
-  https://gtfobins.github.io/#
-
 
 ### Shell Codes
   Describe code executed by a target program due to a vulnerability exploit and used to open a remote shell 
