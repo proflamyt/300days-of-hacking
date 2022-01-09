@@ -41,3 +41,5 @@
     find / -type d -writable -print
     find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u
     
+ ### Check For Mount With "no_root_squash" enabled
+    showmount -e <IP>
