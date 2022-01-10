@@ -34,7 +34,9 @@ There are two ways to access a shell (bind shell and reverse shell)
 
 ### Upgrading Simple Shells to Fully Interactive TTYs
 using python
+
   on victim:
+     
     python -c 'import pty; pty.spawn("/bin/bash")'
     
     (press on your keyboard) Ctrl+Z
@@ -44,13 +46,16 @@ using python
    on your local host: stty raw -echo
 
    on your local host:
+   
       fg (you will not see your keystrokes -- trust yourself and hit Enter)
 
       (press on your keyboard) Enter
 
       (press on your keyboard) Enter
 
-   on the victim: export TERM=xterm
+   on the victim: 
+   
+      export TERM=xterm
 
   
     
