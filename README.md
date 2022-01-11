@@ -23,7 +23,10 @@ git is already preinstalled in most linux distro
 
 
 ## Days And Vulnerability
-1. 
+1. Git and GitHub 
+2. Shells
+3. Understanding HTTP
+4. Privilege Escalation
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
