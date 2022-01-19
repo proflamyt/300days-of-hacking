@@ -28,6 +28,7 @@ git is already preinstalled in most linux distro
 3. Understanding HTTP
 4. Privilege Escalation
 5. Pivoting 
+6. Malware
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
