@@ -30,6 +30,8 @@ git is already preinstalled in most linux distro
 5. Pivoting 
 6. Malware
 7. OSINT
+8. Linux Internals
+9. Windows Internals
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
