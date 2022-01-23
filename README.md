@@ -32,6 +32,7 @@ git is already preinstalled in most linux distro
 7. OSINT
 8. Linux Internals
 9. Windows Internals
+10. Encryption
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
