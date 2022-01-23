@@ -21,7 +21,9 @@ We can use the  **ps (Stands For Process Status)** command to provide a list of 
 ### Managing Processes 
   ### Kill Process
   To End a process you can use the **kill** command, This command terminates running processes on a Linux machine.
-  \n Flags:
+  
+  
+  Flags:
   1. SIGTERM - Kill the process, but allow it to do some cleanup tasks beforehand
   2. SIGKILL - Kill the process - doesn't do any cleanup after the fact
   3. SIGSTOP - Stop/suspend a process
@@ -43,11 +45,17 @@ We can use the  **ps (Stands For Process Status)** command to provide a list of 
  Namespaces are also great for security as it is a way of isolating processes from another -- only those that are in the same namespace will be able to see each other.
  
  For example, once a system boots and it initialises, systemd is one of the first processes that are started. Any program or piece of software that we want to start will start as what's known as a child process of systemd. This means that it is controlled by systemd, but will run as its own process (although sharing the resources from systemd) to make it easier for us to identify and the likes.
+Linux namespaces are the underlying tech behind container technologies like Docker.
+
+    $ lsns ( list existing namespaces on your machine ) 
+    $ ps axf
     
-    **pstree**
-     ps axf
-    
-### Systemctl 
+### Systemd / Systemctl 
+systemd is a suite of basic building blocks for a Linux system. It provides a system and service manager that runs as PID 1 and starts the rest of the system proceses.
+
+    $ pstree () (The pstree command shows running processes as a tree)
+
+systemctl : This command allows us to interact with the systemd process
 
 
 
