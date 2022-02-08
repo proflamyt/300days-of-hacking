@@ -33,6 +33,9 @@ git is already preinstalled in most linux distro
 8. Linux Internals
 9. Windows Internals
 10. Encryption
+11. Tracking Mobile Phone From Personal Laptop (Handson Project)
+12. Android Internals
+13. Networking
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
