@@ -13,3 +13,8 @@
 **Transport Layer** : Sorts out who is suppose to get that data, make sure it gets to them . (TCP, UDP)
 
 **Application Layer** : content
+
+
+
+Transport `x 
+port : 16-bit number used to direct traffic to specific servuces on a network computer
