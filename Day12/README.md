@@ -4,6 +4,7 @@ Android is a linux based operating system, with more than 3 billion devices acro
 Android development supports the full java programming language. Google states that[3] "Android apps can be written using Kotlin, Java, and C++ languages" using the Android software development kit (SDK), while using other languages is also possible.
 
 
+![](resources/android_architecture_diagram.png)
 
 Following are main components of android architecture those are
 
