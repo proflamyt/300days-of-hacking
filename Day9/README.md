@@ -10,6 +10,14 @@ HKEY_LOCAL_MACHINE : config info of the computer
 HKEY_CLASSES_ROOT
 HKEY_CURRENT_CONFIG : contains info about hardware profile at startup 
 
+## Start Application On Boot 
+Press Windows key + R.
+In the run box, type regedit, and press enter.
+Paste the following path in the address bar: Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run.
+Right click on run and create new string value 
+Edit the name to what you want and modify the value data to program path ypu want to run on boot
+
+
 Process 
 
 Threads 
