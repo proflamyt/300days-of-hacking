@@ -4,6 +4,11 @@ Windows Internals
 
 Windows Architecture 
 
+user mode 
+manages process on behalf of user ...lower privilege
+
+kernel mode : components where the core process of the application run
+
 Windows Registry : collection of databases that contain systems configuration data
 
 the registry or Windows Registry contains information, settings, options, and other values for programs and hardware installed on all versions of Microsoft Windows operating systems. For example, when a program is installed, a new subkey containing settings such as a program's location, its version, and how to start the program, are all added to the Windows Registry.
