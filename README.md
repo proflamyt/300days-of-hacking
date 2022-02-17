@@ -22,7 +22,7 @@ git is already preinstalled in most linux distro
 
 
 
-## Days And Vulnerability
+## Topics And Vulnerability
 1. Git and GitHub 
 2. Shells
 3. Understanding HTTP
