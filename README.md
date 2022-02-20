@@ -38,6 +38,8 @@ git is already preinstalled in most linux distro
 13. Networking
 14. Active Directory
 15. Firewall Evasion
+16. Blockchain 
+17. Smart Contracts 
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
