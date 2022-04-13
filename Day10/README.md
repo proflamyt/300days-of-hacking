@@ -1,8 +1,8 @@
-﻿Cryptography
+﻿Cryptography:
 
 A person who has previously never heard of the word "cryptography" may imagine that's a tough word to crack but it isn't. A simple defination was given by the credible cybersecurity company, Kaspersky (www.kaspersky.com); it defines cryptography as the study of secure communications techniques that allow only the sender and the intended recipient of a message to view it's content.
 
-Encryption
+Encryption:
 
 Cryptography is closely related to encryption which is a method of ensuring informations are communicated securely by encypting the original information sent into cyphertext and decrypting the cyphertext upon arrival to the itended recipient of the information. This ensures that if any external body (a hacker eavesdropping) attenpts to read the information, they would only see various meaningless characters and would be unable to decypher the characters to unveil the real message sent. 
 
