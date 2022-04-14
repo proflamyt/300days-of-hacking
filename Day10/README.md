@@ -1,6 +1,6 @@
 ﻿Cryptography:
 
-A person who has previously never heard of the word "cryptography" may imagine that's a tough word to crack but it isn't. A simple defination was given by the credible cybersecurity company, Kaspersky (www.kaspersky.com); it defines cryptography as the study of secure communications techniques that allow only the sender and the intended recipient of a message to view it's content.
+A person who has previously never heard of the word "cryptography" may imagine that's a tough word to crack but it isn't! A simple defination was given by the credible cybersecurity company, Kaspersky (www.kaspersky.com); it defines cryptography as the study of secure communications techniques that allow only the sender and the intended recipient of a message to view it's content.
 
 Encryption:
 
@@ -32,4 +32,3 @@ This problem is breaking the trust between Mr cHow and his friends and he must d
 If it opens then it really came from Mr cHow (remember, the key can only open its own padlock and no other padlock in the world).
 
 I believe by now you have a broader idea on how cryptography works!
-
