@@ -4,6 +4,9 @@ Windows Internals
 
 Windows Architecture 
 
+https://medium.com/@putrasulung2108/windows-architecture-d2b022f136d3
+
+
 user mode 
 manages process on behalf of user ...lower privilege
 
