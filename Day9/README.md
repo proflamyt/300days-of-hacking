@@ -73,7 +73,7 @@ Threads
 
 
 
-### WINDOWS ARCHITECTURE
+#### WINDOWS ARCHITECTURE
 
 The Windows NT operating system family's architecture consists of two layers (user mode and kernel mode), with many different modules within both of these layers.
 
