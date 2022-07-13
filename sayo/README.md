@@ -1,2 +1,0 @@
-Sayo is a boy
-

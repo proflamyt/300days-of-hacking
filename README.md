@@ -40,8 +40,8 @@ git is already preinstalled in most linux distro
 15. Firewall Evasion
 16. Blockchain 
 17. Smart Contracts 
-18. 
-19. 
+18. Wireless
+19. VPN
 20. Process Injection
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
