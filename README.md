@@ -44,5 +44,7 @@ git is already preinstalled in most linux distro
 19. ARP 
 20. Process Injection
 21. VPN
+22. CORS (Cross-site request forgery)
+
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
