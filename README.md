@@ -22,7 +22,7 @@ git is already preinstalled in most linux distro
 
 
 
-## Days And Vulnerability
+## Topics And Vulnerability
 1. Git and GitHub 
 2. Shells
 3. Understanding HTTP
@@ -36,6 +36,15 @@ git is already preinstalled in most linux distro
 11. Tracking Mobile Phone From Personal Laptop (Handson Project)
 12. Android Internals
 13. Networking
+14. Active Directory
+15. Firewall Evasion
+16. Blockchain 
+17. Smart Contracts 
+18. Wireless
+19. ARP 
+20. Process Injection
+21. VPN
+22. CORS (Cross-site request forgery)
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...

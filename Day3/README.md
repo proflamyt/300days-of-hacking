@@ -15,8 +15,10 @@ an encryption layer to the data in transit, this way anyone between you and the 
 communicating with will only see jumbled, rubbish and un-meaningful data , also, won’t be able
 to change it in transit , thus affecting your data integrity.
 For you to understand the ways data are transmitted and received you have to understand these;
+
 • Request and
 • Responses.
+
 Earlier, it was mentioned, that data being transferred to and from you to a webserver, in this case
 “tryhackme.com”, these data are in form of request and responses, most times you access a website
 through a browser, your browser underneath the hood has to get the images, texts, html from the
