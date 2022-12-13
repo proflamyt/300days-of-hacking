@@ -45,6 +45,9 @@ git is already preinstalled in most linux distro
 20. Process Injection
 21. VPN
 22. CORS (Cross-site request forgery)
+23. Containerization
+24.
+25. EDR evasion
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
