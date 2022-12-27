@@ -48,6 +48,7 @@ git is already preinstalled in most linux distro
 23. Containerization
 24.
 25. EDR evasion
+26. Understanding Assembly Language
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
