@@ -49,6 +49,7 @@ git is already preinstalled in most linux distro
 24.
 25. EDR evasion
 26. Learning Assembly Language
+27. Powershell
 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
