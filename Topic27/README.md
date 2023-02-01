@@ -48,7 +48,7 @@ $box
 
 ### _EXample_
 
-get the 8th word from the description of windows update service
+> get the 8th word from the description of windows update service
 
 ```
 ((Get-WmiObject -Class Win32_Service -Filter "Name='wuauserv'" ).Description).split(' ')[7] 
