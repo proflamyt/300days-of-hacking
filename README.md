@@ -45,8 +45,8 @@ git is already preinstalled in most linux distro
 20. Process Injection
 21. VPN
 22. CORS (Cross-site request forgery)
-23. Containerization
-24.
+23. Android Debug shell
+24. Containerization
 25. EDR evasion
 26. Learning Assembly Language
 27. Powershell
