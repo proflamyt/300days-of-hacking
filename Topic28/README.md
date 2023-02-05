@@ -12,5 +12,8 @@ it has anonymous as well as password protected authentication
 
 The SMB protocol will allow your team members to use these shared files as if they were on their own hard drives. 
 
+### Kerberos Authentication
 
+
+### NetNTLM Authentication
 
