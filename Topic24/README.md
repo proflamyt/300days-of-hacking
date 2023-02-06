@@ -60,5 +60,4 @@ ps -ef
 
 
 
-reference: https://blog.quarkslab.com/digging-into-linux-namespaces-part-
-1.html#:~:text=Moreover%2C%20namespaces%20can%20provide%20even,without%20compromising%20the%20host%20OS.
+reference: https://blog.quarkslab.com/digging-into-linux-namespaces-part-1.html#:~:text=Moreover%2C%20namespaces%20can%20provide%20even,without%20compromising%20the%20host%20OS.
