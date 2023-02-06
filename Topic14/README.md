@@ -33,7 +33,7 @@ NTLM authentication typically follows the following step-by-step process:
 7. The DC retrieves the user’s password from the database and uses it to encrypt the challenge.
 8. The DC then compares the encrypted challenge and client response. If these two pieces match, then the user is authenticated and access is granted.
 
-
+![NTLM](https://github.com/proflamyt/300days-of-hacking/blob/main/Topic14/pictures/c9113ad0ff443dd0973736552e85aa69.png)
 
 
 
