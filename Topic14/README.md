@@ -24,14 +24,14 @@ NTLM Authentication Process
 
 NTLM authentication typically follows the following step-by-step process:
 
-The user shares their username, password and domain name with the client.
-The client develops a scrambled version of the password — or hash — and deletes the full password.
-The client passes a plain text version of the username to the relevant server.
-The server replies to the client with a challenge, which is a 16-byte random number.
-In response, the client sends the challenge encrypted by the hash of the user’s password.
-The server then sends the challenge, response and username to the domain controller (DC).
-The DC retrieves the user’s password from the database and uses it to encrypt the challenge.
-The DC then compares the encrypted challenge and client response. If these two pieces match, then the user is authenticated and access is granted.
+1. The user shares their username, password and domain name with the client.
+2. The client develops a scrambled version of the password — or hash — and deletes the full password.
+3. The client passes a plain text version of the username to the relevant server.
+4. The server replies to the client with a challenge, which is a 16-byte random number.
+5. In response, the client sends the challenge encrypted by the hash of the user’s password.
+6. The server then sends the challenge, response and username to the domain controller (DC).
+7. The DC retrieves the user’s password from the database and uses it to encrypt the challenge.
+8. The DC then compares the encrypted challenge and client response. If these two pieces match, then the user is authenticated and access is granted.
 
 
 
