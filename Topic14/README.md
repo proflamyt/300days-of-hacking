@@ -18,9 +18,9 @@ A Windows domain is a form of a computer network in which all user accounts, com
   > We can use the Get-ADDomainController PowerShell cmdlet to get information about the domain controllers in Active Directory. 
 
 
-### NTLM
 
-NTLM Authentication Process
+
+## NTLM Authentication Process
 
 NTLM authentication typically follows the following step-by-step process:
 
@@ -41,7 +41,7 @@ NTLM authentication typically follows the following step-by-step process:
 
 
 
-Kerberos Authentication
+## Kerberos Authentication
 Here is the twelve-step process for Kerberos authentication:
 
 1. The user shares their username, password, and domain name with the client.
@@ -59,5 +59,6 @@ Here is the twelve-step process for Kerberos authentication:
 
 
 
+## LDAP (Lightweight Directory Access Protocol)
 
 reference : https://www.crowdstrike.com/cybersecurity-101/ntlm-windows-new-technology-lan-manager/
