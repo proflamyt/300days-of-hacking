@@ -1,8 +1,8 @@
-﻿Cryptography:
+# Cryptography:
 
 A person who has previously never heard of the word "cryptography" may imagine that it is a tough word to crack but it isn't! A simple defination was given by the credible cybersecurity company, Kaspersky (www.kaspersky.com); it defines cryptography as the study of secure communications techniques that allow only the sender and the intended recipient of a message to view it's content.
 
-Encryption:
+## Encryption:
 
 Cryptography is closely related to encryption which is a method of ensuring informations are communicated securely by encypting the original information sent into cyphertext and decrypting the cyphertext upon arrival to the itended recipient of the information. This ensures that if any external body (a hacker eavesdropping) attenpts to read the information, they would only see various meaningless characters and would be unable to decypher the characters to unveil the real message sent. 
 
@@ -32,3 +32,46 @@ This problem is breaking the trust between Mr cHow and his friends and he must d
 If it opens then it really came from Mr cHow (remember, the key can only open its own padlock and no other padlock in the world).
 
 I believe by now you have a broader idea on how cryptography works!
+
+
+
+### Types Of Symmentic Encryption
+#### Block cipher symmetric encryption algorithms
+
+ A block cipher algorithm converts the input (plaintext) into blocks and encrypts each block. 
+
+1. AES
+2. IDEA	International Data Encryption Algorithm (IDEA)
+3. 3DES	Triple DES (Data Encryption Standard) and is based on DES. We should note that 3DES will be deprecated in 2023 and disallowed in 2024.
+4. CAST5	Also known as CAST-128. Some sources state that CASE stands for the names of its authors: Carlisle Adams and Stafford Tavares.
+5. BLOWFISH	Designed by Bruce Schneier
+6. TWOFISH	Designed by Bruce Schneier and derived from Blowfish
+7. CAMELLIA128, CAMELLIA192, and CAMELLIA256
+
+
+ #### The stream ciphers, encrypt the plaintext byte by byte
+ 
+ 
+ Encryption using gpg
+ ```
+ gpg --symmetric --cipher-algo CIPHER message.txt
+ 
+ ```
+ 
+ Decryption using gpg
+ 
+ ```
+ gpg --output original_message.txt --decrypt message.gpg
+ ```
+ 
+ Encryption using openssl 
+ 
+ ```
+ openssl aes-256-cbc -e -in message.txt -out encrypted_message
+ ```
+ 
+ Decryption using openssl
+ 
+ ```
+ openssl aes-256-cbc -d -in encrypted_message -out original_message.txt
+ ```
