@@ -75,3 +75,48 @@ I believe by now you have a broader idea on how cryptography works!
  ```
  openssl aes-256-cbc -d -in encrypted_message -out original_message.txt
  ```
+
+### Asymentric Encryption
+
+#### RSA
+
+ 
+RSA got its name from its inventors, Rivest, Shamir, and Adleman, it relies on the difficulties of splitting prime numbers. It works as follows:
+
+
+1. Bob chooses two prime numbers: p = 157 and q = 199. He calculates N = 31243.
+2. With ϕ(N) = N − p − q + 1 = 31243 − 157 − 199 + 1 = 30888, Bob selects e = 163 and d = 379 where e × d = 163 × 379 = 61777 and 61777 mod 30888 = 1. 
+3. The public  key is (31243,163) and the private key is (31243,379).
+4. Let’s say that the value to encrypt is x = 13, then Alice would calculate and send y = xe mod N = 13163 mod 31243 = 16342.
+5. Bob will decrypt the received value by calculating x = yd mod N = 16341379 mod 31243 = 13.
+
+> Generate Privatekey and store in private-key.pem
+
+```
+openssl genrsa -out private-key.pem 2048
+```
+
+>  Generate the publickey of the private key generated
+```
+openssl rsa -in private-key.pem -pubout -out public-key.pem
+
+```
+> ENcrypt with public key
+
+```
+openssl pkeyutl -encrypt -in plaintext.txt -out ciphertext -inkey public-key.pem -pubin
+```
+
+> Decrypt with private key
+
+```
+openssl pkeyutl -decrypt -in ciphertext -inkey private-key.pem -out decrypted.txt
+```
+
+
+
+## Diffie-Hellman 
+
+
+
+## Public Key Infrastructure
