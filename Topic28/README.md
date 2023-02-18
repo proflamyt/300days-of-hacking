@@ -17,3 +17,17 @@ The SMB protocol will allow your team members to use these shared files as if th
 
 ### NetNTLM Authentication
 
+
+
+#### Extracting password hashes
+
+
+
+#### Priviledge Escallation Using Psexec 
+
+Download Psexec from windows pstools
+
+```
+psexec -sid cmd.exe
+
+```
