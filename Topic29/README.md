@@ -13,3 +13,11 @@ find entry point
 
 ### Android reverse engineering
 
+
+#### Static Analysis 
+
+Unpacking the app and check its content 
+
+#### Dynamic Analysis
+
+Trying to find out what is going on in run-time 
