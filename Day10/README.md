@@ -120,3 +120,22 @@ openssl pkeyutl -decrypt -in ciphertext -inkey private-key.pem -out decrypted.tx
 
 
 ## Public Key Infrastructure
+
+
+
+### XOR (exclusive or cipher)
+
+Taking the message and xor-ing with a private key can generate a cipher text that can be xor-ed with the key to generate the original text
+
+> using 1 time pad
+
+```
+olamide XOR private = 0x1f1e081b081000
+
+olamide XOR 0x1f1e081b081000 = private 
+
+private XOR 0x1f1e081b081000 = olamide
+```
+
+
+
