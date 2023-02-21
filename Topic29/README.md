@@ -15,9 +15,13 @@ find entry point
 
 
 #### Static Analysis 
+dogbolt.org
 
 Unpacking the app and check its content 
 
 #### Dynamic Analysis
 
 Trying to find out what is going on in run-time 
+
+
+
