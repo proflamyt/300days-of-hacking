@@ -125,9 +125,10 @@ openssl pkeyutl -decrypt -in ciphertext -inkey private-key.pem -out decrypted.tx
 
 ### XOR (exclusive or cipher)
 
+
 ()[https://xor.pw/#]
 
-Taking the message and xor-ing with a private key can generate a cipher text that can be xor-ed with the key to generate the original text
+The XOR Encryption algorithm is a very effective yet easy to implement method of symmetric encryption. Taking the message and xor-ing with a private key can generate a cipher text that can be xor-ed with the key to generate the original text
 
 > using 1 time pad
 
@@ -141,3 +142,48 @@ private XOR 0x1f1e081b081000 = olamide
 
 
 Note : getting the message and the ciphertext will reveal the private key
+
+
+
+```python
+# XOR Encryption Algorithm - www.101computing.net/xor-encryption-algorithm/
+
+def binary(num, length=8):
+    # convert to binary and remove "0b" to leave just the binary , then prepend null bytes to expand the key lenght
+    b = bin(num).lstrip("0b")
+    b = "0" *(length-len(b)) + b
+    return b
+def hexa(num, length=2):
+    # convert num to hex and remove "0x" to leave just the hex , then prepend null bytes to expand the key lenght
+    h = hex(num).lstrip("0x").upper()
+    h = "0" *(length-len(h)) + h
+    return h
+
+plaintext = input("Enter a message to encrypt:\n")
+key="101ComputingKey"
+keyLength = len(key)
+cipherAscii=""
+cipherDen = ""
+cipherHex=""
+cipherBin=""
+
+for i in range(0, len(plaintext)):
+    j = i % keyLength
+    #  get asciii of each letter and ascii of each key and Xor them
+    xor = ord(plaintext[i]) ^ ord(key[j])
+    cipherAscii += chr(xor)
+    cipherDen +=  str(xor) + " "
+    cipherHex  += hexa(xor) + " "
+    cipherBin += binary(xor) + " "
+
+print("\nCipher (Ascii form): \n" + cipherAscii)
+print("\nCipher (Denary form): \n" + cipherDen)
+print("\nCipher (Hexadecimal form): \n" + cipherHex)
+print("\nCipher (Binary form): \n" + cipherBin)
+
+
+```
+
+
+
+reference: https://www.101computing.net/xor-encryption-algorithm/
