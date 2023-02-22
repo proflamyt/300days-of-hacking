@@ -52,6 +52,6 @@ git is already preinstalled in most linux distro
 27. Powershell
 28. Windows And Network
 29. Reverse Engineering
-
+30. Android Hacking
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
