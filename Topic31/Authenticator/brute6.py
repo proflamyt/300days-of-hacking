@@ -5,7 +5,7 @@ import json
 jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluaXN0cmF0b3JAZ21haWwuY29tIiwiaWF0IjoxNjc3MzQ3NzUyLCJleHAiOjE2NzczNTEzNTJ9.7IS51-lWzShI_5fy9gvim8NxecTO3yuK33ExX7G7QHI"
 
 
-for i in range(4507,9999):
+for i in range(999999):
     code = f"{i}".zfill(4)
     print(code)
     
