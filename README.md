@@ -53,6 +53,7 @@ git is already preinstalled in most linux distro
 28. Windows And Network
 29. Reverse Engineering
 30. Android Hacking
-31. Same Origin Policy & Cross-Origin Resource Sharing
+31. CTF (Capture The Flag)
+32. Same Origin Policy & Cross-Origin Resource Sharing
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
