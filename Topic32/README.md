@@ -5,10 +5,12 @@ It helps isolate potentially malicious documents, reducing possible attack vecto
 
 To clearify this, two URLs have the same origin if the protocol, port (if specified), and host are the same for both, URLs that doesn't meet this required specifications would be restricted from sharing resources. that is, the response from another domain would be inaccessible 
 from a browser with diffrent domain.
-To reinstate this, request made from a diffrent domain would be sent but the response would be inaccessible. Also, this is only applicable in the browser and this wont prevent attacks like cross-site request forgery (CSRF).
+To reinstate this, request made from a diffrent domain would usually be sent but the response would be inaccessible. Also, this is only applicable in the browser and this wont prevent attacks like cross-site request forgery (CSRF) by default unless configurations by the developer specifies otherwise.
 
 Tricking a visitor to your website and making them make a request to another diffrent domain would be successful but the response from this domains would be inaccessible, which still leaves room for DDOS and making a request to the target website 
-on behalf of the victim
+on behalf of the victim.
+
+There are some situations developers explicitly tell the browser which http methods are permitted, in that case when the browser first sends a preflight OPTIONS request to check which methods are permitted via CORS. The server then replies wether the method is allowed or not - if its the latter the entire request fails.
 
 
 # CORS
