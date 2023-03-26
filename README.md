@@ -55,5 +55,6 @@ git is already preinstalled in most linux distro
 30. Android Hacking
 31. CTF (Capture The Flag)
 32. Same Origin Policy & Cross-Origin Resource Sharing
+33. Reseach (MTN Router)
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
