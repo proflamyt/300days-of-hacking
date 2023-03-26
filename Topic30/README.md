@@ -27,3 +27,17 @@
 
 
 
+## Static Analysis
+ ### TODO
+
+### Understanding Dalvik,  ### TODO
+
+### using jd-gui  ### TODO
+
+
+
+## Dynamic Analysis
+
+ ### Frida
+ 
+ ### TODO
