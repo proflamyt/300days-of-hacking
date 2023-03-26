@@ -9,9 +9,21 @@
 
 **Intent**: represent a way for one activity to another, what activity 
 
-**androidmanifest** : configuration file that android can use to launch the file
+**AndroidManifest.xml** : configuration file that android can use to launch the file
 
 **Broadcast and Receivers**:
 
+**Services**: Backgroud Application
 
-**Content Providers**: Allows apps to share data and resources
+
+ **Content Providers**: Allows apps to share data and resources
+ 
+
+ **META-INF/** : Android Certificates folder
+ 
+ **assets/** : Stores images, icons, 
+ 
+ **lib/**: Native libraries for the application
+
+
+
