@@ -36,8 +36,57 @@
 
 
 
+# ADB
+
+List Devices 
+
+```
+adb devices
+```
+
+Connect to a device 
+
+```
+adb connect devices
+```
+Install app
+
+```
+adb install apk
+
+```
+
+Upload to /data/local/tmp/ 
+
+```
+adb push something /data/local/tmp/ 
+```
+
+Run shell command
+
+```
+adb shell
+
+adb shell getprop ro.product.cpu.abi # get device architecture
+```
+
 ## Dynamic Analysis
 
  ### Frida
+ 
+ list all the installed applications in the device along with their process 
+ 
+ ```
+ frida-ps -Uai
+ ```
+ 
+ connect to application on device on default port 
+ 
+ ```
+ frida -U -f application -l script_to_run
+ 
+ frida -H IP:Port # custom IP and Port
+ ```
+ 
  
  ### TODO
