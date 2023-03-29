@@ -57,5 +57,6 @@ git is already preinstalled in most linux distro
 32. Same Origin Policy & Cross-Origin Resource Sharing
 33. Reseach (MTN Router)
 34. Side Channel Attack
+35. RTOS (Real Time Operating System)
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
