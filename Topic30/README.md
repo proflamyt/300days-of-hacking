@@ -32,6 +32,17 @@
 
 ### Understanding Dalvik,  ### TODO
 
+The Java Code is compiled to dalvik bytecode by android runtime.
+
+### Smali
+
+Smali is the human readable version of dalvik bytecode , smali is like assembly language and dalvik just bytes
+
+
+### Entrypoint of android (Launcher activity) 
+the launcher activity is the first activity upon launch of an android app. 
+Check the androidmanifest, the launcher activity will have the main and Launcher intent
+
 ### using jd-gui  ### TODO
 
 
