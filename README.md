@@ -60,5 +60,6 @@ git is already preinstalled in most linux distro
 35. RTOS (Real Time Operating System)
 36. Threads and Process
 37. Websockets , SSE, Long Polling
+38. DevSecOps
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
