@@ -135,3 +135,76 @@ web3.eth.getBlockNumber().then((result) => {
 
 
 ![alt text](https://github.com/proflamyt/300days-of-hacking/blob/main/Topic31/DoHCTF/Screenshot%20from%202023-05-01%2013-05-37.png)
+
+
+<br> <br>
+
+<div align="center"> <h1> ^_^  </h1> </div>
+
+<br> Web challenge <br>
+>> Task Description : diaryofhackers-ox.chals.io
+
+visiting the url, i was redirected to `Index` "https://diaryofhackers-ox.chals.io/GgoXAQ4QGxMCHA4ZA1JKDFlWAEFRG1YQGw/c2RzZHZ5dXdnZGd3ZzcyZTcyZTk4dTJ1Yw"
+
+The other urls on the page redirects me to `Letter` "https://diaryofhackers-ox.chals.io/HwEBBw0WGQ0HAQEaVBYcEAwHHw0QHRAaHxAdEAEQ/c2R1c2hkdWhzdWRoOHNoZGl1c2hkaXVoc3VpZGRi"
+
+also to `About page url ` "https://diaryofhackers-ox.chals.io/ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZg"
+
+
+These urls look weird didnt they ?, so i knew something was up , i tried changing a character or two but got redirected to the index page , its a diffrent behaviour when i tried just a path  
+
+```
+/ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZg/hajnjnj  : 404 page not found
+
+/ola : 404 page not found
+```
+
+```
+/ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZ : 302 redirect
+```
+judging by these error pages and the pattern in urls, i could deduce the server isredirecting based on the first and the second url paths
+
+
+Then i split the valid url and played individually with them, i appended 00 to the url to check the behaviors 
+
+Then i switched the first path with the second path, 
+
+```
+/ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZ :200 OK
+
+/ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZ00 :200 OK
+
+/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZg/ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg : 200 OK
+```
+ok something suspicious is going on here . also looking at each path individually, both seem to be base64 encoded , you must have guessed this too if youve worked alot on base64 too. so i decoded each path , the second gave me a valid ascii  string the second gave an invalid ascii (probably a binary ), I must admit i got stuck here for a while , playing around with it until another hint was released, *^ bitwise operation* .oh!! that makes sense now, nice one Lyte, so i Xor both decoded data and got a valid ascii string !!. same thing applys to the othet url
+
+
+
+So, this is how this words , the server base64 decodes the left path and base64 decode the right path and XOR both  and internally redirected to an internal url , function or view !!.  To reverse this, we just have to make the server arive at a valid path after it decodes the url we supply to it . since the other urls arrive at :
+
+```
+indexindexindexindexindex
+aboutaboutaboutaboutabout
+letterletterletterletterletter
+
+```
+
+Now we have to make it get to 
+```
+flagflagflagflagflag
+```
+
+first i took the second path of one of the valid url "c2RzZHZ5dXdnZGd3ZzcyZTcyZTk4dTJ1Yw" decoded it to "sdsdvyuwgdgwg72e72e98u2uc", then we xor the flag path  , and base64 encode that too. Now we have two base64 encoded strings and form a url from it 
+
+Algorithm
+
+```
+base64_decode("c2RzZHZ5dXdnZGd3ZzcyZTcyZTk4dTJ1Yw") => sdsdvyuwgdgwg72e72e98u2uc
+new_word = "sdsdvyuwgdgwg72e72e98u2uc" xor "flagflagflagflagflag"
+first_path = c2RzZHZ5dXdnZGd3ZzcyZTcyZTk4dTJ1Yw
+second_path = base64(new_word) = FQgSAxAVFBABCAYQAVtTAlFeBF4
+
+url =  first_path/second_path
+url = https://diaryofhackers-ox.chals.io/c2RzZHZ5dXdnZGd3ZzcyZTcyZTk4dTJ1Yw/FQgSAxAVFBABCAYQAVtTAlFeBF4
+```
+
