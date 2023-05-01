@@ -144,14 +144,17 @@ web3.eth.getBlockNumber().then((result) => {
 <br> Web challenge <br>
 >> Task Description : diaryofhackers-ox.chals.io
 
-visiting the url, i was redirected to `Index` "https://diaryofhackers-ox.chals.io/GgoXAQ4QGxMCHA4ZA1JKDFlWAEFRG1YQGw/c2RzZHZ5dXdnZGd3ZzcyZTcyZTk4dTJ1Yw"
+Visiting the url, i was redirected to `Index` "https://diaryofhackers-ox.chals.io/GgoXAQ4QGxMCHA4ZA1JKDFlWAEFRG1YQGw/c2RzZHZ5dXdnZGd3ZzcyZTcyZTk4dTJ1Yw"
+
 
 The other urls on the page redirects me to `Letter` "https://diaryofhackers-ox.chals.io/HwEBBw0WGQ0HAQEaVBYcEAwHHw0QHRAaHxAdEAEQ/c2R1c2hkdWhzdWRoOHNoZGl1c2hkaXVoc3VpZGRi"
 
-also to `About page url ` "https://diaryofhackers-ox.chals.io/ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZg"
+
+Also to `About page url ` "https://diaryofhackers-ox.chals.io/ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZg"
 
 
 These urls look weird didnt they ?, so i knew something was up , i tried changing a character or two but got redirected to the index page , its a diffrent behaviour when i tried just a path  
+
 
 ```
 /ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZg/hajnjnj  : 404 page not found
@@ -170,11 +173,13 @@ Then i split the valid url and played individually with them, i appended 00 to t
 Then i switched the first path with the second path, 
 
 ```
+
 /ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZ :200 OK
 
 /ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg/QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZ00 :200 OK
 
 /QEUqWUAqSEQqSFUoKkhmaHVoZWZpdWRmZg/ISdFLDRLKitfPDRKRT0SCRcHEBIIFwsTEg : 200 OK
+
 ```
 ok something suspicious is going on here . also looking at each path individually, both seem to be base64 encoded , you must have guessed this too if youve worked alot on base64 too. so i decoded each path , the second gave me a valid ascii  string the second gave an invalid ascii (probably a binary ), I must admit i got stuck here for a while , playing around with it until another hint was released, *^ bitwise operation* .oh!! that makes sense now, nice one Lyte, so i Xor both decoded data and got a valid ascii string !!. same thing applys to the othet url
 
