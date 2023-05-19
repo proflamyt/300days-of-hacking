@@ -14,3 +14,59 @@ Using bytes.fromhex function , each hex would be converted to its equivalent dec
 Base64 encoding can also be used to represent bytes as an ASCII string, in a format that can be easily transmitted over networks and stored in text-based formats. One character of a Base64 string encodes 6 bits
 
 XOR is a bitwise operator which returns 0 if the bits are the same, and 1 otherwise. 
+
+XOR PROPERTIES (⊕ == xor() == ^)
+
+```
+Commutative: A ⊕ B = B ⊕ A
+Associative: A ⊕ (B ⊕ C) = (A ⊕ B) ⊕ C
+Identity: A ⊕ 0 = A
+Self-Inverse: A ⊕ A = 0
+
+```
+
+### Modular Arithmetic
+
+GCD: The Greatest Common Divisor (GCD), sometimes known as the highest common factor, is the largest number which divides two positive integers 
+Euclidean algorithm, is an efficient method for computing the greatest common divisor (GCD) of two integers (numbers). The Euclidean algorithm is based on the principle that the greatest common divisor of two numbers does not change if the larger number is replaced by its difference with the smaller number. For example, 21 is the GCD of 252 and 105 (as 252 = 21 × 12 and 105 = 21 × 5), and the same number 21 is also the GCD of 105 and 252 − 105 = 147. Since this replacement reduces the larger of the two numbers, repeating this process gives successively smaller pairs of numbers until the two numbers become equal. When that occurs, they are the GCD of the original two numbers.
+
+Using this method to find the gcd(252, 105)
+
+> replacing the larger number with the diffrence with its smaller conterpart (252 - 105)
+
+```
+147, 105
+42, 105
+63, 42
+21, 42
+21, 21 ==> gcd
+
+```
+
+A more efficient version of the algorithm shortcuts these steps, instead replacing the larger of the two numbers by its remainder when divided by the smaller of the two (with this version, the algorithm stops when reaching a zero remainder).
+
+```
+42, 105
+21, 42
+42, 21 ==> gcd
+```
+
+## Etended Euclidean 
+The extended Euclidean algorithm is an algorithm to compute integers p, q
+
+such that px + qy = gcd(a,b)
+
+
+
+
+
+
+
+
+
+
+
+
+refrence: https://en.wikipedia.org/wiki/Euclidean_algorithm
+https://brilliantorg-infra-prod.brilliant.org/wiki/extended-euclidean-algorithm/
+https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/what-is-modular-arithmetic
