@@ -27,7 +27,45 @@ Self-Inverse: A ⊕ A = 0
 
 ### Modular Arithmetic
 
-GCD: The Greatest Common Divisor (GCD), sometimes known as the highest common factor, is the largest number which divides two positive integers 
+*The quotient remainder theorem*:
+Given any integer A, and a positive integer B, there exist unique integers Q and R such that
+
+```
+A = B * Q + R where 0 ≤ R < B
+
+Example:
+
+9 = 4 * 2 + 1
+
+therefore 9 % 4 = 1 , since 1 is the remainder (R)
+
+```
+
+*Modular Addition*
+
+```
+(A + B) mod C = (A mod C + B mod C) mod C
+```
+
+*Modular subtraction*
+
+```
+(A - B) mod C = (A mod C - B mod C) mod C
+```
+
+*Modular multiplication*
+
+```
+(A * B) mod C = (A mod C * B mod C) mod C
+```
+
+*Modular exponential*
+
+```
+A^B mod C = ( (A mod C)^B ) mod C
+```
+
+*GCD*: The Greatest Common Divisor (GCD), sometimes known as the highest common factor, is the largest number which divides two positive integers 
 Euclidean algorithm, is an efficient method for computing the greatest common divisor (GCD) of two integers (numbers). The Euclidean algorithm is based on the principle that the greatest common divisor of two numbers does not change if the larger number is replaced by its difference with the smaller number. For example, 21 is the GCD of 252 and 105 (as 252 = 21 × 12 and 105 = 21 × 5), and the same number 21 is also the GCD of 105 and 252 − 105 = 147. Since this replacement reduces the larger of the two numbers, repeating this process gives successively smaller pairs of numbers until the two numbers become equal. When that occurs, they are the GCD of the original two numbers.
 
 Using this method to find the gcd(252, 105)
