@@ -18,4 +18,10 @@ matrix = [
     [114, 105, 120, 125],
 ]
 
-print(matrix2bytes(matrix))
+
+def main():
+    print(matrix2bytes(matrix))
+
+
+if __name__ == '__main__':
+    main()
