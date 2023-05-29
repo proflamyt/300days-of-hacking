@@ -36,6 +36,28 @@ proceed on what your goal is ,
 
 find entry point
 
+```assembly
+MOV RAX, qword ptr [RBP + local_18]
+```
+
+
+Let's assume the following:
+
+The base pointer (RBP) contains the value 0x7FFF0000.
+The variable local_18 is located 24 bytes (6 quadwords) below the base pointer.
+Given these values, the instruction MOV RAX, qword ptr [RBP + local_18] can be translated into the following assembly code:
+
+therefore
+```assembly
+MOV RAX, qword ptr [0x7FFF0000 + 6 * 8]
+```
+
+Simplifying the calculation:
+
+```assembly
+MOV RAX, qword ptr [0x7FFF0030]
+```
+This means the instruction is fetching a 64-bit (quadword) value from the memory address 0x7FFF0030 and storing it in the RAX register.
 
 
 
