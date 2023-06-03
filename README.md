@@ -63,5 +63,6 @@ git is already preinstalled in most linux distro
 38. DevSecOps
 39. Cryptography
 40. AWS (Cloud )
+41. Malware Development
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
