@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     }
 
 
-     rBuffer = VirtualAllocEx(hProcess, NULL, DLLsize, 
+    rBuffer = VirtualAllocEx(hProcess, NULL, DLLsize, 
                             (MEM_COMMIT|MEM_RESERVE), PAGE_READWRITE);
 
 
