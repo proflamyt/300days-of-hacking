@@ -95,6 +95,11 @@ Types:
     - Non-Authoritative
 
 
+### NAT
+
+- Static NAT (maps public to private)
+- Dynamic NAT ()
+
 
 
 https://www.vice.com/en/article/wnnmv9/undersea-cable-surveillance-is-easy-its-just-a-matter-of-money
