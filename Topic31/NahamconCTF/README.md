@@ -140,10 +140,33 @@ The Chalenge provided an apk file.
 
 I had to run the application in an emulator, to see it work first before decompiling . It asked for my input and translates it to jinjaSpeak.
 
+Upon decompiling the apk and checking it's MainActivity, i tracesd where my input **EditText** is ending at, 
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/bbee462e-eb2a-4f4a-86ef-6cb44cc19139)
+
+```
+translate(companion.getTranslateString())
+```
+
+this line shows one the sink of my input, a translate function, tracing the translate function and where it is being imported, i discovered it's is a native function that takes string as argument.
 
 
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/58e52055-c0f4-47f9-8de3-7f2a22c50f43)
 
 
+A native function in Android refers to a function that is implemented in a native programming language like C or C++ and is called from the Java code of an Android application. These native functions provide a way to access low-level system functionalities, interact with native libraries, or optimize performance-critical tasks. 
+
+Now i had to look for where the binary is being loaded into the android application, once i found that. i could deduce the name of the binary in question is **jninjaspeak**.
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/2a202956-ddc2-46c8-b2e0-cd53de22e085)
+
+
+So where are the binary files locate **/lib/<architecture>**,  I chose the 32bit binary x86 to decompile using ghidra, (i am more familiar with 32 bit architectures)
+
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/44f896b1-7fed-43b7-a8f9-ffc8800f52eb)
+
+    
 
 
 
