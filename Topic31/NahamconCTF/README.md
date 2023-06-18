@@ -18,6 +18,9 @@ Now that i knew where i was, i listed the current directory of the home user wit
 ```
 ls -al
 ```
+
+![](https://github.com/proflamyt/300days-of-hacking/blob/main/Topic31/NahamconCTF/Screenshot%20from%202023-06-18%2011-41-04.png)
+
 One of the files in particular caught my attension *.user-entrypoint.sh* , it's a script that would have caught your attention too, checking the content of the script a particular line was **nohup tail -f /home/user/flag.txt >/dev/null 2>&1**.
 
 Now, what does the 'nohup' comand do, a quick google search showed me the "nohup" is a short for "no hang up." it is a command that allows a process to continue running even after the user who started the process has logged out or terminated their session.
