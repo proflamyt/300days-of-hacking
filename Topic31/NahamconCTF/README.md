@@ -1,6 +1,6 @@
 # NahamCon CTF 2023 
 
-I had a very interesting weekend playing this, although i had a hard time battling with bad internet coverage and very little time at hand (new location lol), was able to get 257th place out of 2577 teams and 5725  players.
+I had a very interesting weekend playing this, although i had a hard time battling with bad internet coverage and very little time at hand (due projects & new location lol), was able to get 257th place out of 2577 teams and 5725  players.
 Well, point is, i learnt a great deal and had an interesting weekend.
 
 Here are some of the writeups for the challenges i managed to solved. As always i will go over my thought process and how i approached the challenges
@@ -28,8 +28,6 @@ One of the files in particular caught my attension *.user-entrypoint.sh* , it's 
 
 Now, what does the 'nohup' command do, a quick google search showed me the "nohup" is a short for "no hang up." it is a command that allows a process to continue running even after the user who started the process has logged out or terminated their session.
 
-![](https://github.com/proflamyt/300days-of-hacking/blob/main/Topic31/NahamconCTF/Screenshot%20from%202023-06-17%2013-17-28.png)
-
 In short "zombie process", that makes sense now, Now you would see one the reason you are always adviced to close files after opening with "fclose()" or use "with" in python.
 
 You see, when you open a file, thread, socket,... etc in a process, the operating system assigns a Handle (windows) / File discriptor (unix) to them. Its a non negative number which the OS uses as handles or references that allow processes to interact with these resources.
@@ -44,7 +42,8 @@ Back to our command, a file **/home/user/flag.txt**'s last part was read with *t
 
 **nohup** makes me suspect the process still exists in memory, so i did what any of you would do, i checked the process running with **ps -aux** , I saw the tail command with process ID 11, so i checked where linux keeps it process-related information.
 
-[]()
+![](https://github.com/proflamyt/300days-of-hacking/blob/main/Topic31/NahamconCTF/Screenshot%20from%202023-06-17%2013-17-28.png)
+
 
 The **/proc** folder for that particular process ID, **/proc/11**, then i checked it's file discriptor directory **/proc/11/fd** for opened file descriptors, the redirected output to **/dev/null** ensures that neither stdout nor stderr will have any significant output or error messages. So i checked the fd 3, and eureka !!, The Flag.
 
