@@ -27,6 +27,9 @@ showing the permissions and the files including hidden once in that directory
 One of the files in particular caught my attension *.user-entrypoint.sh* , it's a shell script that would have caught your attention too, checking the content of the script a particular line was **nohup tail -f /home/user/flag.txt >/dev/null 2>&1**.
 
 Now, what does the 'nohup' command do, a quick google search showed me the "nohup" is a short for "no hang up." it is a command that allows a process to continue running even after the user who started the process has logged out or terminated their session.
+
+![](https://github.com/proflamyt/300days-of-hacking/blob/main/Topic31/NahamconCTF/Screenshot%20from%202023-06-17%2013-17-28.png)
+
 In short "zombie process", that makes sense now, Now you would see one the reason you are always adviced to close files after opening with "fclose()" or use "with" in python.
 
 You see, when you open a file, thread, socket,... etc in a process, the operating system assigns a Handle (windows) / File discriptor (unix) to them. Its a non negative number which the OS uses as handles or references that allow processes to interact with these resources.
