@@ -57,7 +57,7 @@ The **/proc** folder for that particular process ID, **/proc/11**, then i checke
 Category: Android
 
 
-The Chalenge provided an apk file, 
+The Chalenge provided an apk file. 
 
 ![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/81dbdf75-cbbc-4a52-9fdd-881949021d84)
 
@@ -123,6 +123,28 @@ voila !! , the value of the string is **you win this ctf**
 
 
 putting this as the guess word, displayed the flag !!
+
+
+
+
+##  JNInjaspeak
+
+Category: Android
+
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/0c82951d-b144-4cc0-a8bc-2d0572194758)
+
+
+
+The Chalenge provided an apk file. 
+
+I had to run the application in an emulator, to see it work first before decompiling . It asked for my input and translates it to jinjaSpeak.
+
+
+
+
+
+
 
 
 
