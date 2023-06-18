@@ -1,8 +1,8 @@
-﻿Cryptography:
+# Cryptography:
 
 A person who has previously never heard of the word "cryptography" may imagine that it is a tough word to crack but it isn't! A simple defination was given by the credible cybersecurity company, Kaspersky (www.kaspersky.com); it defines cryptography as the study of secure communications techniques that allow only the sender and the intended recipient of a message to view it's content.
 
-Encryption:
+## Encryption:
 
 Cryptography is closely related to encryption which is a method of ensuring informations are communicated securely by encypting the original information sent into cyphertext and decrypting the cyphertext upon arrival to the itended recipient of the information. This ensures that if any external body (a hacker eavesdropping) attenpts to read the information, they would only see various meaningless characters and would be unable to decypher the characters to unveil the real message sent. 
 
@@ -32,3 +32,158 @@ This problem is breaking the trust between Mr cHow and his friends and he must d
 If it opens then it really came from Mr cHow (remember, the key can only open its own padlock and no other padlock in the world).
 
 I believe by now you have a broader idea on how cryptography works!
+
+
+
+### Types Of Symmentic Encryption
+#### Block cipher symmetric encryption algorithms
+
+ A block cipher algorithm converts the input (plaintext) into blocks and encrypts each block. 
+
+1. AES
+2. IDEA	International Data Encryption Algorithm (IDEA)
+3. 3DES	Triple DES (Data Encryption Standard) and is based on DES. We should note that 3DES will be deprecated in 2023 and disallowed in 2024.
+4. CAST5	Also known as CAST-128. Some sources state that CASE stands for the names of its authors: Carlisle Adams and Stafford Tavares.
+5. BLOWFISH	Designed by Bruce Schneier
+6. TWOFISH	Designed by Bruce Schneier and derived from Blowfish
+7. CAMELLIA128, CAMELLIA192, and CAMELLIA256
+
+
+ #### The stream ciphers, encrypt the plaintext byte by byte
+ 
+ 
+ Encryption using gpg
+ ```
+ gpg --symmetric --cipher-algo CIPHER message.txt
+ 
+ ```
+ 
+ Decryption using gpg
+ 
+ ```
+ gpg --output original_message.txt --decrypt message.gpg
+ ```
+ 
+ Encryption using openssl 
+ 
+ ```
+ openssl aes-256-cbc -e -in message.txt -out encrypted_message
+ ```
+ 
+ Decryption using openssl
+ 
+ ```
+ openssl aes-256-cbc -d -in encrypted_message -out original_message.txt
+ ```
+
+### Asymentric Encryption
+
+#### RSA
+
+ 
+RSA got its name from its inventors, Rivest, Shamir, and Adleman, it relies on the difficulties of splitting prime numbers. It works as follows:
+
+
+1. Bob chooses two prime numbers: p = 157 and q = 199. He calculates N = 31243.
+2. With ϕ(N) = N − p − q + 1 = 31243 − 157 − 199 + 1 = 30888, Bob selects e = 163 and d = 379 where e × d = 163 × 379 = 61777 and 61777 mod 30888 = 1. 
+3. The public  key is (31243,163) and the private key is (31243,379).
+4. Let’s say that the value to encrypt is x = 13, then Alice would calculate and send y = xe mod N = 13163 mod 31243 = 16342.
+5. Bob will decrypt the received value by calculating x = yd mod N = 16341379 mod 31243 = 13.
+
+> Generate Privatekey and store in private-key.pem
+
+```
+openssl genrsa -out private-key.pem 2048
+```
+
+>  Generate the publickey of the private key generated
+```
+openssl rsa -in private-key.pem -pubout -out public-key.pem
+
+```
+> ENcrypt with public key
+
+```
+openssl pkeyutl -encrypt -in plaintext.txt -out ciphertext -inkey public-key.pem -pubin
+```
+
+> Decrypt with private key
+
+```
+openssl pkeyutl -decrypt -in ciphertext -inkey private-key.pem -out decrypted.txt
+```
+
+
+
+## Diffie-Hellman 
+
+
+
+## Public Key Infrastructure
+
+
+
+### XOR (exclusive or cipher)
+
+
+()[https://xor.pw/#]
+
+The XOR Encryption algorithm is a very effective yet easy to implement method of symmetric encryption. Taking the message and xor-ing with a private key can generate a cipher text that can be xor-ed with the key to generate the original text
+
+> using 1 time pad
+
+```
+olamide XOR private = 0x1f1e081b081000
+
+olamide XOR 0x1f1e081b081000 = private 
+
+private XOR 0x1f1e081b081000 = olamide
+```
+
+
+Note : getting the message and the ciphertext will reveal the private key
+
+
+
+```python
+# XOR Encryption Algorithm - www.101computing.net/xor-encryption-algorithm/
+
+def binary(num, length=8):
+    # convert to binary and remove "0b" to leave just the binary , then prepend null bytes to expand the key lenght
+    b = bin(num).lstrip("0b")
+    b = "0" *(length-len(b)) + b
+    return b
+def hexa(num, length=2):
+    # convert num to hex and remove "0x" to leave just the hex , then prepend null bytes to expand the key lenght
+    h = hex(num).lstrip("0x").upper()
+    h = "0" *(length-len(h)) + h
+    return h
+
+plaintext = input("Enter a message to encrypt:\n")
+key="101ComputingKey"
+keyLength = len(key)
+cipherAscii=""
+cipherDen = ""
+cipherHex=""
+cipherBin=""
+
+for i in range(0, len(plaintext)):
+    j = i % keyLength
+    #  get asciii of each letter and ascii of each key and Xor them
+    xor = ord(plaintext[i]) ^ ord(key[j])
+    cipherAscii += chr(xor)
+    cipherDen +=  str(xor) + " "
+    cipherHex  += hexa(xor) + " "
+    cipherBin += binary(xor) + " "
+
+print("\nCipher (Ascii form): \n" + cipherAscii)
+print("\nCipher (Denary form): \n" + cipherDen)
+print("\nCipher (Hexadecimal form): \n" + cipherHex)
+print("\nCipher (Binary form): \n" + cipherBin)
+
+
+```
+
+
+
+reference: https://www.101computing.net/xor-encryption-algorithm/

