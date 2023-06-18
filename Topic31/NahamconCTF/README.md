@@ -167,9 +167,9 @@ So where are the binary files locate **/lib/<architecture>**,  I chose the 32bit
 ![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/44f896b1-7fed-43b7-a8f9-ffc8800f52eb)
 
     
-
-
-
+After decompiling the binary in ghidra, i Found the flag being used to encrypt the input i supplied eearlier.
+    
+ ![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/24d0e2b3-b419-41e7-b456-dfe45942e5c6)
 
 
 
