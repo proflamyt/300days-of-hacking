@@ -49,3 +49,87 @@ The **/proc** folder for that particular process ID, **/proc/11**, then i checke
 
 ![](https://github.com/proflamyt/300days-of-hacking/blob/main/Topic31/NahamconCTF/Screenshot%20from%202023-06-17%2013-17-07.png)
 
+
+
+
+## Fortune Teller
+
+Category: Android
+
+
+The Chalenge provided an apk file, 
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/81dbdf75-cbbc-4a52-9fdd-881949021d84)
+
+Opening the apk file in an android emulator, i was greeted with just an activity which asks me to guess a word, everytime I input a word it brings a popup that says **Hello toast!**. Alright, what is happening underneath the hood ? , i had the same question. 
+
+So, I passed the apk through one of my favourite decompiler, jadx-gui. Now it is important to understand when decompiling it easy to get lost in a ton of information relevant and irrelevant to what you have as your goal. with this in mind, I had a specific goal in mind **Get the correct guess word**.
+
+The first place i visited was the android MainActivity, This is the logic behind the first page we saw. Remember don't get lost with the tons of information you get from decompiling, the developers probably spent months writing, debugging, testing this code, you stand no chance !!.
+
+Getting to the main activity, i saw an interesting method depicting what the application is doing underneath the hood.
+
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/63f4de8d-7438-43d1-b383-34ba420cf5e5)
+
+
+```java
+    public final void guess(View v) {
+        Intrinsics.checkNotNullParameter(v, "v");
+        Companion companion = Companion;
+        companion.setGuessString(getGuessInput().getText().toString());
+        String string = getString(C0881R.string.correct_guess);
+        Intrinsics.checkNotNullExpressionValue(string, "getString(R.string.correct_guess)");
+        setCorrectString(string);
+        if (Intrinsics.areEqual(companion.getGuessString(), getCorrectString())) {
+            ImageView imageView = new ImageView(this);
+            setContentView(imageView);
+            getDecrypt().decrypt(this);
+            Bitmap bitmap = BitmapFactory.decodeFile(getDecrypt().getOutputFile().getAbsolutePath());
+            imageView.setImageBitmap(bitmap);
+            return;
+        }
+        Toast toast = Toast.makeText(this, "Hello toast!", 0);
+        toast.show();
+    }
+```
+
+
+
+The method takes our provided input (guess word) and gets an already stored word, which is the correct word. It compares both , if it is equal , it sends our input to decrypt an image, if not equal, it shows a toast that says "Hello toast!". Now the next step is to look for what word is this method comparing our input with.
+
+```
+String string = getString(C0881R.string.correct_guess);
+```
+
+This line of code here is the line responsible for fetching the stored string. following **C0881R.string.correct_guess** i came across this line of code here 
+
+```
+public static final int correct_guess = 2131755048;
+
+```
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/21093c47-faa0-4783-b7d3-50e3b4660021)
+
+
+One may think **correct_guess** variable is the correct word , wrong !!. This is an id to the word i am looking for, the function  getString() in android takes in a name and used it to retrieve localized string resources from the application's resource files. The application resource file for string is located in **res/values/strings.xml**. 
+
+Armed with the name refrence and where to look for, i went ahead to the file and looked for **correct_guess** in the xml file .
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/e105dcaf-fdc8-43ac-84d8-464ae606d6e1)
+
+voila !! , the value of the string is **you win this ctf**
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/215ad341-e948-445e-a9ad-c4ee48b74de3)
+
+
+putting this as the guess word, displayed the flag !!
+
+
+
+
+
+
+
+
+
+
