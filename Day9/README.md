@@ -6,8 +6,20 @@ Windows Architecture
 
 https://medium.com/@putrasulung2108/windows-architecture-d2b022f136d3
 
+# TERMs
+## Windows API
+An Application Programming Interface Provided by microsoft for interaction with windows operating system. 
 
-user mode 
+## DLL (Dynamic Linker Library)
+A DLL is a library that contains code and data that can be used by more than one program at the same time.
+
+## windows SDK (Software Development Kit)
+ Header files that expose exported DLL functions to the Programmer
+ 
+## Windows.h
+Include all the basic windows SDK you need in a typical basic windows application
+
+## user mode 
 manages process on behalf of user ...lower privilege
 
 kernel mode : components where the core process of the application run
@@ -59,6 +71,7 @@ a service is any Windows application that is implemented with the services API a
 ## Start Application On Boot 
 Press Windows key + R.
 In the run box, type regedit, and press enter.
+
 
 
 
@@ -132,7 +145,6 @@ Process
 Threads 
 
 
-<<<<<<< HEAD
 
 #### WINDOWS ARCHITECTURE
 

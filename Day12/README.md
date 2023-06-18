@@ -18,3 +18,11 @@ Linux Kernel
 Applications:
 
 native and 3rd party applications reside on this layer . any application you install , build or download stays here
+
+
+# TODO
+
+### Intent
+### Activity
+### AndroidManifest
+### Layout

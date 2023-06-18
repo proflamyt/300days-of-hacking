@@ -1,4 +1,4 @@
-# 300days-of-hackings
+# 300days of hackings
 This program is aimed at teaching young and aspiring hackers the skills they need to stand out in the pentesting community... 
 Keep your eyes out for updates on this repo. Professionals/Begginers are welcomed to fork and contribute to the community...
 
@@ -45,6 +45,26 @@ git is already preinstalled in most linux distro
 20. Process Injection
 21. VPN
 22. CORS (Cross-site request forgery)
-
+23. Android Debug shell
+24. Containerization
+25. EDR evasion
+26. Learning Assembly Language
+27. Powershell
+28. Windows And Network
+29. Reverse Engineering
+30. Android Hacking
+31. CTF (Capture The Flag)
+32. Same Origin Policy & Cross-Origin Resource Sharing
+33. Reseach (MTN Router)
+34. Side Channel Attack
+35. RTOS (Real Time Operating System)
+36. Threads and Process
+37. Websockets , SSE, Long Polling
+38. DevSecOps
+39. Cryptography
+40. AWS (Cloud )
+41. Malware Development
+42. Exploit Development
+43. Network Security
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
