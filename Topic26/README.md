@@ -61,7 +61,7 @@ div EBX ; Divides EAX (18) by EBX (3)
 
 CMP compares two operands and sets the appropriate flags depending on the result.
 
-```
+```x86asm
 mov RAX, 8
 cmp RAX, 5
 ```
@@ -91,6 +91,36 @@ ret
 
 
 
+
+### Arrays
+Arrays store multiple pieces of data which are the same type sequentially in memory. Let's say you have an array of 5 integers that starts at the address of 0x4000. 
+The size of the array is 20 bytes since each integer is 4 bytes. The first integer is at 0x4000+0x0, the second is at 0x4000+0x04, and so on.
+
+Let's say we have an array of 4 integers that starts at the address of 0x4000. 
+
+```c
+int numbers[4] = {0, 1, 2, 3};
+```
+
+In memory
+```x86asm
+0x4000: 0 ; 4 bytes long
+0x4004: 1 
+0x4008: 2
+0x4012: 3
+```
+
+### Classes
+
+
+```x86asm
+mov RAX, 0x4000     ; RAX = Address of the class and the age variable (offset 0)
+lea RBX, [RAX+0x4]  ; RBX = Address of height
+lea RCX, [RAX+0x8]  ; RCX = Address of name
+mov [RAX], 0x32     ; age = 50
+mov [RBX], 0x48     ; height = 72
+mov [RCX], 0x424F42 ; name = "BOB"
+```
 
 ## X86_64
 
