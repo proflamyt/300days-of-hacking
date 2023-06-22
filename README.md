@@ -68,5 +68,6 @@ git is already preinstalled in most linux distro
 43. Network Security
 44. (User Account Control) UAC Bypass
 45. Windows Priviledge Escalation
+46. Prototype Parameter Polution
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
