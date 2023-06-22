@@ -66,5 +66,7 @@ git is already preinstalled in most linux distro
 41. Malware Development
 42. Exploit Development
 43. Network Security
+44. (User Account Control) UAC Bypass
+
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
