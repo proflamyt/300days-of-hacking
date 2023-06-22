@@ -26,7 +26,7 @@ git is already preinstalled in most linux distro
 1. Git and GitHub 
 2. Shells
 3. Understanding HTTP
-4. Privilege Escalation
+4. Linux Privilege Escalation
 5. Pivoting 
 6. Malware
 7. OSINT
@@ -67,6 +67,6 @@ git is already preinstalled in most linux distro
 42. Exploit Development
 43. Network Security
 44. (User Account Control) UAC Bypass
-
+45. Windows Priviledge Escalation
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
