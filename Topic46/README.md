@@ -1,5 +1,8 @@
 # Prototype Polution 
 
+Prototype pollution is a JavaScript vulnerability that enables an attacker to add arbitrary properties to global object prototypes, which may then be inherited by user-defined objects. 
+
+
 ## Javascript Objects
 
 ### Object Literal
@@ -128,3 +131,9 @@ Object.assign(vuln, source)
 vuln.isAdmin === true
 
 ```
+
+
+
+
+
+https://portswigger.net/web-security/prototype-pollution
