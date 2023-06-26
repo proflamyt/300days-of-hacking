@@ -111,4 +111,20 @@ ola.new === 'poluted';
 
 ```
 
+### Polution Scenario in Applications
 
+#### Object.assign
+
+```javascript
+
+var input = '{"name":"olamide", "__proto__": {"isAdmin":true}}';
+
+var source = JSON.parse(input)
+
+let vuln = {}
+
+Object.assign(vuln, source)
+
+vuln.isAdmin === true
+
+```
