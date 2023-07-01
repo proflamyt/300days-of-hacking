@@ -25,3 +25,12 @@ Remote logins requires administration priviledges
 
 
 #### Logon Sessions
+
+
+
+
+
+#### Access Token
+
+- Process Tokens (Primary Token)
+- Thread Tokens (Impersonation Token)
