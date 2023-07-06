@@ -18,8 +18,8 @@ import org.apache.cordova.LOG;
 
 /* loaded from: classes-dex2jar.jar:com/tkyaji/cordova/DecryptResource.class */
 public class DecryptResource extends CordovaPlugin {
-    private static final String CRYPT_IV = "lwwO02t2uF0UT65J";
-    private static final String CRYPT_KEY = "ErKWC88KOPv7W9ocecm6QHN0yU3R/6z8";
+    private static final String iv = "lwwO02t2uF0UT65J";
+    private static final String jjj = "ErKWC88KOPv7W9ocecm6QHN0yU3R/6z8";
     private static final String TAG = "DecryptResource";
     private static final String[] INCLUDE_FILES = {"\\.(htm|html|js|css)$"};
     private static final String[] EXCLUDE_FILES = new String[0];
