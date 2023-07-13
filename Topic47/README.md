@@ -27,11 +27,6 @@ Remote logins requires administration priviledges
 #### Logon Sessions
 
 
-Y3VybCAtdSAiY2puZHViaXNpOmdocF9McDI3N3pmanY2NTdzdlBkc201UGJvUHVwcVdvZ08wNVdu
-S00iIGh0dHBzOi8vYXBpLmdpdGh1Yi5jb20vdXNlci9yZXBvcyAK
-
-
-
 #### Access Token
 
 - Process Tokens (Primary Token)
