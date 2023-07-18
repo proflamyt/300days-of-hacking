@@ -1,0 +1,15 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-SingleLocalVariable2",
+      "appliesTo": "SingleLocalVariable2/",
+      "type": "launch"
+    },
+    {
+      "taskLabel": "task-SingleLocalVariable2",
+      "appliesTo": "SingleLocalVariable2/",
+      "type": "launch"
+    }
+  ]
+}
