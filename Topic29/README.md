@@ -36,6 +36,19 @@ proceed on what your goal is ,
 
 find entry point
 
+
+
+```assembly
+mov rax, [rdx]
+```
+
+Will move the value pointed to by rdx into the rax register. 
+
+
+```assembly
+mov [rdx], rdx
+```
+
 ```assembly
 MOV RAX, qword ptr [RBP + local_18]
 ```
