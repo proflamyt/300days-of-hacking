@@ -1,0 +1,297 @@
+[.] Getting ASN info for 104.18.14.49 (privateinternetaccess.com)
+[.] Getting ASN info for 104.18.15.49 (privateinternetaccess.com)
+[.] Getting ASN info for 52.58.28.12 (avira.com)
+[.] Getting ASN info for 104.20.93.59 (windscribe.com)
+[.] Getting ASN info for 185.2.139.203 (vpnbook.com)
+[.] Using known ASN 104.18.0.0/20 for 104.18.4.148 (safervpn.com)
+[.] Using known ASN 104.18.0.0/20 for 104.18.5.148 (safervpn.com)
+[.] Getting ASN info for 104.18.16.65 (ipvanish.com)
+[.] Getting ASN info for 104.18.17.65 (ipvanish.com)
+[.] Getting ASN info for 104.18.109.96 (openvpn.net)
+[.] Getting ASN info for 104.18.110.96 (openvpn.net)
+[.] Getting ASN info for 104.17.49.74 (nordvpn.com)
+[.] Getting ASN info for 104.17.50.74 (nordvpn.com)
+[.] Getting ASN info for 172.67.39.115 (oxylabs.io)
+[.] Getting ASN info for 104.22.10.141 (oxylabs.io)
+[.] Getting ASN info for 104.22.11.141 (oxylabs.io)
+[.] Getting ASN info for 188.114.97.5 (rapidvpn.com)
+[.] Getting ASN info for 188.114.96.5 (rapidvpn.com)
+[.] Getting ASN info for 54.39.16.209 (starvpnapp.com)
+[.] Getting ASN info for 172.66.40.28 (torguard.net)
+[.] Getting ASN info for 172.66.43.228 (torguard.net)
+[.] Getting ASN info for 108.157.78.35 (expressvpn.com)
+[.] Getting ASN info for 108.157.78.26 (expressvpn.com)
+[.] Getting ASN info for 108.157.78.51 (expressvpn.com)
+[.] Getting ASN info for 108.157.78.89 (expressvpn.com)
+[.] Getting ASN info for 45.83.223.209 (mullvad.net)
+[.] Getting ASN info for 104.23.138.19 (hotspotshield.com)
+[.] Getting ASN info for 104.23.137.19 (hotspotshield.com)
+[.] Getting ASN info for 104.84.88.231 (hidemyass.com)
+[.] Getting ASN info for 136.144.57.121 (wireguard.com)
+[.] Getting ASN info for 198.50.177.216 (ivpn.net)
+[.] Using known ASN 104.18.16.0/20 for 104.18.24.105 (purevpn.com)
+[.] Using known ASN 104.18.16.0/20 for 104.18.25.105 (purevpn.com)
+[.] Using known ASN 188.114.97.0/24 for 188.114.97.5 (rapidvpn.com proxy-spider.com)
+[.] Using known ASN 188.114.96.0/24 for 188.114.96.5 (rapidvpn.com proxy-spider.com)
+[.] Getting ASN info for 23.207.213.216 (avast.com)
+[.] Getting ASN info for 104.18.120.34 (surfshark.com)
+[.] Getting ASN info for 104.18.121.34 (surfshark.com)
+[.] Getting ASN info for 104.17.154.236 (tunnelbear.com)
+[.] Getting ASN info for 104.17.155.236 (tunnelbear.com)
+[.] Getting ASN info for 185.159.159.140 (protonvpn.com)
+[+] Found 23 ASNs
+
+
+ASN CIDR: 104.18.0.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 104.16.0.0/12
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (4):
+ - 104.18.15.49 (privateinternetaccess.com)
+ - 104.18.4.148 (safervpn.com)
+ - 104.18.5.148 (safervpn.com)
+ - 104.18.14.49 (privateinternetaccess.com)
+
+ASN CIDR: 52.58.0.0/15
+ASN description: AMAZON-02, US
+Network name: AMAZO-ZFRA
+Network CIDR(s): 52.58.0.0/15 (same as ASN)
+Contact: A100 ROW GmbH
+Hosts (1):
+ - 52.58.28.12 (avira.com)
+
+ASN CIDR: 104.20.80.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 104.16.0.0/12
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (2):
+ - 104.20.94.59 (windscribe.com)
+ - 104.20.93.59 (windscribe.com)
+
+ASN CIDR: 185.2.136.0/22
+ASN description: UK2NET-AS, GB
+Network name: US-HOSTING-20120918
+Network CIDR(s): 185.2.136.0/22 (same as ASN)
+Contact: Chris Woosnam-Savage chris@100tb.com +44 (0)845 270 6670
+Contact: MNT-100TB
+Contact: Hosting Services Inc networkteam@uk2group.com +0014357553449 +447894391183
+Contact: RIPE-NCC-HM-MNT
+Contact: NetSumo Limited Operators ripe@netsumo.com +44 207 993 1701 +44 207 993 1709
+Contact: Abuse-C Role urgent@submitabuse.com
+Hosts (1):
+ - 185.2.139.203 (vpnbook.com)
+
+ASN CIDR: 104.18.16.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 104.16.0.0/12
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (4):
+ - 104.18.24.105 (purevpn.com)
+ - 104.18.16.65 (ipvanish.com)
+ - 104.18.17.65 (ipvanish.com)
+ - 104.18.25.105 (purevpn.com)
+
+ASN CIDR: 104.18.96.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 104.16.0.0/12
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (2):
+ - 104.18.109.96 (openvpn.net)
+ - 104.18.110.96 (openvpn.net)
+
+ASN CIDR: 104.17.48.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 104.16.0.0/12
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (2):
+ - 104.17.49.74 (nordvpn.com)
+ - 104.17.50.74 (nordvpn.com)
+
+ASN CIDR: 172.67.32.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 172.64.0.0/13
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (1):
+ - 172.67.39.115 (oxylabs.io)
+
+ASN CIDR: 104.22.0.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 104.16.0.0/12
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (2):
+ - 104.22.10.141 (oxylabs.io)
+ - 104.22.11.141 (oxylabs.io)
+
+ASN CIDR: 188.114.97.0/24
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET-EU
+Network CIDR(s): 188.114.96.0/22
+Contact: Cloudflare Abuse Contact abuse@cloudflare.com +49 89 2555 2276
+Contact: Cloudflare Technical Contact +49 89 2555 2276
+Contact: MNT-CLOUDFLARE
+Contact: Cloudflare Abuse Contact abuse@cloudflare.com
+Hosts (1):
+ - 188.114.97.5 (rapidvpn.com proxy-spider.com)
+
+ASN CIDR: 188.114.96.0/24
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET-EU
+Network CIDR(s): 188.114.96.0/22
+Contact: Cloudflare Abuse Contact abuse@cloudflare.com +49 89 2555 2276
+Contact: Cloudflare Technical Contact +49 89 2555 2276
+Contact: MNT-CLOUDFLARE
+Contact: Cloudflare Abuse Contact abuse@cloudflare.com
+Hosts (1):
+ - 188.114.96.5 (rapidvpn.com proxy-spider.com)
+
+ASN CIDR: 54.39.0.0/16
+ASN description: OVH, FR
+Network name: HO-2
+Network CIDR(s): 54.39.0.0/16 (same as ASN)
+Contact: OVH Hosting, Inc.
+Hosts (1):
+ - 54.39.16.209 (starvpnapp.com)
+
+ASN CIDR: 172.66.40.0/21
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 172.64.0.0/13
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (2):
+ - 172.66.40.28 (torguard.net)
+ - 172.66.43.228 (torguard.net)
+
+ASN CIDR: 108.157.72.0/21
+ASN description: AMAZON-02, US
+Network name: AMAZON-CF
+Network CIDR(s): 108.156.0.0/14
+Contact: Amazon.com, Inc.
+Hosts (4):
+ - 108.157.78.35 (expressvpn.com)
+ - 108.157.78.26 (expressvpn.com)
+ - 108.157.78.51 (expressvpn.com)
+ - 108.157.78.89 (expressvpn.com)
+
+ASN CIDR: 104.23.128.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 104.16.0.0/12
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (2):
+ - 104.23.138.19 (hotspotshield.com)
+ - 104.23.137.19 (hotspotshield.com)
+
+ASN CIDR: 45.83.222.0/23
+ASN description: ESAB-AS, SE
+Network name: NET-31173-45-83-223
+Network CIDR(s): 45.83.223.0/24
+Contact: ESAB-MNT
+Contact: ESAB NOC noc@31173.se abuse@31173.se +46406181000
+Contact: 31173 Services AB lir@31173.se +46406181000
+Hosts (1):
+ - 45.83.223.209 (mullvad.net)
+
+ASN CIDR: 104.84.64.0/19
+ASN description: AKAMAI-AS, US
+Network name: AKAMAI
+Network CIDR(s): 104.64.0.0/10
+Contact: Akamai Technologies, Inc.
+Hosts (1):
+ - 104.84.88.231 (hidemyass.com)
+
+ASN CIDR: 198.50.128.0/17
+ASN description: OVH, FR
+Network name: OVH-CUST-13289668
+Network CIDR(s): 198.50.177.216/29
+Contact: Privatus Limited
+Hosts (1):
+ - 198.50.177.216 (ivpn.net)
+
+ASN CIDR: 104.17.144.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 104.16.0.0/12
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (2):
+ - 104.17.154.236 (tunnelbear.com)
+ - 104.17.155.236 (tunnelbear.com)
+
+ASN CIDR: 104.18.112.0/20
+ASN description: CLOUDFLARENET, US
+Network name: CLOUDFLARENET
+Network CIDR(s): 104.16.0.0/12
+Contact: Cloudflare, Inc.
+Contact: Abuse abuse@cloudflare.com +1-650-319-8930
+Contact: Admin rir@cloudflare.com +1-650-319-8930
+Contact: NOC noc@cloudflare.com +1-650-319-8930
+Hosts (2):
+ - 104.18.120.34 (surfshark.com)
+ - 104.18.121.34 (surfshark.com)
+
+ASN CIDR: 23.207.212.0/22
+ASN description: AKAMAI-AS, US
+Network name: AIBV
+Network CIDR(s): 23.207.208.0/20
+Contact: Akamai International, BV
+Hosts (1):
+ - 23.207.213.216 (avast.com)
+
+ASN CIDR: 136.144.56.0/23
+ASN description: None
+Network name: PACKET-HOST-136-144-48-0
+Network CIDR(s): 136.144.48.0/20
+Contact: Equinix Services, Inc. asr@equinix.com +1-212-933-9785
+Contact: PACKET-MNT
+Contact: Packet Host noc@packet.net +1-212-933-9785
+Contact: RIPE-NCC-LEGACY-MNT
+Contact: Abuse-C Role abuse@packet.net
+Hosts (1):
+ - 136.144.57.121 (wireguard.com)
+
+ASN CIDR: 185.159.159.0/24
+ASN description: PROTONVPN, CH
+Network name: ProtonVPN-CH1
+Network CIDR(s): 185.159.159.0/24 (same as ASN)
+Contact: ch-protonvpn-1-mnt
+Contact: Sebastien Ceuterickx +41225483451
+Contact: Antonio Gambardella +41225483451
+Contact: Abuse-C Role abuse@protonvpn.com
+Hosts (1):
+ - 185.159.159.140 (protonvpn.com)
