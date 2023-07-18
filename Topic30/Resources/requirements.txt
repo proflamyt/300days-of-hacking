@@ -1,0 +1,8 @@
+beautifulsoup4
+dnspython
+ipwhois
+netaddr
+python-whois
+requests
+tldextract
+PyOpenSSL
