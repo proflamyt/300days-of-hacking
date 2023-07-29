@@ -1,0 +1,12 @@
+# Process 
+
+Process are running applications 
+
+
+### How Process Communicate in Linux
+
+- Pipe : Unidirectional stream from one process standard output to another process standard input
+- Shared Memory: allows processes to communicate via accessible virtual memory
+- Semaphone
+- Signal
+- Message Queue
