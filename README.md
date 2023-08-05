@@ -69,7 +69,8 @@ git is already preinstalled in most linux distro
 44. (User Account Control) UAC Bypass
 45. Windows Priviledge Escalation
 46. Prototype Parameter Polution
-47. OAUTH
-48. GRAPHQL
+47. Windows Authentication
+48. OAUTH
+49. GRAPHQL
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
