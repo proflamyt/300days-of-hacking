@@ -28,7 +28,12 @@ To do this, there are two things we need to figure out from just the ciphertext
 
   This will be our assumption today, we will only bruteforce half the ciphertext lenght, by bruteforcing, i mean checking what the key lenght could be . how do i know when i have the right key lenght ? this is where  hamming distance comes in.
 
-  Hamming distance is the number of bits by which two strings differ, how is this calculated ? , through xor ofcourse , remember the properties of xor
+  Hamming distance is the number of bits by which two strings differ, how is this calculated ? , through xor ofcourse , remember the properties of xor ? A bit xor thesame bit results to 0, this lets us know the likelihood we are computing ASCII strings by checking how small the normalized xor string is.
+
+To explain better
+
+
+This leads us to the second phase 
 
 
 
