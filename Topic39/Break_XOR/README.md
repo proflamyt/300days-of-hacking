@@ -102,9 +102,9 @@ for keysize in 2..bytes.len()/2 {
             
             match c {
                 Some(distance) => {
-                    // Convert the Vec<u8> to a hexadecimal string
+                    
                     norm.push(distance/keysize as u32);
-                    // find smallest
+                 
                 }
                 None => println!("Error: Vectors must have equal lengths to compute XOR."),
             }
@@ -242,9 +242,9 @@ fn main() {
             
             match c {
                 Some(distance) => {
-                    // Convert the Vec<u8> to a hexadecimal string
+                    
                     norm.push(distance/keysize as u32);
-                    // find smallest
+                    
                 }
                 None => println!("Error: Vectors must have equal lengths to compute XOR."),
             }
