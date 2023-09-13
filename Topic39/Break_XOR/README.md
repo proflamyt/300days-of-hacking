@@ -4,21 +4,28 @@ The Exclusive OR (XOR) operation holds immense significance in the field of cryp
 
 Today, we will explore a scenario where this encryption operation can go awry—specifically, when the encryption key is inadvertently repeated. To start with, let's go over the XOR operation before we continue with what could go wrong.
 
-Remember this rule same gives 0, diffrent gives 1 :
+Remember this rule, "same gives 0, diffrent gives 1" !! 
 
-Bits:
-1 xor 1 = 0
-0 xor 0 = 0
-1 xor 0 = 1
+Example :
 
-Bytes: 
+> Bits:
 
-"A" xor "A" = 0
-"A" xor 0 = "A"
+- 1 xor 1 = 0
+
+- 0 xor 0 = 0
+
+- 1 xor 0 = 1
+
+> Bytes: 
+
+- "A" xor "A" = 0
+
+- "A" xor 0 = "A"
 
 
 
 #####  REPEATING XOR ENCRYPTION EXAMPLE
+
 Say we have to encrypt the sentence "HELLO MY NAME IS ABDULRASHEED, CAN WE BE FRIENDS?" with the key "KEY". Using repeating XOR, each byte of ASCII character is XOR encrypted with each byte of the key.
 
 so we have :
@@ -78,7 +85,7 @@ First we assume this ciphertext *"AwAVBwp5Bhx5BQQUDmUQGGUYCQEMBxcYGA0cDgF1awYYBW
 After this we have to look for the correct key lenght within 2 to half the lenght of ciphertext (remember we assume the key lenght will probably be lesser than half the ciphertext ). to do this, we split the ciphertext into blocks of the each key lenght and then we compute the hamming distance to determine wether we are within the ascii key space or not. we can pick the least normalized hamming distance and assume the corresponding key lenght is the correct key.
 
 
-say we have cipher text as : ["A+K", "B+E", "D+Y", "U+K", "L+E", "R+Y".....], and we guessed the keysize of 2 , this step will split the ciphertext into blocks of 2 as [ ["A+K", "B+E"], ["D+Y", "U+K"], ["L+E", "R+Y"], ... ]. and find the hammming distance between each pairs that is, hamming distance between ("A+K", "B+E"), ("D+Y", "U+K") and so on ...
+If we were to have our cipher text as : ["A+K", "B+E", "D+Y", "U+K", "L+E", "R+Y".....], and we guessed the keysize of 2 , this step will split the ciphertext into blocks of 2 as [ ["A+K", "B+E"], ["D+Y", "U+K"], ["L+E", "R+Y"], ... ]. and find the hammming distance between each pairs that is, hamming distance between ("A+K", "B+E"), ("D+Y", "U+K") and so on ...
 
 Now why are we doing this?, we want to know the point we are computing just two ascii characters , if we were to find the correct key size which is 3, we would end up computing the hamming distance between [["A+K", "B+E", "D+Y"], ["U+K", "L+E", "R+Y"] ...], when you look at this, A+K xor U+K will end up being A + U, therefore we end up with a lesser hamming distance than the other key sizes, this is after normalization ofcourse (we have to give them thesame fighting chance lol ) . 
 
@@ -141,7 +148,9 @@ fn transpose_block(block_bytes:Vec<Vec<u8>> , key_size: usize) -> Vec<Vec<u8>> {
 
 ```
 
-say we have  ["A+K", "B+E", "D+Y", "U+K", "L+E", "R+Y".....], and the key lenght derived is 3, we will proceed to dividing the ciphertext into blocks of 3 bytes [["A+K", "B+E", "D+Y"], ["U+K", "L+E", "R+Y"] .....], transposing will result to having [["A+K", "U+K"], ["B+E", "L+E"], ["D+Y", "R+Y"]]. notice how all bytes encrypted with thesame bytes are grouped together after transpose. What is left is to figure out what byte was used to encrypt each byte we transposed. to do this, we can bruteforce with all possible 255 byte value and check if the result falls within the ASCII space. if we run an xor bruteforce on each of this for example ["A+K", "U+K"] , at ascii byte "K" we will get ["A", "U"]. Once we arrive at this Ascii result we know "K" is the first encryption byte in the key, then we can proceed to other element in transposed array.
+
+Say we have  ["A+K", "B+E", "D+Y", "U+K", "L+E", "R+Y".....], and the key lenght derived is 3, we will proceed to dividing the ciphertext into blocks of 3 bytes [["A+K", "B+E", "D+Y"], ["U+K", "L+E", "R+Y"] .....], transposing will result to having [["A+K", "U+K"], ["B+E", "L+E"], ["D+Y", "R+Y"]]. notice how all bytes encrypted with thesame bytes are grouped together after transpose. What is left is to figure out what byte was used to encrypt each byte we transposed. to do this, we can bruteforce with all possible 255 byte value and check if the result falls within the ASCII space. if we run an xor bruteforce on each of this for example ["A+K", "U+K"] , at ascii byte "K" we will get ["A", "U"]. Once we arrive at this Ascii result we know "K" is the first encryption byte in the key, then we can proceed to other element in transposed array.
+
 
 
 
