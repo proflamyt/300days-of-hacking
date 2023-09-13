@@ -33,7 +33,7 @@ Hamming distance is the number of bits by which two strings differ, how is this 
 To explain better,
 say we have , compute the hamming distance between "A" and "B" the resulting distance will be shorter compared to "A" and "&" , using this we can know if we are likely computing within the ASCII space
 
-## FIguring Out the lenght of the key size 
+## Finding the lenght of the key size 
 
 Now let's put the phases explained above in code, my Rust is a bit rusty so you will have to pardon me ,
 
@@ -48,7 +48,9 @@ First we assume this ciphertext is in a file *"AwAVBwp5Bhx5BQQUDmUQGGUYCQEMBxcYG
 Now we have to look for the keysize lenght from 2 to half the lenght of ciphertext (remember we assume the key lenght will probably be lesser than half the ciphertext ). to do this , we split the ciphertext into blocks of the current keylenght and then we compute the hamming distance to determine wether we are within the ascii key space. 
 
 
+say we have cipher text as : ["A+K", "B+E", "D+Y", "U+K", "L+E", "R+Y".....], and we guessed the keysize of 2 , this step will split the ciphertext into blocks of [ ["A+K", "B+E"], ["D+Y", "U+K"], ["L+E", "R+Y"], ... ] . and find the hammming distance between each pairs that is, hamming distance between ("A+K", "B+E"), ("D+Y", "U+K") and so on ...
 
+Now why are we doing this we what to know when computing just two ascii characters , if we were to find the correct key size which is 3 , we would end up computing the hamming distance between [["A+K", "B+E", "D+Y"], ["U+K", "L+E", "R+Y"] ...], when you look at this , A+K xor U+K will end up being A + U , therefore we end up with a lesser hamming distance than the other key sizes, this is after normalization ofcourse (we have to give them thesame fighting chance lol ) . 
 
 ```rust
 for keysize in 2..bytes.len()/2 {
@@ -73,5 +75,76 @@ for keysize in 2..bytes.len()/2 {
 }
 
 ```
+
+
+Just Understand the high level concept, we will look at the low level part in a bit.
+
+
+### Figuring out the encryption Key
+
+Now that we have the key with the smallest Hamming distance. we have to figure out what the key is. armed with the assumed key lenght/s , we have to split the chiphertext into blocks of this keysize and then transponse. that way we would have all bytes encrypted with thesame byte in an array .
+
+say we have  ["A+K", "B+E", "D+Y", "U+K", "L+E", "R+Y".....], and the key lenght derived is 3, we will proceed to dividing the ciphertext into blocks of 3 bytes [["A+K", "B+E", "D+Y"], ["U+K", "L+E", "R+Y"] .....], transposing will result to having [["A+K", "U+K"], ["B+E", "L+E"], ["D+Y", "R+Y"]] . notice how all are encrypted with thesame bytes after the transpose . What is left is to figure out what byte was used to encrypt each byte we transposed. to do this, we can bruteforce with all 255 byte value and check if the result false within the ASCII space . if we run an xor bruteforce on each of this for example ["A+K", "U+K"] , at ascii byte "K" we will get ["A", "U"]. Once we arrive at this Ascii result we know "K" is the first encryption byte in the key, then we can proceed to other element in transposed array
+
+
+
+```rust
+
+
+fn bruteforce_xor(s: &Vec<u8>)  {
+
+    let mut best_key = 'a';
+    let mut best_score = 0;
+
+    for byte_value in 0..=255 {
+        let byte = byte_value as u8;
+        
+
+        let mut xor_result_string : Vec<u8> = Vec::new();
+
+
+        for ch in s {
+            let res = (ch ^ byte) as u8;
+            xor_result_string.push(res);
+        }
+
+        let score = score_plaintext(&xor_result_string);
+        
+        if score > best_score {
+            best_score = score;
+            best_key = char::from(byte_value);
+        } 
+    }
+    print!("{}", best_key);
+   
+}
+
+```
+
+
+
+
+And How do we know we arrived at the ASCII byte space, by scoring the plaintext each bruteforce. 
+
+
+```
+fn score_plaintext(plaintext: &[u8]) -> usize {
+    let valid_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,.!?";
+    let mut score = 0;
+
+    for &byte in plaintext.iter() {
+        let char = byte as char;
+        if valid_chars.contains(char) {
+            score += 1;
+        }
+    }
+
+    score
+}
+
+```
+
+
+
 
 
