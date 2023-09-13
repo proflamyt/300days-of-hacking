@@ -24,19 +24,54 @@ To do this, there are two things we need to figure out from just the ciphertext
 - The lenght of the key
 - Encryption Key
 
-  Remember, once we have the encryption key our problems are solved , we get the original text. To derive the lenght of the encryption key, we have to bruteforce , usually the lenght of the cipher texts are bruteforceable and if it is a repeting xor encryption we have to make the assumption the key is not more than half the ciphertext.
+Remember, once we have the encryption key our problems is half solved , we get the original text. To derive the lenght of the encryption key, we have to bruteforce , usually the lenght of the cipher texts are bruteforceable and if it is a repeting xor encryption we have to make the assumption the key is not more than half the ciphertext.
 
-  This will be our assumption today, we will only bruteforce half the ciphertext lenght, by bruteforcing, i mean checking what the key lenght could be . how do i know when i have the right key lenght ? this is where  hamming distance comes in.
+This will be our assumption today, we will only bruteforce half the ciphertext lenght, by bruteforcing, i mean checking what the key lenght could be. and how do we know when we have the right key lenght? this is where  hamming distance comes in.
 
-  Hamming distance is the number of bits by which two strings differ, how is this calculated ? , through xor ofcourse , remember the properties of xor ? A bit xor thesame bit results to 0, this lets us know the likelihood we are computing ASCII strings by checking how small the normalized xor string is.
+Hamming distance is the number of bits by which two strings differ, how is this calculated ? , through xor ofcourse , remember the properties of xor ? A bit xor thesame bit results to 0, this lets us know the likelihood we are computing just two ASCII strings by checking how small the normalized xor string is.
 
-To explain better
+To explain better,
+say we have , compute the hamming distance between "A" and "B" the resulting distance will be shorter compared to "A" and "&" , using this we can know if we are likely computing within the ASCII space
+
+## FIguring Out the lenght of the key size 
+
+Now let's put the phases explained above in code, my Rust is a bit rusty so you will have to pardon me ,
+
+First we assume this ciphertext is in a file *"AwAVBwp5Bhx5BQQUDmUQGGUYCQEMBxcYGA0cDgF1awYYBWUODmUbDmUfGQwcBQEKdA=="*
+
+```rust
+    // read cipher from file and convert to an array of bytes
+    let my_str: String = read_file();
+    let bytes: Vec<u8> = general_purpose::STANDARD.decode(&my_str).unwrap();
+
+```
+Now we have to look for the keysize lenght from 2 to half the lenght of ciphertext (remember we assume the key lenght will probably be lesser than half the ciphertext ). to do this , we split the ciphertext into blocks of the current keylenght and then we compute the hamming distance to determine wether we are within the ascii key space. 
 
 
-This leads us to the second phase 
 
 
+```rust
+for keysize in 2..bytes.len()/2 {
 
+        let block_bytes = split_bytes_into_blocks(&bytes, keysize, true);
+        let num_blocks = block_bytes.len();
+        
+        for i in (0..num_blocks-1).step_by(2) {
 
+            let c: Option<u32> =  hamming_distance(&block_bytes[i], &block_bytes[i+1]);
+            
+            match c {
+                Some(distance) => {
+                    // Convert the Vec<u8> to a hexadecimal string
+                    norm.push(distance/keysize as u32);
+                    // find smallest
+                }
+                None => println!("Error: Vectors must have equal lengths to compute XOR."),
+            }
+            
+        }
+}
+
+```
 
 
