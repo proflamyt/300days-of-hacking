@@ -1,4 +1,4 @@
-# Breaking Repeating XOR Encryption
+# Breaking Repeating XOR Encryption Using RUST
 
 The Exclusive OR (XOR) operation holds immense significance in the field of cryptography, as it plays a pivotal role in nearly all cryptographic algorithms. If done properly in encryption, it conceals any discernible information about its input and becomes highly resistant to brute force attacks. However, it's crucial to emphasize the phrase "If done properly."
 
@@ -80,7 +80,8 @@ After this we have to look for the correct key lenght within 2 to half the lengh
 
 say we have cipher text as : ["A+K", "B+E", "D+Y", "U+K", "L+E", "R+Y".....], and we guessed the keysize of 2 , this step will split the ciphertext into blocks of 2 as [ ["A+K", "B+E"], ["D+Y", "U+K"], ["L+E", "R+Y"], ... ]. and find the hammming distance between each pairs that is, hamming distance between ("A+K", "B+E"), ("D+Y", "U+K") and so on ...
 
-Now why are we doing this?, we want to know the point we are computing just two ascii characters , if we were to find the correct key size which is 3 , we would end up computing the hamming distance between [["A+K", "B+E", "D+Y"], ["U+K", "L+E", "R+Y"] ...], when you look at this , A+K xor U+K will end up being A + U , therefore we end up with a lesser hamming distance than the other key sizes, this is after normalization ofcourse (we have to give them thesame fighting chance lol ) . 
+Now why are we doing this?, we want to know the point we are computing just two ascii characters , if we were to find the correct key size which is 3, we would end up computing the hamming distance between [["A+K", "B+E", "D+Y"], ["U+K", "L+E", "R+Y"] ...], when you look at this, A+K xor U+K will end up being A + U, therefore we end up with a lesser hamming distance than the other key sizes, this is after normalization ofcourse (we have to give them thesame fighting chance lol ) . 
+
 
 ```rust
 for keysize in 2..bytes.len()/2 {
@@ -112,9 +113,10 @@ Just Understand the high level concept, we will look at the low level part in a 
 
 ### Figuring out the encryption Key
 
-Now that we have the key with the smallest Hamming distance. we have to figure out what the key is. armed with the assumed key lenght/s , we have to split the chiphertext into blocks of this keysize and then transponse. that way we would have all bytes encrypted with thesame byte in an array .
+Now that we have the key with the smallest Hamming distance. we have to figure out what the key is. armed with the assumed key lenght/s, we have to split the chiphertext into blocks of this keysize and then transponse. that way we would have all bytes encrypted with thesame byte grouped in an array .
 
-Transposing 
+
+####### Transposing ....
 
 ```rust
 
