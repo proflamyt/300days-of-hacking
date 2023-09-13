@@ -49,8 +49,8 @@ To derive the lenght of the encryption key, we have to bruteforce the key size, 
 
 This will be our assumption today, we will only bruteforce to half the ciphertext lenght, by bruteforcing, i mean trying each key lenght until we hit the correct lenght. How do we know when we have the right key lenght? this is where "hamming distance" comes in.
 
-Hamming distance is the number of bits by which two strings differ, how is this calculated ?, through xor ofcourse, remember the properties of xor we listed above ? 
-the computation of two diffrent xor bit results to 1,  by xoring strings and counting the numbers of 1s in the result we can know how far each byte differ, hence, the likelihood we are computing two bytes within an ASCII space in this context.
+Hamming distance is the number of bits by which two strings differ, how is this calculated?, through xor of course, remember the properties of xor we listed above? 
+the computation of two diffrent xor bit results to 1, by xoring strings and counting the numbers of 1s in the result we can know how far each byte differ, hence, the likelihood we are computing two bytes within an ASCII space in this context.
 
 ```rust
 
@@ -71,7 +71,7 @@ To explain better, say we compute the hamming distance between "A" and "B" the r
 
 ## Finding the lenght of the key size 
 
-Now let's put the phases explained above in code, my Rust is a bit rusty so you will have to pardon me ,
+Now let's put the phases explained above in code, my Rust is a bit rusty so you will have to pardon me,
 
 First we assume this ciphertext *"AwAVBwp5Bhx5BQQUDmUQGGUYCQEMBxcYGA0cDgF1awYYBWUODmUbDmUfGQwcBQEKdA=="* is in a file and we read it into a string and decode to array of bytes 
 
@@ -120,7 +120,7 @@ Just Understand the high level concept, we will look at the low level part in a 
 
 ### Figuring out the encryption Key
 
-Now that we have the key with the smallest Hamming distance. we have to figure out what the key is. armed with the assumed key lenght/s, we have to split the chiphertext into blocks of this keysize and then transponse. that way we would have all bytes encrypted with thesame byte grouped in an array .
+Now that we have the key with the smallest Hamming distance. we have to figure out what the key is. Armed with the assumed key lenght/s, we have to split the chiphertext into blocks of this keysize and then transponse. That way, we would have all bytes encrypted with the same byte grouped in an array .
 
 
 ####### Transposing ....
@@ -149,7 +149,7 @@ fn transpose_block(block_bytes:Vec<Vec<u8>> , key_size: usize) -> Vec<Vec<u8>> {
 ```
 
 
-Say we have  ["A+K", "B+E", "D+Y", "U+K", "L+E", "R+Y".....], and the key lenght derived is 3, we will proceed to dividing the ciphertext into blocks of 3 bytes [["A+K", "B+E", "D+Y"], ["U+K", "L+E", "R+Y"] .....], transposing will result to having [["A+K", "U+K"], ["B+E", "L+E"], ["D+Y", "R+Y"]]. notice how all bytes encrypted with thesame bytes are grouped together after transpose. What is left is to figure out what byte was used to encrypt each byte we transposed. to do this, we can bruteforce with all possible 255 byte value and check if the result falls within the ASCII space. if we run an xor bruteforce on each of this for example ["A+K", "U+K"] , at ascii byte "K" we will get ["A", "U"]. Once we arrive at this Ascii result we know "K" is the first encryption byte in the key, then we can proceed to other element in transposed array.
+Say we have  ["A+K", "B+E", "D+Y", "U+K", "L+E", "R+Y".....], and the key lenght derived is 3, we will proceed to dividing the ciphertext into blocks of 3 bytes [["A+K", "B+E", "D+Y"], ["U+K", "L+E", "R+Y"] .....], transposing will result to having [["A+K", "U+K"], ["B+E", "L+E"], ["D+Y", "R+Y"]]. notice how all bytes encrypted with the same bytes are grouped together after transpose. What is left is to figure out what byte was used to encrypt each byte we transposed. To do this, we can bruteforce with all possible 255 byte value and check if the result falls within the ASCII space. if we run an xor bruteforce on each of this for example ["A+K", "U+K"] , at ascii byte "K" we will get ["A", "U"]. Once we arrive at this Ascii result we know "K" is the first encryption byte in the key, then we can proceed to other element in transposed array.
 
 
 
