@@ -72,5 +72,6 @@ git is already preinstalled in most linux distro
 47. Windows Authentication
 48. OAUTH
 49. GRAPHQL
+50. Arduino Rubber Ducky
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
