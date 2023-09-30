@@ -24,54 +24,6 @@ git is already preinstalled in most linux distro
 
 ## Topics And Vulnerability
 1. Git and GitHub 
-2. Shells
-3. Understanding HTTP
-4. Linux Privilege Escalation
-5. Pivoting 
-6. Malware
-7. OSINT
-8. Linux Internals
-9. Windows Internals
-10. Encryption
-11. Tracking Mobile Phone From Personal Laptop (Handson Project)
-12. Android Internals
-13. Networking
-14. Active Directory
-15. Firewall Evasion
-16. Blockchain 
-17. Smart Contracts 
-18. Wireless
-19. ARP 
-20. Process Injection
-21. VPN
-22. CORS (Cross-site request forgery)
-23. Android Debug shell
-24. Containerization
-25. EDR evasion
-26. Learning Assembly Language
-27. Powershell
-28. Windows And Network
-29. Reverse Engineering
-30. Android Hacking
-31. CTF (Capture The Flag)
-32. Same Origin Policy & Cross-Origin Resource Sharing
-33. Reseach (MTN Router)
-34. Side Channel Attack
-35. RTOS (Real Time Operating System)
-36. Threads and Process
-37. Websockets , SSE, Long Polling
-38. DevSecOps
-39. Cryptography
-40. AWS (Cloud )
-41. Malware Development
-42. Exploit Development
-43. Network Security
-44. (User Account Control) UAC Bypass
-45. Windows Priviledge Escalation
-46. Prototype Parameter Polution
-47. Windows Authentication
-48. OAUTH
-49. GRAPHQL
-50. Arduino Rubber Ducky
+
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
