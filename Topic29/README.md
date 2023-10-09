@@ -73,6 +73,14 @@ MOV RAX, qword ptr [0x7FFF0030]
 This means the instruction is fetching a 64-bit (quadword) value from the memory address 0x7FFF0030 and storing it in the RAX register.
 
 
+### ELF BINARY
+
+is a common standard file format for executable files in unix system .
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/1499d412-d85f-4f68-a0b5-1e79e1c77320)
+
+
+
 
 ### Android reverse engineering
 
