@@ -90,7 +90,12 @@ the ".interp" section of the ELF executable contains the location of its require
 
 ![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/a45003d9-8094-4662-85b9-f51b7f8ed2fd)
 
+checking libraries required to run program 
+```
+ldd elf program
+```
 
+ld.so is usually the executable which is prepackaged with glibc that loads shared library for an elf executable during execution for the process to have access to the external function
 
 ### Android reverse engineering
 
