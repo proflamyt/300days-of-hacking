@@ -79,6 +79,16 @@ is a common standard file format for executable files in unix system .
 
 ![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/1499d412-d85f-4f68-a0b5-1e79e1c77320)
 
+an ELF file consists of two sections 
+- ELF header :  32 bytes long starting with 4 unique bytes 0x7F followed by 0x45, 0x4c, and 0x46
+- File data
+
+  ![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/71438ea0-ad14-480b-bc49-8d3ce19e8b7e)
+
+
+the ".interp" section of the ELF executable contains the location of its required loader so as to let the operating system knows which specific loader to use.
+
+![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/a45003d9-8094-4662-85b9-f51b7f8ed2fd)
 
 
 
