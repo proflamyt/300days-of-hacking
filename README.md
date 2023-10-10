@@ -73,5 +73,7 @@ git is already preinstalled in most linux distro
 48. OAUTH
 49. GRAPHQL
 50. Arduino Rubber Ducky
+51. SHODAN Dorking
+52. Hacking Microservice 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
