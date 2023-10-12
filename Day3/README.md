@@ -171,3 +171,21 @@ Once you have developer tools open, click on the "Network" tab. This tab will sh
 all the resources your browser has requested. You can click on each one to receive a detailed
 breakdown of the request and response. If your browser sent a cookie, you will see these on the
 "Cookies" tab of the request.
+
+
+
+# HTTP VERSIONS 
+
+### HTTP/0.9
+This starts the beginning of HTTP Versioning, In  this version of http protocol only one method is available which is the GET request, there were no HTTP headers hence only Html files can be transmitted.
+
+### HTTP/1.0
+The protocol becomes more evolved and the concept of HTTP headers was introduced for both requests and responses. Metadata could be transmitted and the protocol became extremely flexible and extensible. Other documents asides HTML Files can be transmitted
+
+### HTTP/1.1
+Prior to this version, every time a client wants to connect to a server , it has to create new TCP connection request. Upgrade was made with HTTP/1.1 that allows connection reuse , 
+
+
+
+
+reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP
