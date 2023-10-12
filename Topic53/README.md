@@ -1,5 +1,11 @@
 # HTTP request smuggling
 
+
+Two Important Header to Take Note Of:
+
+- Content-Length
+- Transfer-Encoding
+
 ### TE (Transfer Encoding)
 After sending the headers and the Transfer-Encoding: chunked declaration, the server sends the response body in a series of chunks. Each chunk begins with the size of the chunk, in hexadecimal, followed by a CRLF (Carriage Return and Line Feed) sequence.
 Then comes the chunk data, followed by another CRLF. Here's an example of what a chunk might look like:
