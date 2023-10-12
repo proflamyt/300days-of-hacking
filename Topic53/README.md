@@ -1,5 +1,7 @@
 # HTTP request smuggling
 
+This vulnerability Usually Occurs due to disparity between two nodes and and the intended recipient of the HTTP request parses the request it is not supposed to or it does it in a way it is doesnt intend to. This way a request can be smuggled sometimes bypassing checks and sometimes dirupting services.
+
 
 Two Important Header to Take Note Of:
 
@@ -7,6 +9,7 @@ Two Important Header to Take Note Of:
 - Transfer-Encoding
 
 ### TE (Transfer Encoding)
+
 After sending the headers and the Transfer-Encoding: chunked declaration, the server sends the response body in a series of chunks. Each chunk begins with the size of the chunk, in hexadecimal, followed by a CRLF (Carriage Return and Line Feed) sequence.
 Then comes the chunk data, followed by another CRLF. Here's an example of what a chunk might look like:
 ```
