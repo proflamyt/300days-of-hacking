@@ -180,10 +180,11 @@ breakdown of the request and response. If your browser sent a cookie, you will s
 This starts the beginning of HTTP Versioning, In  this version of http protocol only one method is available which is the GET request, there were no HTTP headers hence only Html files can be transmitted.
 
 ### HTTP/1.0
-The protocol becomes more evolved and the concept of HTTP headers was introduced for both requests and responses. Metadata could be transmitted and the protocol became extremely flexible and extensible. Other documents asides HTML Files can be transmitted
-
+The protocol becomes more evolved and the concept of HTTP headers was introduced for both requests and responses. Metadata could be transmitted and the protocol became extremely flexible and extensible. Other documents asides HTML Files can be transmitted.
 ### HTTP/1.1
-Prior to this version, every time a client wants to connect to a server , it has to create new TCP connection request. Upgrade was made with HTTP/1.1 that allows connection reuse , 
+Prior to this version, every time a client wants to connect to a server , it has to create new TCP connection request. Upgrade was made with HTTP/1.1 that allows connection reuse ,  It reduce the connection overhead of having to tear down TCP connections for every HTTP request/response pair. With the version of HTTP, after the initial handshake, request and response can continue without having to close down the connection . To achieve this , the HTTP client has to tell the server about its intention to reuse TCP connection they just established using the HTTP header. They both have to include  
+a Connection header with the value "keep-alive" to indicate their intention to reuse the TCP connection for multiple requests. Until the client or the server indicates they are xplicitly done by issueing a Connection: close header in an HTTP request or response, the connection stays open until timeout.
+
 
 
 
