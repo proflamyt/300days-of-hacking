@@ -198,6 +198,18 @@ Before a HTTP response to a request is complete, HTTP/1.1 supports another reque
 This feature allows server to send a response as a series of "chunks" instead of sending the entire response at once. This encoding method is particularly useful when the server cannot determine the total size of the response in advance or when the response needs to be streamed progressively to the client. 
 
 
+### HTTP/2
+The Http/2 has some improvemts such as :
+
+- It's a binary protocol
+- Parallel requests can be made over the same connection
+-  It compresses headers.
+-  It allows a server to populate data in a client cache through a mechanism called the server push.
+
+### HTTP/3
+This HTTP version use QUIC protocol for data exchange 
+
+
 
 
 reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP
