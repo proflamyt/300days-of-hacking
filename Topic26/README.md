@@ -165,6 +165,7 @@ mov rax, rdx;
 
 ### Part of a register
 
+```plaintext
 +----------------------------------------+
 |                   rax                  |
 +--------------------+-------------------+
@@ -174,6 +175,7 @@ mov rax, rdx;
                                +----+----+
                                | ah | al |
                                +----+----+
+```
 
 ```asm
 mov al, dil; // last 8 bit of rdi
