@@ -133,10 +133,25 @@ Floating point : YMM0 to YMM15,  256-bit wide each and can hold 4 64-bit values 
 
 
 
+================================================================================
+
+solving mx + b
+
+```asm
+imul rdi, rsi;
+add rdi, rdx;
+mov rax, rdi;
+```
 
 
+To Divide, one must first place the value to be devided into register 'rax' , then run the next instruction which is  div [value to devide by]. after division, The quotient is placed in rax, the remainder is placed in rdx.
 
+solving 'rax = rdi / rsi; rdx = remainder'
 
+```asm
+mov rax, rdi;
+div rsi;
+```
 
 
 https://tryhackme.com/room/win64assembly
