@@ -137,13 +137,14 @@ Floating point : YMM0 to YMM15,  256-bit wide each and can hold 4 64-bit values 
 
 solving mx + b
 
+### Multiplication
 ```asm
 imul rdi, rsi;
 add rdi, rdx;
 mov rax, rdi;
 ```
 
-
+### Division 
 To Divide, one must first place the value to be devided into register 'rax' , then run the next instruction which is  div [value to devide by]. after division, The quotient is placed in rax, the remainder is placed in rdx.
 
 solving 'rax = rdi / rsi; rdx = remainder'
@@ -151,6 +152,32 @@ solving 'rax = rdi / rsi; rdx = remainder'
 ```asm
 mov rax, rdi;
 div rsi;
+```
+### modulus
+solving rdi % rsi
+
+```asm
+mov rax, rdi;
+div rsi;
+xor rax, rax;
+mov rax, rdx;
+```
+
+### Part of a register
+
++----------------------------------------+
+|                   rax                  |
++--------------------+-------------------+
+                     |        eax        |
+                     +---------+---------+
+                               |   ax    |
+                               +----+----+
+                               | ah | al |
+                               +----+----+
+
+```asm
+mov al, dil; // last 8 bit of rdi
+mov bx, si; // last 16 bits of rsi
 ```
 
 
