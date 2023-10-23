@@ -177,10 +177,29 @@ mov rax, rdx;
                                +----+----+
 ```
 
+
 ```asm
 mov al, dil; // last 8 bit of rdi
 mov bx, si; // last 16 bits of rsi
 ```
+### Loop
 
+calculate average 
+rdi = memory address of the 1st quad word
+rsi = n (amount to loop for)
+rax = average computed
+
+```asm
+mov rcx, 0;
+
+loop:
+    cmp rsi, rcx;
+    je _end;
+    add rax, [rdi + rcx * 8]
+    inc rcx
+    jmp loop;
+_end:
+    div rsi;
+```
 
 https://tryhackme.com/room/win64assembly
