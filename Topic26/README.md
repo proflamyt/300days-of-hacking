@@ -202,4 +202,17 @@ _end:
     div rsi;
 ```
 
+
+```asm
+Let's use the following instructions as an example:
+0x1021 mov rax, 0x400000
+0x1028 call rax
+0x102a mov [rsi], rax
+
+1. call pushes 0x102a, the address of the next instruction, onto the stack.
+2. call jumps to 0x400000, the value stored in rax.
+The "ret" instruction is the opposite of "call". ret pops the top value off of
+the stack and jumps to it.
+```
+
 https://tryhackme.com/room/win64assembly
