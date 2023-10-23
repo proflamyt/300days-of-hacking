@@ -216,7 +216,7 @@ str_lower(src_addr):
     return i
 ```
 
-```
+```asm
 str_lower:
     mov rcx, 0;
     cmp rdi, 0x0;
