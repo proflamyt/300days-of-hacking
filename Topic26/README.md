@@ -201,7 +201,51 @@ loop:
 _end:
     div rsi;
 ```
+### function call
+c equivalence
 
+```c
+str_lower(src_addr):
+    i = 0
+    if src_addr != 0:
+        while [src_addr] != 0x00:
+            if [src_addr] <= 0x5a:
+                [src_addr] = foo([src_addr])
+                i += 1
+            src_addr += 1
+    return i
+```
+
+```
+str_lower:
+    mov rcx, 0;
+    cmp rdi, 0x0;
+    je .exit;
+    loop:
+        cmp byte ptr [rdi], 0x0;
+        je .exit;
+        cmp byte ptr [rdi], 0x5a
+        jg .inc_src
+        mov r9, 0x403000;
+        mov r10, rdi;
+        xor rdi, rdi;
+        mov dil, [r10]
+        call r9;
+        mov rdi, r10
+        mov [rdi], al
+        inc rcx
+        jmp .inc_src
+
+
+.inc_src:
+    inc rdi;
+    jmp loop
+
+.exit:
+    xor rax, rax;
+    mov rax, rcx
+    ret
+```
 
 ```asm
 Let's use the following instructions as an example:
