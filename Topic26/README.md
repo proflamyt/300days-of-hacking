@@ -165,7 +165,7 @@ mov rax, rdx;
 
 ### Part of a register
 
-
+```plaintext
 =================================================
 %rax         %eax         %ax         %al
 %rcx         %ecx         %cx         %cl
@@ -183,7 +183,7 @@ mov rax, rdx;
 %r13         %r13d        %r13w       %r13b
 %r14         %r14d        %r14w       %r14b
 %r15         %r15d        %r15w       %r15b
-
+```
 
 
 ```plaintext
