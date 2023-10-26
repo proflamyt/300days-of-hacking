@@ -74,6 +74,8 @@ git is already preinstalled in most linux distro
 49. GRAPHQL
 50. Arduino Rubber Ducky
 51. SHODAN Dorking
-52. Hacking Microservice 
+52. Hacking Microservice
+53. HTTP request smuggling
+54. Building Web Server (Assembly)
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
