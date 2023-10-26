@@ -33,7 +33,7 @@ The node that listens is called a server, while that that connects is called the
               |
  ----------------------------
  |        read/write         |
-  ----------------------------
+ -----------------------------
 
 
 ```
