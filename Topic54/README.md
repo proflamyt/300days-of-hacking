@@ -57,6 +57,7 @@ sizeof(my_addr);
 )
 ```
 
+
 ```c
 struct sockaddr_in {
 sa_family_t sa_family;
@@ -64,5 +65,34 @@ in_port_t sin_port
 char sa_data[14]
 }
 ```
+Listening
+
+```c
+int listen (
+int sockfd,
+int backlog
+)
+```
 
 
+# Accepting 
+
+```c
+accept (
+int sockfd,
+(struct sockaddr_in *) &my_addr,
+sizeof(my_addr);
+)
+```
+
+
+
+
+
+
+
+
+
+
+
+references: https://blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/
