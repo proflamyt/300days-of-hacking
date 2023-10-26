@@ -37,6 +37,7 @@ The node that listens is called a server, while that that connects is called the
 
 
 ```
+creating socket
 
 ```c
 int socket (
@@ -44,6 +45,24 @@ int domain,
 type,
 protocol
 )
+```
+
+Binding Socket
+
+```c
+bind(
+sfd,
+(struct sockaddr_in *) &my_addr,
+sizeof(my_addr);
+)
+```
+
+```c
+struct sockaddr_in {
+sa_family_t sa_family;
+in_port_t sin_port
+char sa_data[14]
+}
 ```
 
 
