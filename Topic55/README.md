@@ -3,9 +3,12 @@
 
 ### Commands 
 
-
+0x5654a77a6e41138d
 
 ```
+$ echo "set disassembly-flavor intel" >> ~/.gdbinit
+
+
 # start program and stop at _start
 starti
 
@@ -25,6 +28,20 @@ p/x $rdi (print hex in register rdi)
 
 disass *main
 
+# Examine memory
+
+x/amountType $register #(example : x/gx $rbp-0x18 examine 8bytes in memory address rbp-0x18)
+
+# Step Over Instruction
+
+si # step one intruction at a time
+ni # step one intruction at a time and over function call
+
+# Display
+
+display/8i $rip # Display next 8 instructions
+
+display/4gx $rsp # Display 4 8byte hex values from rsp 
 
 
 ```
