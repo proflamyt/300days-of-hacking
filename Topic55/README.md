@@ -21,5 +21,11 @@ continue | c
 
 p/x $rdi (print hex in register rdi)
 
+# dissassemble portion in memory
+
+disass *main
+
+
+
 ```
 
