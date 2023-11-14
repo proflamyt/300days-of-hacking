@@ -70,8 +70,7 @@ Wifi in this case , is the physical layer in this model. how fast these is sent 
 
 
 
-
-
+IP : https://www.linode.com/docs/guides/how-to-use-the-linux-ip-command/
 
 
 
