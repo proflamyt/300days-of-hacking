@@ -72,7 +72,7 @@ Wifi in this case , is the physical layer in this model. how fast these is sent 
 
 IP : https://www.linode.com/docs/guides/how-to-use-the-linux-ip-command/
 
-
+Scapy cheat sheet : https://wiki.sans.blue/Tools/pdfs/ScapyCheatSheet_v0.2.pdf
 
 
 
