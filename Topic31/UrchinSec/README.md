@@ -49,7 +49,7 @@ Going through the python file, we can see how the rsa key pair was generated
 
 The vulnerable function
 
-```
+```python
 def g_rsa_pair(bit_length):
     p = g_prime(bit_length)
     q = nt.nextprime(p)
@@ -106,7 +106,7 @@ if __name__ == "__main__":
 ### Honey Sea 
 
 
-```
+```python
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 import os
@@ -160,7 +160,7 @@ i.e key = iv + signature
 
 The only issue here is the iv we have has its first two bytes removed. To generate the full iv , we have to bruteforce the first two bytes , given the lenght of the bruteforce is negligible we have nothing to worry about , once the key is derived we just have to decrypt
 
-```
+```py
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 import os
