@@ -72,6 +72,18 @@ get_prime() gets a prime number, p , and q was generated with "q = nt.nextprime(
 
 https://docs.sympy.org/latest/modules/ntheory.html#sympy.ntheory.generate.nextprime. from the above code we can see a prime number after a couple of range was assigned to q. from here we can deduce the diffrence between p and q is negligible 
 
+The RSA encryption and signature algorithm relies on the fact that factorization of large numbers is a hard problem
+
+The security of RSA relies on two prime factors p, q. What we are seeing here is when an implementation could lead to being broken 
+
+Choosing the prime numbers the vulnerability is how the prime numbers are generated, q is the next prime to p , hence really close . This can lead to the public key being broken with Fermat factorization algorithm. 
+
+Fermat the product of two large primes can always be written as N=(a-b)(a+b), with a being the middle between the two primes and b the distance from the middle to each of the primes.
+If the primes are close then a is close to the square root of N. This allows guessing the value a by starting with the square root of N and then incrementing the guess by one each round.
+For each guess we can calculate b^2 = a^2 - N. If the result is a square we know we have guessed a correctly. From this we can calculate p=a+b and q=a-b.
+
+
+
 
 ### Factorizing N using farmat equatiom
 
@@ -101,6 +113,8 @@ if __name__ == "__main__":
 
 
 ```
+Hence our p and q
+
 
 
 ### Honey Sea 
