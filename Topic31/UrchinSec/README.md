@@ -101,3 +101,115 @@ if __name__ == "__main__":
 
 
 ```
+
+
+### Honey Sea 
+
+
+```
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+import os
+import binascii
+
+def generate_key():
+    return os.urandom(16)
+
+def generate_iv():
+    return os.urandom(16)
+
+def encrypt_flag(flag, key, iv):
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+    encrypted = cipher.encrypt(pad(flag.encode(), 16))
+    return encrypted
+
+def generate_signature(iv, key):
+    signature_bytes = [a ^ b for a, b in zip(iv, key[::-1])]
+    signature_hex = binascii.hexlify(bytearray(signature_bytes)).decode()
+    return signature_hex
+
+def encrypt_flag_with_signature(flag, key, iv):
+    encrypted_data = encrypt_flag(flag, key, iv)
+    signature = generate_signature(iv, key)
+    iv_hex = iv.hex()[4:] 
+    encrypted_hex = encrypted_data.hex()
+    ciphertext = iv_hex + encrypted_hex + signature
+    return {"cipher": ciphertext}
+
+def main():
+    FLAG = "urchinsec{Fake_Flag}"
+    KEY = generate_key()
+    IV = generate_iv()
+
+    encrypted_flag = encrypt_flag_with_signature(FLAG, KEY, IV)
+    print(encrypted_flag)
+
+if __name__ == "__main__":
+    main()
+
+```
+
+Walking back, we can see the "encrypt_flag_with_signature() takes in the flag, key and randomly generated iv and produce a ciphertext which contains the "iv_hex + encrypted_hex + signature" . The vulnerability arise from how the signature;
+
+signature = iv + key
+
+To generate the key, we just have to xor the signature and the IV that was given with the ciphertext. 
+
+i.e key = iv + signature
+
+
+The only issue here is the iv we have has its first two bytes removed. To generate the full iv , we have to bruteforce the first two bytes , given the lenght of the bruteforce is negligible we have nothing to worry about , once the key is derived we just have to decrypt
+
+```
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+import os
+import binascii
+import itertools
+
+
+ciphertext = '888fb84744ea0ea84165cf6418b07bd829cc2a695e7d5bb4acdae1179bac51f02486993c80c028b3350029c171819ad9166b78e998c87be7233a302b83f0ebe67f4684682c4b3798f42587173965'
+
+
+iv = ciphertext[:28]
+
+
+signature = ciphertext[-32:]
+
+
+encrypted = ciphertext[28:len(ciphertext)-32]
+
+assert(iv+encrypted+signature==ciphertext)
+
+
+byte_values = [format(i, '02X') for i in range(256)]
+
+
+def generate_signature(iv, signature):
+    signature_bytes = bytes(bytearray([a ^ b for a, b in zip(iv, signature)]))
+    
+    return signature_bytes[::-1]
+
+
+combinations = itertools.product(byte_values, repeat=2)
+
+result = [''.join(combination) for combination in combinations]
+
+for num in result:
+	iv_bytes = bytes.fromhex(num + iv)
+	signature_bytes = binascii.unhexlify(signature)
+
+	key = generate_signature(iv_bytes, signature_bytes)
+	
+	cipher = AES.new(key, AES.MODE_CBC, iv_bytes)
+	encrypted_flag = bytes.fromhex(encrypted)
+	try:
+		decrypted = unpad(cipher.decrypt(encrypted_flag), 16)
+		if b"urchinsec" in decrypted:
+			print(key)
+			print(decrypted.decode())
+	except:
+		continue
+
+```
+
