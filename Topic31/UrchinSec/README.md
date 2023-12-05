@@ -1,8 +1,10 @@
 # UrchinSec CTF
 
-### By Polar RSA 
+### Challenge - By Polar RSA 
+#### Points: 250
 
-A python file and a ciphertext was given, The challenge wants the ciphertext to be decrypted.
+A python file and a file containing the ciphertext were provided. The python code shows how the encryption that produced the ciphertext was done. There are 3 functions , The first generates a prime number, the second function (g_rsa_pair) generates the key pair given a key size, that last function does the encryption
+
 
 ```python
 from Crypto.Util.number import getPrime as gp , bytes_to_long as btl
@@ -45,9 +47,8 @@ print(f"cipher: {ciphertext}")
 ```
 
 
-Going through the python file, we can see how the rsa key pair was generated 
+Examining the Python file, our attention can be directed towards the process of generating the RSA key pair.
 
-The vulnerable function
 
 ```python
 def g_rsa_pair(bit_length):
@@ -65,24 +66,15 @@ def g_rsa_pair(bit_length):
     return public_key, private_key # N, e     N,d
 
 ```
+Let's delve into the generation process of p and q:
 
-Lets look at how p and q was generated 
+The get_prime() function is utilized to obtain a prime number, p. Subsequently, q is generated through the expression "q = nt.nextprime(p)", Reading the library documentation of nextprime function (<a href="https://docs.sympy.org/latest/modules/ntheory.html#sympy.ntheory.generate.nextprime">here</a>), It says the function generates the next prime number greater than the argunment given to it, as p was the argument given to it, we can see that the next couple of prime numbers after p was assigned to q. from here we can deduce the diffrence between p and q is negligible.
 
-get_prime() gets a prime number, p , and q was generated with "q = nt.nextprime(p)".  from the documentation the nextprime function generates the next prime number greater than the argunment given to it 
+Now, where is the problem in that, RSA encryption algorithm relies on the fact that factorization of large numbers is a very hard problem. In our own case, two prime numbers were chosen p, q, the multiplication of both numbers will be made publicly assessible, N=p*q, the security of this encryption algorithm is the fact that given N, a user will find it impossible to generate p and q without bruteforcing. However, vulnerable implementations of this could lead to it being broken, one of the occurence is in situations where p and q are really close as in our case here, This can lead to the public key being broken with Fermat factorization algorithm. 
 
-https://docs.sympy.org/latest/modules/ntheory.html#sympy.ntheory.generate.nextprime. from the above code we can see a prime number after a couple of range was assigned to q. from here we can deduce the diffrence between p and q is negligible 
-
-The RSA encryption and signature algorithm relies on the fact that factorization of large numbers is a hard problem
-
-The security of RSA relies on two prime factors p, q. What we are seeing here is when an implementation could lead to being broken 
-
-Choosing the prime numbers the vulnerability is how the prime numbers are generated, q is the next prime to p , hence really close . This can lead to the public key being broken with Fermat factorization algorithm. 
-
-Fermat the product of two large primes can always be written as N=(a-b)(a+b), with a being the middle between the two primes and b the distance from the middle to each of the primes.
+Fermat says the product of two large primes can always be written as N=(a-b)(a+b), with a being the middle between the two primes and b the distance from the middle to each of the primes.
 If the primes are close then a is close to the square root of N. This allows guessing the value a by starting with the square root of N and then incrementing the guess by one each round.
-For each guess we can calculate b^2 = a^2 - N. If the result is a square we know we have guessed a correctly. From this we can calculate p=a+b and q=a-b.
-
-
+For each guess we can calculate b^2 = a^2 - N. If the result is a square we know we have guessed a correctly. From this we can calculate p=a+b and q=a-b. Hence get back p and q.
 
 
 ### Factorizing N using farmat equatiom
