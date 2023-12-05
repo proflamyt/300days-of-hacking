@@ -213,3 +213,85 @@ for num in result:
 
 ```
 
+
+
+## SANTAZIP
+
+```python
+zip_object = SantaZip("flag.txt", "flag.zip", password)
+zip_object.generate_zip_file()
+```
+
+```python
+
+from Crypto.Cipher import AES
+from Crypto.Protocol.KDF import PBKDF2
+from Crypto.Random import get_random_bytes
+import zlib
+import struct
+import gzip
+
+class SantaZip(object):
+    def __init__(self, file_to_zip, zip_output, password):
+        self.file_to_zip = file_to_zip
+        self.zip_output = zip_output
+        self.password = password
+
+    def generate_zip_file(self):
+        try:
+            password = self.password
+            salt = get_random_bytes(16)
+            iv = get_random_bytes(16)
+            key = PBKDF2(password, salt, dkLen=32, count=1000000)
+
+            cipher = AES.new(key, AES.MODE_CBC, iv)
+            with open(self.file_to_zip, "rb") as input_file:
+                plaintext = input_file.read()
+
+            compressed_data = zlib.compress(plaintext)
+
+
+            padded_data = compressed_data + b' ' * (16 - len(compressed_data) % 16)
+            ciphertext = cipher.encrypt(padded_data)
+
+            with open(self.zip_output, "wb") as output_file:
+                output_file.write(salt)
+                output_file.write(iv)
+                output_file.write(ciphertext)
+            
+            return f"{self.file_to_zip} is zipped into {self.zip_output}"
+        except Exception as e:
+            return f"Error : {e}"
+
+```
+
+To solve this challenge we have to understand how the python program is generating its zip, this way we can reverse the algorithm and solve the challenge. 
+First, a salt of 16bytes was generated , then an initialization vector of 16 bytes was also generated , after which a password hash of 32 bytes was generated with the a key supplied by the user who generated the hash . The algorithm proceeded to encrypt the padded compressed input file with AES CBC, and finally write the salt, iv and ciphertext into a file.
+
+
+
+```python
+    def decrypt_zip_file(self):
+
+ 
+        with open(self.zip_output, "rb") as input_f:
+            out = input_f.read()
+
+        with open(self.zip_output, "rb") as input_file:
+            salt = input_file.read(16)
+            iv = input_file.read(16)
+            ciphertext = input_file.read()
+
+        
+
+        key = PBKDF2(self.password, salt, dkLen=32, count=1000000)
+
+        
+
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+
+        plain_padded = cipher.decrypt(ciphertext).strip(b" ")
+
+        return zlib.decompress(plain_padded)
+```
+To reverse the algorithm, we have to extract the salt, iv and ciphertext in the order it was written to the file. then we have to generate the key(pass hash) from the password with the salt we extracted from file , after which we decrypt the file and strip the padded space and decompress
