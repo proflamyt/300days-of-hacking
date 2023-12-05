@@ -1,6 +1,7 @@
 # UrchinSec CTF
 
-### Challenge - By Polar RSA 
+
+## 1. Challenge - By Polar RSA 
 #### Points: 250
 
 A python file and a file containing the ciphertext were provided. The python code shows how the encryption that produced the ciphertext was done. There are 3 functions , The first generates a prime number, the second function (g_rsa_pair) generates the key pair given a key size, that last function does the encryption
@@ -109,8 +110,11 @@ Hence our p and q
 
 
 
-### Honey Sea 
+## 2. Challenge -Honey Sea
+#### Points: 250
 
+
+The python code given shows how the ciphertext encryption was implemented, it shows the key and iv generated randomly and the flag encrypted. the ciphertext was written to a file alongside the IV and the signature
 
 ```python
 from Crypto.Cipher import AES
@@ -155,7 +159,8 @@ if __name__ == "__main__":
 
 ```
 
-Walking back, we can see the "encrypt_flag_with_signature() takes in the flag, key and randomly generated iv and produce a ciphertext which contains the "iv_hex + encrypted_hex + signature" . The vulnerability arise from how the signature;
+Walking back, we can see the "encrypt_flag_with_signature() takes in three argument the flag, key and randomly generated iv and produce a ciphertext which contains the "iv_hex + encrypted_hex + signature" . The vulnerability in this code arise from how the signature was generated, the signature is the xor of the IV and the key, two of which were provided in the ciphertext.
+
 
 signature = iv + key
 
@@ -164,7 +169,7 @@ To generate the key, we just have to xor the signature and the IV that was given
 i.e key = iv + signature
 
 
-The only issue here is the iv we have has its first two bytes removed. To generate the full iv , we have to bruteforce the first two bytes , given the lenght of the bruteforce is negligible we have nothing to worry about , once the key is derived we just have to decrypt
+The only issue here is the IV we have has its first two bytes removed. To generate the full IV , we have to bruteforce the first two bytes , given the lenght of the bruteforce is negligible we have nothing to worry about and once the key is derived we just have to decrypt
 
 ```py
 from Crypto.Cipher import AES
@@ -221,7 +226,7 @@ for num in result:
 
 
 
-## SANTAZIP
+## 3. SANTAZIP
 
 ```python
 zip_object = SantaZip("flag.txt", "flag.zip", password)
