@@ -6,7 +6,7 @@
 
 A python file and a file containing the ciphertext were provided.
 
-The python code shows how the encryption was done. There are 3 functions as shown below, The first generates a prime number, the second function (g_rsa_pair) generates the key pair given a key size, and the last function does the encryption.
+The python code shows how the encryption was done. There are 3 functions as shown below, The first fuction generates a prime number, the second function (g_rsa_pair) generates the key pair given a key size, and the last function does the encryption.
 
 
 ```python
@@ -74,7 +74,7 @@ Looking closely at the generation process of p and q:
 
 The get_prime() function is utilized to obtain a prime number, p. Subsequently, q is generated through the expression "q = nt.nextprime(p)", Reading the library documentation of nextprime function (<a href="https://docs.sympy.org/latest/modules/ntheory.html#sympy.ntheory.generate.nextprime">here</a>), It says the function generates the next prime number greater than the argunment given to it, as p was the argument supplied to it, we can see that the next couple of prime numbers after p was assigned to q. from here we can deduce that the diffrence between p and q is negligible.
 
-Now, where is the problem in that you may ask, RSA encryption algorithm relies on the fact that factorization of large numbers is a very hard problem. In our own case, two prime numbers were chosen p, q, the multiplication of both numbers was made publicly assessible, N=p*q, the security of this encryption algorithm is the fact that given N, we will find it impossible to generate p and q without bruteforcing a large bit space. However, vulnerable implementations of this could lead to it being broken, one of the occurence is in situations where p and q are really close as in our case here, This can lead to the public key being broken with Fermat factorization algorithm. 
+Now, where is the problem in that you may ask? RSA encryption algorithm relies on the fact that factorization of large numbers is a very hard problem. In our own case, two prime numbers were chosen p, q, the multiplication of both numbers was made publicly assessible, N=p*q, the security of this encryption algorithm is the fact that given N, we will find it impossible to generate p and q without bruteforcing a large bit space. However, vulnerable implementations of this could lead to it being broken, one of the occurence is in situations where p and q are really close as in our case here, This can lead to the public key being broken with Fermat factorization algorithm. 
 
 Lets look at fermat method of factorizing N, Fermat says the product of two large primes can always be written as N=(a-b)(a+b), with a being the middle between the two primes and b the distance from the middle to each of the primes.
 If the primes are close then a is close to the square root of N. This allows guessing the value a by starting with the square root of N and then incrementing the guess by one each round.
@@ -177,8 +177,8 @@ if __name__ == "__main__":
 
 #### **Solution :**
 
-Walking back,  can see the "encrypt_flag_with_signature() takes in three argument the flag, key and randomly generated iv. the encryption function produced a ciphertext which was written as the combination of  "iv_hex + encrypted_hex + signature". 
-The vulnerability in this code arise from how the signature was generated, as the signature is the xor of the IV and the key, two of which were provided in the ciphertext.
+Walking back,  we can see the "encrypt_flag_with_signature()" takes in three arguments: The flag, Key and the Randomly generated IV. The encryption function produced a ciphertext which was written as the combination of  "iv_hex + encrypted_hex + signature". 
+The vulnerability in this code arises from how the signature was generated, as the signature is the XOR of the IV and the key, two of which were provided in the ciphertext.
 
 since,
 
@@ -196,7 +196,7 @@ The only issue here is the IV we have has its first two bytes removed on this li
 iv_hex = iv.hex()[4:]
 ```
 
-To generate the full IV, i had to bruteforce the first two bytes, given the lenght of the bruteforce is negligible we have nothing to worry about. Now to decryption, First i extracted the IV, signature and encrypted flag, then generated the key by xoring the iv with the signature while bruteforcing the first two bytes and checking if it decrypts the flag.
+To generate the full IV, I had to bruteforce the first two bytes, given the lenght of the bruteforce is negligible we have nothing to worry about. Now to decryption, First I extracted the IV, signature and encrypted flag, then generated the key by xoring the IV with the signature while bruteforcing the first two bytes and checking if it decrypts the flag.
 
 ```py
 from Crypto.Cipher import AES
@@ -318,9 +318,9 @@ class SantaZip(object):
 
 
 To solve this challenge we have to understand how the python program generated its zip, this way we can reverse the algorithm and solve the challenge. 
-First, a salt of 16bytes was generated , then a random  initialization vector of 16 bytes was also generated, after which a password hash of 32 bytes was generated with the a key supplied by the user who generated the hash. The algorithm proceeded to encrypt the padded compressed input file with AES CBC, and finally write the salt, iv and ciphertext into a file.
+First a salt of 16bytes was generated, then a random  initialization vector of 16 bytes was also generated, after which a password hash of 32 bytes was generated with the a key supplied by the user who generated the hash. The algorithm proceeded to encrypt the padded compressed input file with AES CBC, and finally write the Salt, IV and Ciphertext into a file.
 
-Reversing this, first i had to read the bytes in the order of how they were written to the file , then i had to generate the key(pass hash) from the password with the salt i extracted from file , after which i decrypted the file and striped the padded space before decompressing with zlib
+Reversing this, I began by reading the bytes in the sequence they were originally written to the file, then I had to generate the key(pass hash) from the password with the salt I extracted from file, after which I decrypted the file and striped the padded space before decompressing with zlib.
 
 ```python
     def decrypt_zip_file(self):
@@ -344,7 +344,7 @@ Reversing this, first i had to read the bytes in the order of how they were writ
         return zlib.decompress(plain_padded)
 ```
 
-The issue here is there was no password given with the challenge file, had to stuggle with that a little bit until an hint was given to check "rockyou.txt", a file with millions of password dictionary.
+The issue here is there was no password given with the challenge file, I faced some difficulties until a hint directed me to inspect "rockyou.txt," a file containing a vast dictionary of millions of passwords.
 
 
 ```py
