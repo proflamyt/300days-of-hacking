@@ -48,8 +48,8 @@ print(f"n: {public_key[0]}")
 print(f"e: {public_key[1]}")
 print(f"cipher: {ciphertext}")
 ```
-
-Solution :
+**
+Solution :**
 
 Examining the Python file, my attention was directed towards the process of generating the RSA key pair.
 
@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
 ```
 
-Solution: 
+**Solution: **
 
 Walking back, we can see the "encrypt_flag_with_signature() takes in three argument the flag, key and randomly generated iv. the encryption function produced a ciphertext which was written as the combination of  "iv_hex + encrypted_hex + signature". 
 The vulnerability in this code arise from how the signature was generated, as the signature is the xor of the IV and the key, two of which were provided in the ciphertext.
@@ -305,7 +305,7 @@ class SantaZip(object):
 
 ```
 
-Solution : 
+**Solution : **
 
 
 To solve this challenge we have to understand how the python program generated its zip, this way we can reverse the algorithm and solve the challenge. 
@@ -335,7 +335,7 @@ Reversing this, first i had to read the bytes in the order of how they were writ
         return zlib.decompress(plain_padded)
 ```
 
-The issue here is there was no password given with the challenge file, had to stuggle with that a little bit until an hint was given to check "rockyou.txt" a file with millions of password dictionary
+The issue here is there was no password given with the challenge file, had to stuggle with that a little bit until an hint was given to check "rockyou.txt", a file with millions of password dictionary.
 
 
 ```py
@@ -359,11 +359,6 @@ def brute_force_attack(wordlist_path):
 
                 # print(zip_object.generate_zip_file())
 
-
-brute_force_attack("/usr/share/wordlists/rockyou.txt")
-
-
-				# print(zip_object.generate_zip_file())
 
 brute_force_attack("/usr/share/wordlists/rockyou.txt")
 
