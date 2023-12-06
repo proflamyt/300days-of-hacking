@@ -2,7 +2,7 @@
 
 
 ## 1. Challenge - By Polar RSA 
-#### Points: 250
+##### Points: 250
 
 A python file and a file containing the ciphertext were provided.
 
@@ -48,8 +48,8 @@ print(f"n: {public_key[0]}")
 print(f"e: {public_key[1]}")
 print(f"cipher: {ciphertext}")
 ```
-**
-Solution :**
+
+#### **Solution :**
 
 Examining the Python file, my attention was directed towards the process of generating the RSA key pair.
 
@@ -123,7 +123,7 @@ dec = pow(cipher, d , e)
 
 
 ## 2. Challenge -Honey Sea
-#### Points: 250
+##### Points: 250
 
 
 The python code given shows how the ciphertext encryption was implemented, it shows the key and iv generated randomly and the flag encrypted. the ciphertext was written to a file alongside the IV and the signature
@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
 ```
 
-**Solution: **
+#### **Solution :**
 
 Walking back, we can see the "encrypt_flag_with_signature() takes in three argument the flag, key and randomly generated iv. the encryption function produced a ciphertext which was written as the combination of  "iv_hex + encrypted_hex + signature". 
 The vulnerability in this code arise from how the signature was generated, as the signature is the xor of the IV and the key, two of which were provided in the ciphertext.
@@ -251,7 +251,7 @@ for num in result:
 
 
 ## 3. SANTAZIP
-#### Points: 500
+##### Points: 500
 
 file provided: flag.zip
 
@@ -305,7 +305,7 @@ class SantaZip(object):
 
 ```
 
-**Solution : **
+#### **Solution :**
 
 
 To solve this challenge we have to understand how the python program generated its zip, this way we can reverse the algorithm and solve the challenge. 
