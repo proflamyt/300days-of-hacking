@@ -4,7 +4,9 @@
 ## 1. Challenge - By Polar RSA 
 #### Points: 250
 
-A python file and a file containing the ciphertext were provided. The python code shows how the encryption that produced the ciphertext was done. There are 3 functions , The first generates a prime number, the second function (g_rsa_pair) generates the key pair given a key size, that last function does the encryption
+A python file and a file containing the ciphertext were provided.
+
+The python code shows how the encryption was done. There are 3 functions as shown below, The first generates a prime number, the second function (g_rsa_pair) generates the key pair given a key size, and the last function does the encryption.
 
 
 ```python
@@ -47,8 +49,9 @@ print(f"e: {public_key[1]}")
 print(f"cipher: {ciphertext}")
 ```
 
+Solution :
 
-Examining the Python file, our attention can be directed towards the process of generating the RSA key pair.
+Examining the Python file, my attention was directed towards the process of generating the RSA key pair.
 
 
 ```python
@@ -67,20 +70,20 @@ def g_rsa_pair(bit_length):
     return public_key, private_key # N, e     N,d
 
 ```
-Let's delve into the generation process of p and q:
+Looking closely at the generation process of p and q:
 
-The get_prime() function is utilized to obtain a prime number, p. Subsequently, q is generated through the expression "q = nt.nextprime(p)", Reading the library documentation of nextprime function (<a href="https://docs.sympy.org/latest/modules/ntheory.html#sympy.ntheory.generate.nextprime">here</a>), It says the function generates the next prime number greater than the argunment given to it, as p was the argument given to it, we can see that the next couple of prime numbers after p was assigned to q. from here we can deduce the diffrence between p and q is negligible.
+The get_prime() function is utilized to obtain a prime number, p. Subsequently, q is generated through the expression "q = nt.nextprime(p)", Reading the library documentation of nextprime function (<a href="https://docs.sympy.org/latest/modules/ntheory.html#sympy.ntheory.generate.nextprime">here</a>), It says the function generates the next prime number greater than the argunment given to it, as p was the argument supplied to it, we can see that the next couple of prime numbers after p was assigned to q. from here we can deduce that the diffrence between p and q is negligible.
 
-Now, where is the problem in that, RSA encryption algorithm relies on the fact that factorization of large numbers is a very hard problem. In our own case, two prime numbers were chosen p, q, the multiplication of both numbers will be made publicly assessible, N=p*q, the security of this encryption algorithm is the fact that given N, a user will find it impossible to generate p and q without bruteforcing. However, vulnerable implementations of this could lead to it being broken, one of the occurence is in situations where p and q are really close as in our case here, This can lead to the public key being broken with Fermat factorization algorithm. 
+Now, where is the problem in that you may ask, RSA encryption algorithm relies on the fact that factorization of large numbers is a very hard problem. In our own case, two prime numbers were chosen p, q, the multiplication of both numbers was made publicly assessible, N=p*q, the security of this encryption algorithm is the fact that given N, we will find it impossible to generate p and q without bruteforcing a large bit space. However, vulnerable implementations of this could lead to it being broken, one of the occurence is in situations where p and q are really close as in our case here, This can lead to the public key being broken with Fermat factorization algorithm. 
 
-Fermat says the product of two large primes can always be written as N=(a-b)(a+b), with a being the middle between the two primes and b the distance from the middle to each of the primes.
+Lets look at fermat method of factorizing N, Fermat says the product of two large primes can always be written as N=(a-b)(a+b), with a being the middle between the two primes and b the distance from the middle to each of the primes.
 If the primes are close then a is close to the square root of N. This allows guessing the value a by starting with the square root of N and then incrementing the guess by one each round.
 For each guess we can calculate b^2 = a^2 - N. If the result is a square we know we have guessed a correctly. From this we can calculate p=a+b and q=a-b. Hence get back p and q.
 
 
 ### Factorizing N using farmat equatiom
 
-```
+```py
 import gmpy2
 
 N = 13660434380581469341975259828359442143257638335184201302273368295115642264434078009719568658893902099636280367748794936198883121916566759980319478068451889149773226303724397129080256671084001239425357663205345604232700769511136087038814886708523857954047161710079081105648157438922135347302268392557280337962501293170357378150549402374842219641781167567899043267569898951833055690878240668548807574813621152068811079565478546974052540054707402886449015640286146318337170863094022162781259688095263640720121736648132174258723707789668493418719055328110579315482197651253358684859047225130074022770557785786256404214699
@@ -106,7 +109,16 @@ if __name__ == "__main__":
 
 
 ```
-Hence our p and q
+Hence our p and q, after which we can do the decryption as:
+
+
+```py
+cipher = 999999
+d = (p-1)(q-1)
+e = 65537
+dec = pow(cipher, d , e)
+
+```
 
 
 
@@ -159,8 +171,12 @@ if __name__ == "__main__":
 
 ```
 
-Walking back, we can see the "encrypt_flag_with_signature() takes in three argument the flag, key and randomly generated iv and produce a ciphertext which contains the "iv_hex + encrypted_hex + signature" . The vulnerability in this code arise from how the signature was generated, the signature is the xor of the IV and the key, two of which were provided in the ciphertext.
+Solution: 
 
+Walking back, we can see the "encrypt_flag_with_signature() takes in three argument the flag, key and randomly generated iv. the encryption function produced a ciphertext which was written as the combination of  "iv_hex + encrypted_hex + signature". 
+The vulnerability in this code arise from how the signature was generated, as the signature is the xor of the IV and the key, two of which were provided in the ciphertext.
+
+since,
 
 signature = iv + key
 
@@ -168,8 +184,15 @@ To generate the key, we just have to xor the signature and the IV that was given
 
 i.e key = iv + signature
 
+Once the key is generated, we can easily decrypt the ciphertext
 
-The only issue here is the IV we have has its first two bytes removed. To generate the full IV , we have to bruteforce the first two bytes , given the lenght of the bruteforce is negligible we have nothing to worry about and once the key is derived we just have to decrypt
+The only issue here is the IV we have has its first two bytes removed on this line. 
+
+```py
+	iv_hex = iv.hex()[4:]
+```
+
+To generate the full IV, we have to bruteforce the first two bytes, given the lenght of the bruteforce is negligible we have nothing to worry about. Now to decryption, First i extracted the IV, signature and encrypted flag, then generated the key by xoring the iv with the signature while bruteforcing the first two bytes and checking if it decrypts the flag.
 
 ```py
 from Crypto.Cipher import AES
@@ -226,7 +249,13 @@ for num in result:
 
 
 
+
 ## 3. SANTAZIP
+#### Points: 500
+
+file provided: flag.zip
+
+Python code provided :
 
 ```python
 zip_object = SantaZip("flag.txt", "flag.zip", password)
@@ -276,17 +305,17 @@ class SantaZip(object):
 
 ```
 
-To solve this challenge we have to understand how the python program is generating its zip, this way we can reverse the algorithm and solve the challenge. 
-First, a salt of 16bytes was generated , then an initialization vector of 16 bytes was also generated , after which a password hash of 32 bytes was generated with the a key supplied by the user who generated the hash . The algorithm proceeded to encrypt the padded compressed input file with AES CBC, and finally write the salt, iv and ciphertext into a file.
+Solution : 
 
 
+To solve this challenge we have to understand how the python program generated its zip, this way we can reverse the algorithm and solve the challenge. 
+First, a salt of 16bytes was generated , then a random  initialization vector of 16 bytes was also generated, after which a password hash of 32 bytes was generated with the a key supplied by the user who generated the hash. The algorithm proceeded to encrypt the padded compressed input file with AES CBC, and finally write the salt, iv and ciphertext into a file.
+
+Reversing this, first i had to read the bytes in the order of how they were written to the file , then i had to generate the key(pass hash) from the password with the salt we extracted from file , after which i decrypted the file and striped the padded space before decompressing with zlib
 
 ```python
     def decrypt_zip_file(self):
 
- 
-        with open(self.zip_output, "rb") as input_f:
-            out = input_f.read()
 
         with open(self.zip_output, "rb") as input_file:
             salt = input_file.read(16)
@@ -305,4 +334,37 @@ First, a salt of 16bytes was generated , then an initialization vector of 16 byt
 
         return zlib.decompress(plain_padded)
 ```
-To reverse the algorithm, we have to extract the salt, iv and ciphertext in the order it was written to the file. then we have to generate the key(pass hash) from the password with the salt we extracted from file , after which we decrypt the file and strip the padded space and decompress
+
+The issue here is there was no password given with the challenge file, had to stuggle with that a little bit until an hint was given to check "rockyou.txt" a file with millions of password dictionary
+
+
+```py
+
+def brute_force_attack(wordlist_path):
+
+    with open(wordlist_path, "r") as wordlist:
+
+        for password in wordlist:
+
+            password = password.strip()
+
+            zip_object = SantaZip("flag.txt", "flag.zip", password)
+
+            try:
+
+                print(zip_object.decrypt_zip_file())
+            except Exception as e:
+                
+                continue
+
+                # print(zip_object.generate_zip_file())
+
+
+brute_force_attack("/usr/share/wordlists/rockyou.txt")
+
+
+				# print(zip_object.generate_zip_file())
+
+brute_force_attack("/usr/share/wordlists/rockyou.txt")
+
+```
