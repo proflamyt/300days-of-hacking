@@ -109,7 +109,7 @@ if __name__ == "__main__":
 
 
 ```
-Hence our p and q, after which we can do the decryption as:
+Hence our p and q, after which  can do the decryption as:
 
 
 ```py
@@ -173,7 +173,7 @@ if __name__ == "__main__":
 
 #### **Solution :**
 
-Walking back, we can see the "encrypt_flag_with_signature() takes in three argument the flag, key and randomly generated iv. the encryption function produced a ciphertext which was written as the combination of  "iv_hex + encrypted_hex + signature". 
+Walking back,  can see the "encrypt_flag_with_signature() takes in three argument the flag, key and randomly generated iv. the encryption function produced a ciphertext which was written as the combination of  "iv_hex + encrypted_hex + signature". 
 The vulnerability in this code arise from how the signature was generated, as the signature is the xor of the IV and the key, two of which were provided in the ciphertext.
 
 since,
@@ -189,10 +189,10 @@ Once the key is generated, we can easily decrypt the ciphertext
 The only issue here is the IV we have has its first two bytes removed on this line. 
 
 ```py
-	iv_hex = iv.hex()[4:]
+iv_hex = iv.hex()[4:]
 ```
 
-To generate the full IV, we have to bruteforce the first two bytes, given the lenght of the bruteforce is negligible we have nothing to worry about. Now to decryption, First i extracted the IV, signature and encrypted flag, then generated the key by xoring the iv with the signature while bruteforcing the first two bytes and checking if it decrypts the flag.
+To generate the full IV, i had to bruteforce the first two bytes, given the lenght of the bruteforce is negligible we have nothing to worry about. Now to decryption, First i extracted the IV, signature and encrypted flag, then generated the key by xoring the iv with the signature while bruteforcing the first two bytes and checking if it decrypts the flag.
 
 ```py
 from Crypto.Cipher import AES
@@ -311,7 +311,7 @@ class SantaZip(object):
 To solve this challenge we have to understand how the python program generated its zip, this way we can reverse the algorithm and solve the challenge. 
 First, a salt of 16bytes was generated , then a random  initialization vector of 16 bytes was also generated, after which a password hash of 32 bytes was generated with the a key supplied by the user who generated the hash. The algorithm proceeded to encrypt the padded compressed input file with AES CBC, and finally write the salt, iv and ciphertext into a file.
 
-Reversing this, first i had to read the bytes in the order of how they were written to the file , then i had to generate the key(pass hash) from the password with the salt we extracted from file , after which i decrypted the file and striped the padded space before decompressing with zlib
+Reversing this, first i had to read the bytes in the order of how they were written to the file , then i had to generate the key(pass hash) from the password with the salt i extracted from file , after which i decrypted the file and striped the padded space before decompressing with zlib
 
 ```python
     def decrypt_zip_file(self):
