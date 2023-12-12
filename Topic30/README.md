@@ -158,3 +158,21 @@ access value
 ```js
 <classname>.<function>.value 
 ```
+
+
+```js
+
+Java.performNow(function(){
+
+Java.choose('com.<classname>.<function>.MainActivity', {
+
+  onMatch: function(instance) {
+   console.log("Instance found");
+  },
+  onComplete: function() {}
+  
+});
+
+});
+
+```
