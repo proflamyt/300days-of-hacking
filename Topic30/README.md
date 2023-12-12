@@ -28,6 +28,7 @@
 
 
 ## Static Analysis
+
  ### TODO
 
 ### Understanding Dalvik,  ### TODO
@@ -81,14 +82,37 @@ adb shell
 adb shell getprop ro.product.cpu.abi # get device architecture
 ```
 
-## Dynamic Analysis
+## Dynamic Analysis Using Frida
+
+Modify or observe the behaviour of an application during runtime.
+
+
+
+Install frida-client on your PC with
+
+```
+pip install frida-tools
+
+```
+
+Install Frida Server on mobile based on the architechture of the mobile device 
+
+
+download server release here > "https://github.com/frida/frida/releases"
+
 
  ### Frida
  
- list all the installed applications in the device along with their process 
+ list all the installed applications in the device along with their process ID and identifier.
  
  ```
  frida-ps -Uai
+ ```
+
+attach frida to application by specifying the identifier
+
+ ```
+ frida -U -f  <application identifier>
  ```
  
  connect to application on device on default port 
