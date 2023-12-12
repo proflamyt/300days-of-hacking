@@ -124,4 +124,30 @@ attach frida to application by specifying the identifier
  ```
  
  
- ### TODO
+ ### FRIDA SCRIPTS
+
+Javascript codes to change behavior of methods in runtime 
+ ```js
+
+Java.perform(function (){
+
+// implementations here ..
+
+})
+ ```
+
+change function implementation
+
+```js
+<classname>.<function>.implementation = function(){
+    
+}
+
+```
+
+overload function 
+
+```js
+<classname>.<function>.overload('int', 'int').implementation = function(a,b){ 
+}
+```
