@@ -151,3 +151,10 @@ overload function
 <classname>.<function>.overload('int', 'int').implementation = function(a,b){ 
 }
 ```
+
+
+access value 
+
+```js
+<classname>.<function>.value 
+```
