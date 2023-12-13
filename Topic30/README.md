@@ -170,9 +170,40 @@ Java.choose('com.<classname>.<function>.MainActivity', {
    console.log("Instance found");
   },
   onComplete: function() {}
-  
+
 });
 
 });
+
+```
+
+
+To hook native functions, we can use the Interceptor API. Now, let's see the template for this.
+
+```js
+Interceptor.attach(targetAddress, {
+    onEnter: function (args) {
+        console.log('Entering ' + functionName);
+        // Modify or log arguments if needed
+    },
+    onLeave: function (retval) {
+        console.log('Leaving ' + functionName);
+        // Modify or log return value if needed
+    }
+});
+
+
+```
+
+Get Target Address
+
+```js
+Module.getBaseAddress("libraryname.so");
+
+Module.enumerateExports("libraryname.so");
+
+Module.enumerateImports("libfrida0x8.so");
+
+Module.findExportByName("libc.so", "strcmp");
 
 ```
