@@ -208,4 +208,16 @@ Module.findExportByName("libc.so", "strcmp");
 
 ```
 
+Calling Native function
 
+```js
+
+var native_adr = new NativePointer(<address_of_the_native_function>);
+const native_function = new NativeFunction(native_adr, '<return type>', ['argument_data_type']);
+native_function(<arguments>);
+```
+
+
+
+
+https://github.com/DERE-ad2001/Frida-Labs/blob/main/Frida%200xA/Solution/Solution.md
