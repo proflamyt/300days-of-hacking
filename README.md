@@ -79,5 +79,7 @@ git is already preinstalled in most linux distro
 54. Building Web Server (Assembly)
 55. GDB
 56. Kubernetes
+57. CVE
+58. XSS in React
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
