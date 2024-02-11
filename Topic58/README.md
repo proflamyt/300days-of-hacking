@@ -71,13 +71,17 @@ render() {
 <a href={attackerInput}>
 ```
 
-As function argument
+### As function argument
 
 ```js
 fn = new Function("attackerInput")
 fn()
 ```
 
+### unsafe Eval
+```
+eval(attackerInput)
+```
 
 If you can control the type and children and/or the props it is possible to get an xss on reactjs
 
