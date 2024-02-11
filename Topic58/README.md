@@ -21,7 +21,7 @@ For Example :
 ```js
 class HelloWorld extends React.Component {
 render() {
-return <div> Hello The website is :, {decodeURIComponent(document.location)}</div>
+return <p title=About  > Hello The website is :, {decodeURIComponent(document.location)}</p>
 }
 }
 ```
@@ -31,21 +31,53 @@ Will be transcribed to
 class HelloWorld extends React.Component {
 render() {
 return React.creteElement (
-  type: 'div'
-  props: null
-  [decodeURIComponent(document.location)]
+  type: 'p'
+  props: {title:'About'}
+  [ "Hello The website is :",decodeURIComponent(document.location)]
     )
 }
 }
 ```
 where :
 
-type represents the tag name 
-props is the list of attributes 
-children contains the child node(s) of the element
+*type* represents the tag name 
+*props* is the list of attributes 
+*children* contains the child node(s) of the element
 
 
 
 ## ways to achieve xss 
 
 ### Injecting the props
+
+An object of an attacker input ending up into props could lead to xss
+
+```js
+render() {
+	attackerProps = JSON.parse(attackerInput)
+ 	return  <div attackerProps> </div>
+}
+
+```
+### If developer uses dangerouslySetInnerHTML prop with attacker controlled input
+
+```js
+<div dangerouslySetInnerHTML={attackerInput} />
+```
+
+### Attacker Input ending directly In tag href and formaction
+
+```js
+<a href={attackerInput}>
+```
+
+As function argument
+
+```js
+fn = new Function("attackerInput")
+fn()
+```
+
+
+If you can control the type and children and/or the props it is possible to get an xss on reactjs
+
