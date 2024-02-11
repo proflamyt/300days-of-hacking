@@ -1,6 +1,14 @@
 # Powershell
 
 
+### Get Properties and Method of an Object
+
+```powershell
+Get-Member
+
+Format-List -Property *
+```
+
 ### Environmental Variables
 https://shellgeek.com/powershell-print-environment-variables/
 
