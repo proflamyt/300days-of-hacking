@@ -1,5 +1,6 @@
 # Powershell
 
+## Understanding Attributes, Properties and Method
 
 ### Get Properties and Method of an Object
 
@@ -8,6 +9,20 @@ Get-Member
 
 Format-List -Property *
 ```
+
+
+### Get Details of the Command you want to run
+
+```powershell
+Get-Help <command>
+```
+
+### Select an Object to access or create property 
+
+```
+Select-Object -Property
+```
+
 
 ### Environmental Variables
 https://shellgeek.com/powershell-print-environment-variables/
