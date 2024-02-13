@@ -33,7 +33,7 @@ An attacker finds an XSS , subdomain takeover or CRLF vulnerability on a domain 
 with domain set to the main domain the procemaker is on 
 
 
-```js
+```javascript
 // example payload
 document.cookie='pm_sys_sys={"sys_sys": "workflow", "ola": alert(1)};domain=example.com;path=/;expires=2070-01-01'
 ```
