@@ -1,18 +1,20 @@
-## Cookie Based XSS 
+## ProcessMaker - Cookie Based XSS 
 
 Description :
 
-Process stores the workspace parameter as a cookie value 
+ProcessMaker  was discovered to have an XSS vulnerability due to vulnerable implementation of how the workspace parameter is stored as a cookie value 
 
-As we can see here, the javascript attempts to read a cookie called 'pm_sys_sys' and covert it to string , The XSS vulnerability arises due to this code snippet attempting to assign a JSON object to the 'obj' variable through the use of the eval function. The unsafe usage of eval in this 
-snippet allows an attacker who controls cookie "pm_sys_sys" to execute a arbitrary javascript code.
+
+The vulnerability occurs when the JavaScript tries to access a cookie named 'pm_sys_sys' and convert its contents to an object using the eval function.
+
+As seen in the provided code snippet,they attempt to assign a JSON object to the 'obj' variable using the eval function. The insecure use of eval in this snippet enables a potential attacker, who has control over the "pm_sys_sys" cookie, to execute arbitrary JavaScript code.
+
 
 ![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/309ee307-bccf-4586-8dcf-1fe007220c09)
 
 
 ### Crafting an exploit 
-The eval fuction in javascript will execute the string  argument it receives as a javascript body, by crafting a json with a field as the javascript function an attacker can execute arbitrary javascript on the vulnerable web application.
-To make attack more stealthy the attacker can make the payload behave as the intended behaviour of the code snippets wants that is allow the "sys_sys" argument accessible as argument to 'obj'.
+A JavaScript eval function executes the string argument as a JavaScript body. By creating a JSON with a value containing a JavaScript function, an attacker can execute arbitrary JavaScript code on the vulnerable web application. To enhance the stealthiness of the attack, the perpetrator can structure the payload to mimic the intended behavior of the code snippet, thereby enabling the "sys_sys" argument to be accessible as an argument to 'obj'.
 
 final payload : 
 By setting the cookie "pm_sys_sys" to 
@@ -21,17 +23,20 @@ By setting the cookie "pm_sys_sys" to
 {"sys_sys": "workflow", "ola": alert(1)}
 ```
 
-an attacker can execute arbitrary js code, while setting the workspace field to the intended workspace.
+therefore, an attacker can execute arbitrary js code, while setting the workspace field to the intended workspace for unsuspecting users.
 
 
 
-### Possible Exploit Execution
+### Possible Exploitation Scenario
 
-An attacker finds an XSS or CRLF vulnerability on a domain example.com , he uses the vulnerability to set the cookie "pm_sys_sys" as {"sys_sys": "workflow", "ola": alert(1)} 
-with domain 
+An attacker finds an XSS , subdomain takeover or CRLF vulnerability on a domain "*.example.com", he uses the vulnerability to set the cookie "pm_sys_sys" as {"sys_sys": "workflow", "ola": alert(1)} 
+with domain set to the main domain the procemaker is on 
 
-document.cookie="pm_sys_sys={"sys_sys": "workflow", "ola": alert(1)};domain=example.com;path=/;expires=2070-01-01"
 
-Ones thesame user visits the vulnrable page "sys/en/*/login/login" , the xss triggers 
+```js
+// example payload
+document.cookie='pm_sys_sys={"sys_sys": "workflow", "ola": alert(1)};domain=example.com;path=/;expires=2070-01-01'
+```
+Ones the infected user visits the vulnrable processmaker subdomain page "sys/en/*/login/login", the xss triggers 
 
 Note: The exeploit could be a key logger as this is the login page
