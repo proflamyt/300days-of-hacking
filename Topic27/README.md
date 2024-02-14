@@ -2,11 +2,14 @@
 
 ## Understanding Attributes, Properties and Method
 
-### Get Properties and Method of an Object
+### Get Properties, Attributes and Method of an Object
+
+ Any command that produces object-based output can be piped to Get-Member
 
 ```powershell
 Get-Member
 
+# get all properties
 Format-List -Property *
 ```
 
@@ -81,3 +84,7 @@ $box
 ```
 ((get-content .\countpolos).split(' ')  | select-string "^polo$").count 
 ```
+
+
+
+reference: https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/03-discovering-objects?view=powershell-7.4
