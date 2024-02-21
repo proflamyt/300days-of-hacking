@@ -32,6 +32,8 @@ therefore, an attacker can execute arbitrary js code, while setting the workspac
 An attacker finds an XSS , subdomain takeover or CRLF vulnerability on a domain "*.example.com", he uses the vulnerability to set the cookie "pm_sys_sys" as {"sys_sys": "workflow", "ola": alert(1)} 
 with domain set to the main domain the procemaker is on 
 
+![ProcessMaker_POC (1)](https://github.com/proflamyt/300days-of-hacking/assets/53262578/7048ab3b-d8f2-4793-a6cc-d66400cadc57)
+
 
 ```javascript
 // example payload
