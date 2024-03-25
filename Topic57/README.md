@@ -1,4 +1,6 @@
-## ProcessMaker - Cookie Based XSS (CVE-2024-25506)
+## CVE-2024-25506
+
+### ProcessMaker - Cookie Based XSS 
 
 Description :
 
