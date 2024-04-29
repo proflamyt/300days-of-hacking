@@ -44,10 +44,14 @@ mov rax, [rdx]
 
 Will move the value pointed to by rdx into the rax register. 
 
-
 ```assembly
-mov [rdx], rdx
+mov [rax], rdx
 ```
+
+Will move the value of the rdx register into whatever memory is pointed to by the rax register. The actual value of the rax register does not change.
+
+
+
 
 ```assembly
 MOV RAX, qword ptr [RBP + local_18]
@@ -74,7 +78,12 @@ This means the instruction is fetching a 64-bit (quadword) value from the memory
 
 
 
-### Android reverse engineering
+### Tools
+- GDB
+- Ghidra
+
+
+
 
 
 #### Static Analysis 
