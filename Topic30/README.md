@@ -28,6 +28,7 @@
 
 
 ## Static Analysis
+
  ### TODO
 
 ### Understanding Dalvik,  ### TODO
@@ -81,14 +82,37 @@ adb shell
 adb shell getprop ro.product.cpu.abi # get device architecture
 ```
 
-## Dynamic Analysis
+## Dynamic Analysis Using Frida
+
+Modify or observe the behaviour of an application during runtime.
+
+
+
+Install frida-client on your PC with
+
+```
+pip install frida-tools
+
+```
+
+Install Frida Server on mobile based on the architechture of the mobile device 
+
+
+download server release here > "https://github.com/frida/frida/releases"
+
 
  ### Frida
  
- list all the installed applications in the device along with their process 
+ list all the installed applications in the device along with their process ID and identifier.
  
  ```
  frida-ps -Uai
+ ```
+
+attach frida to application by specifying the identifier
+
+ ```
+ frida -U -f  <application identifier>
  ```
  
  connect to application on device on default port 
@@ -100,4 +124,100 @@ adb shell getprop ro.product.cpu.abi # get device architecture
  ```
  
  
- ### TODO
+ ### FRIDA SCRIPTS
+
+Javascript codes to change behavior of methods in runtime 
+ ```js
+
+Java.perform(function (){
+
+// implementations here ..
+
+})
+ ```
+
+change function implementation
+
+```js
+<classname>.<function>.implementation = function(){
+    
+}
+
+```
+
+overload function 
+
+```js
+<classname>.<function>.overload('int', 'int').implementation = function(a,b){ 
+}
+```
+
+
+access value 
+
+```js
+<classname>.<function>.value 
+```
+
+
+```js
+
+Java.performNow(function(){
+
+Java.choose('com.<classname>.<function>.MainActivity', {
+
+  onMatch: function(instance) {
+   console.log("Instance found");
+  },
+  onComplete: function() {}
+
+});
+
+});
+
+```
+
+
+To hook native functions, we can use the Interceptor API. Now, let's see the template for this.
+
+```js
+Interceptor.attach(targetAddress, {
+    onEnter: function (args) {
+        console.log('Entering ' + functionName);
+        // Modify or log arguments if needed
+    },
+    onLeave: function (retval) {
+        console.log('Leaving ' + functionName);
+        // Modify or log return value if needed
+    }
+});
+
+
+```
+
+Get Target Address
+
+```js
+Module.getBaseAddress("libraryname.so");
+
+Module.enumerateExports("libraryname.so");
+
+Module.enumerateImports("libfrida0x8.so");
+
+Module.findExportByName("libc.so", "strcmp");
+
+```
+
+Calling Native function
+
+```js
+
+var native_adr = new NativePointer(<address_of_the_native_function>);
+const native_function = new NativeFunction(native_adr, '<return type>', ['argument_data_type']);
+native_function(<arguments>);
+```
+
+
+
+
+https://github.com/DERE-ad2001/Frida-Labs/blob/main/Frida%200xA/Solution/Solution.md
