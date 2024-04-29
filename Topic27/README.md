@@ -1,5 +1,31 @@
 # Powershell
 
+## Understanding Attributes, Properties and Method
+
+### Get Properties, Attributes and Method of an Object
+
+ Any command that produces object-based output can be piped to Get-Member
+
+```powershell
+Get-Member
+
+# get all properties
+Format-List -Property *
+```
+
+
+### Get Details of the Command you want to run
+
+```powershell
+Get-Help <command>
+```
+
+### Select an Object to access or create property 
+
+```
+Select-Object -Property
+```
+
 
 ### Environmental Variables
 https://shellgeek.com/powershell-print-environment-variables/
@@ -58,3 +84,7 @@ $box
 ```
 ((get-content .\countpolos).split(' ')  | select-string "^polo$").count 
 ```
+
+
+
+reference: https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/03-discovering-objects?view=powershell-7.4

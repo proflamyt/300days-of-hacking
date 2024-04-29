@@ -69,5 +69,18 @@ git is already preinstalled in most linux distro
 44. (User Account Control) UAC Bypass
 45. Windows Priviledge Escalation
 46. Prototype Parameter Polution
+47. Windows Authentication
+48. OAUTH
+49. GRAPHQL
+50. Arduino Rubber Ducky
+51. SHODAN Dorking
+52. Hacking Microservice
+53. HTTP request smuggling
+54. Building Web Server (Assembly)
+55. GDB
+56. Kubernetes
+57. CVE
+58. XSS in React
+59. RED TEAM (Windows)
 
 ### PS: The table of contents will keep adding up with time as the repo grows...

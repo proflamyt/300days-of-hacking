@@ -133,10 +133,168 @@ Floating point : YMM0 to YMM15,  256-bit wide each and can hold 4 64-bit values 
 
 
 
+================================================================================
+
+solving mx + b
+
+### Multiplication
+```asm
+imul rdi, rsi;
+add rdi, rdx;
+mov rax, rdi;
+```
+
+### Division 
+To Divide, one must first place the value to be devided into register 'rax' , then run the next instruction which is  div [value to devide by]. after division, The quotient is placed in rax, the remainder is placed in rdx.
+
+solving 'rax = rdi / rsi; rdx = remainder'
+
+```asm
+mov rax, rdi;
+div rsi;
+```
+### modulus
+solving rdi % rsi
+
+```asm
+mov rax, rdi;
+div rsi;
+xor rax, rax;
+mov rax, rdx;
+```
+
+### Part of a register
+
+```plaintext
+=================================================
+%rax         %eax         %ax         %al
+%rcx         %ecx         %cx         %cl
+%rdx         %edx         %dx         %dl
+%rbx         %ebx         %bx         %bl
+%rsi         %esi         %si         %sil
+%rdi         %edi         %di         %dil
+%rsp         %esp         %sp         %spl
+%rbp         %ebp         %bp         %bpl
+%r8          %r8d         %r8w        %r8b
+%r9          %r9d         %r9w        %r9b
+%r10         %r10d        %r10w       %r10b
+%r11         %r11d        %r11w       %r11b
+%r12         %r12d        %r12w       %r12b
+%r13         %r13d        %r13w       %r13b
+%r14         %r14d        %r14w       %r14b
+%r15         %r15d        %r15w       %r15b
+```
 
 
+```plaintext
++----------------------------------------+
+|                   rax                  |
++--------------------+-------------------+
+                     |        eax        |
+                     +---------+---------+
+                               |   ax    |
+                               +----+----+
+                               | ah | al |
+                               +----+----+
+```
 
 
+```asm
+mov al, dil; // last 8 bit of rdi
+mov bx, si; // last 16 bits of rsi
+```
+### Loop
+
+calculate average 
+rdi = memory address of the 1st quad word
+rsi = n (amount to loop for)
+rax = average computed
+
+```asm
+mov rcx, 0;
+
+loop:
+    cmp rsi, rcx;
+    je _end;
+    add rax, [rdi + rcx * 8]
+    inc rcx
+    jmp loop;
+_end:
+    div rsi;
+```
+### function call
+c equivalence
+
+```c
+str_lower(src_addr):
+    i = 0
+    if src_addr != 0:
+        while [src_addr] != 0x00:
+            if [src_addr] <= 0x5a:
+                [src_addr] = foo([src_addr])
+                i += 1
+            src_addr += 1
+    return i
+```
+
+```asm
+str_lower:
+    mov rcx, 0;
+    cmp rdi, 0x0;
+    je .exit;
+    loop:
+        cmp byte ptr [rdi], 0x0;
+        je .exit;
+        cmp byte ptr [rdi], 0x5a
+        jg .inc_src
+        mov r9, 0x403000;
+        mov r10, rdi;
+        xor rdi, rdi;
+        mov dil, [r10]
+        call r9;
+        mov rdi, r10
+        mov [rdi], al
+        inc rcx
+        jmp .inc_src
 
 
+.inc_src:
+    inc rdi;
+    jmp loop
+
+.exit:
+    xor rax, rax;
+    mov rax, rcx
+    ret
+```
+
+```asm
+Let's use the following instructions as an example:
+0x1021 mov rax, 0x400000
+0x1028 call rax
+0x102a mov [rsi], rax
+
+1. call pushes 0x102a, the address of the next instruction, onto the stack.
+2. call jumps to 0x400000, the value stored in rax.
+The "ret" instruction is the opposite of "call". ret pops the top value off of
+the stack and jumps to it.
+```
+
+
+### STACK
+
+setting up stack 
+
+```asm
+mov rbp, rsp
+; allocate space
+sub rsp, 0x14
+; perform ops
+mov eax, 1337
+mov [rbp-0x8], eax
+; restore the allocated space
+mov rsp, rbp
+ret
+
+```
 https://tryhackme.com/room/win64assembly
