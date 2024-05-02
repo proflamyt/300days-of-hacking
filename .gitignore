@@ -4,3 +4,11 @@
 ola/
 *.tlog
 *.txt
+*.ipch
+*.vcxproj
+*.vcxproj.*
+*.obj
+*.log
+*.idb
+*.pdb
+*.ilk
