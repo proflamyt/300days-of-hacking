@@ -1,5 +1,0 @@
-﻿cl : command line warning D9025: overriding '/sdl' with '/GS-'
-  SingleLocalVariable.c
-SingleLocalVariable.obj : error LNK2005: func already defined in CallAsubroutine.obj
-SingleLocalVariable.obj : error LNK2005: main already defined in CallAsubroutine.obj
-C:\Users\USER\Documents\GitHub\300-days-of-hacking\300days-of-hacking\Topic26\CallAsubRoutine1\x64\Debug\CallAsubRoutine1.exe : fatal error LNK1169: one or more multiply defined symbols found
