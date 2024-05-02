@@ -15,3 +15,5 @@ ola/
 .vs/
 .env/
 .env
+.sln
+.suo
