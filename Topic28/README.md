@@ -1,9 +1,34 @@
 # Windows And Networking 
 
-The  built-in Administrator account is not the most powerful account in Windows . If you wanted to find something in Windows like root is for Linux, it would be the SYSTEM user account
+The  built-in Administrator account is not the most powerful account in Windows . If you want to find something in Windows like root is for Linux, it would be the SYSTEM user account
+
 ### Windows SAM
 The Security Account Manager is a registry file on windows  that stores local user's account passwords hash. The file is stored on your system drive at C:\WINDOWS\system32\config. However, it is not accessible (it cannot be moved nor copied) from within the Windows OS since Windows keeps an exclusive lock on the SAM file and that lock will not be released until the computer has been shut down.
 
+
+### Windows API
+
+These are application programming interface by microsoft that allows user applications to interact with operating system.
+
+These APIs are basically seperated into various groups as follows:
+
+- System Services
+- Multimedia
+- Networking
+- User Interface
+- Window Registry
+
+
+Evading Maleare Detection
+
+- syscalls 
+- use of ordinals
+- Hooks
+- iat patching
+
+### IAT (Import Address Table)
+
+Contains the list of DLLs and function names and the function addresses , a P.E depends on to run
 
 ### SMB shares 
 
