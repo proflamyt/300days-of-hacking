@@ -1,5 +1,88 @@
 # Windows And Networking 
 
+## INTRODUCTION TO WINDOWS
+
+
+Useful Classes for enumeration 
+
+- win32_OperatingSystem 
+- win32_Bios
+- win32_Service
+- win32_Process
+
+```powershell
+Get-WmiObject -Class <class> 
+```
+
+
+### Windows Directory structure
+
+- Perflogs : Windows Perfomance logs
+- Program Files: Installed program files 
+- Program Files (x86): holds 64bits program files on 64bit machine
+- ProgramData
+- Users 
+- Default
+- Windows: majority of the files required for windows os
+- System, System32, SysWOW64 : Contains DLL for core windows features
+- WinSxS
+
+
+# Windows File System
+
+Majourly 
+
+- FAT32
+- NTFS
+
+
+#### The icacls utility
+
+List and Manage NTFS permissions on a specific directory 
+
+Inherit Directory permissions
+- (I) : Permission Inherited from parent container
+- (OI) : Object inherit : This folder and files
+- (CI) : Container Inherit : This folder and subfolder
+- (IO): Inherit Only : ACE does not apply to current folder
+- (NP): Do not propergate inherit
+
+Combines as
+
+- (OI)(CI): This folder, files and subfolders
+- (CI)(IO): Subfolders Only
+- (OI)(IO): Files Only
+- (OI)(CI)(IO): files and subfolders only
+
+File Permissions
+
+- (F) : full access
+- (D): Delete access
+- (N): No access
+- (M): Modify access
+- (RX): Read and execute access
+- (R): Read-only
+- (W): write-only
+
+
+Usage: 
+
+List permissions 
+
+```powershell
+icacls <directory>
+```
+# Remove permissions
+```powershell
+icacls <directory> /remove <user>:<permission>
+```
+
+# Grant permissions
+```powershell
+icacls <directory> /grant <user>:<permission>
+```
+
+### Windows Users
 The  built-in Administrator account is not the most powerful account in Windows . If you want to find something in Windows like root is for Linux, it would be the SYSTEM user account
 
 ### Windows SAM
@@ -59,3 +142,8 @@ Download Psexec from windows pstools
 psexec -sid cmd.exe
 
 ```
+
+
+
+
+reference : ss64.com/nt/icacls.html
