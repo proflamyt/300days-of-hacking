@@ -12,3 +12,6 @@ ola/
 *.idb
 *.pdb
 *.ilk
+.vs/
+.env/
+.env
