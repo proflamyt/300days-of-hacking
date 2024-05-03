@@ -82,8 +82,38 @@ icacls <directory> /remove <user>:<permission>
 icacls <directory> /grant <user>:<permission>
 ```
 
+### Windows Servce
+
+query service
+```powershell
+sc qc <servicename>
+```
+stop service
+```cmd
+sc  stop <servicename>
+```
+cconfigure serviec
+
+```cmd
+sc configure <servicename> <configuration>
+```
+
+
 ### Windows Users
 The  built-in Administrator account is not the most powerful account in Windows . If you want to find something in Windows like root is for Linux, it would be the SYSTEM user account
+
+#### Service accounts 
+
+- LocalService (granted limited fuctionalities): NT AUTHORITY\LocalService
+- NetworkService (can establish authenticated sessions for some network services ): NT AUTHORITY\NetworkService
+- LocalSysten (highest level priviledge) : NT AUTHORITY\SYSTEM
+
+
+
+### Windows Session
+
+- Interactive Session: 
+- Non-interactive Session : account has no password associated to it 
 
 ### Windows SAM
 The Security Account Manager is a registry file on windows  that stores local user's account passwords hash. The file is stored on your system drive at C:\WINDOWS\system32\config. However, it is not accessible (it cannot be moved nor copied) from within the Windows OS since Windows keeps an exclusive lock on the SAM file and that lock will not be released until the computer has been shut down.
