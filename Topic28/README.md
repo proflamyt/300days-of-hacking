@@ -113,10 +113,35 @@ The  built-in Administrator account is not the most powerful account in Windows 
 ### Windows Session
 
 - Interactive Session: 
-- Non-interactive Session : account has no password associated to it 
+- Non-interactive Session : account has no password associated to it
+
+### Windows WMI
+used for :
+- Code execution
+- Scheduling process
+- Setting up logging
+- Managing user and group permissions
+- modifying and setting system properties
+
+
+
+```cmd
+wmic os list brief
+```
+
+```powershell
+Get-WmiObject -Class Win32_OperatingSystem 
+```
+
+
+### Windows Security Identifier
+These are unique ID stored in the security databse that windows uses to identify users on a system,
+
 
 ### Windows SAM
 The Security Account Manager is a registry file on windows  that stores local user's account passwords hash. The file is stored on your system drive at C:\WINDOWS\system32\config. However, it is not accessible (it cannot be moved nor copied) from within the Windows OS since Windows keeps an exclusive lock on the SAM file and that lock will not be released until the computer has been shut down.
+
+### Windows UAC
 
 
 ### Windows API
