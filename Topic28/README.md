@@ -144,6 +144,29 @@ The Security Account Manager is a registry file on windows  that stores local us
 ### Windows UAC
 
 
+### Windows Registry
+
+Types of values :
+
+- REG_BINARY: Binary
+- REG_DWORD: 32 bit
+- REG_DWORD_LITTLE_ENDIAN: 32 bit little endian
+- REG_DWORD_BIG_ENDIAN: 32 bit big endian
+- REG_EXPAND_AZ: null terminated string, reference to unexpanded env variables
+- REG_LINK: null terminated string, symlink
+- REG_NONE: none
+- REG_QWORD: 64 bits
+- REG_QWORD_LITTLE ENDIAN: 64 bits little endian
+- REG_SZ: null terminated string, unicode or ansi
+
+
+```powershell
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
+```
+
 ### Windows API
 
 These are application programming interface by microsoft that allows user applications to interact with operating system.
