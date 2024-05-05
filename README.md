@@ -82,5 +82,6 @@ git is already preinstalled in most linux distro
 57. CVE
 58. XSS in React
 59. RED TEAM (Windows)
+60. Reverse WhataApp (Project)
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
