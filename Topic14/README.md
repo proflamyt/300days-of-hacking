@@ -5,6 +5,19 @@
 
 A Windows domain is a form of a computer network in which all user accounts, computers, printers and other security principals, are registered with a central database located on one or more clusters of central computers known as domain controllers.
 
+### TERMS
+
+- Objects : reseource within AD
+- Attributes : Characteristic of an object
+- Domain: Group of objects
+- Forest : Collection of domains
+- Global Unique Identifier:  128 bit value assigned to a user or group
+- Security principals: object running in context of a user or computer account
+- 
+
+
+
+
 ### Powershell Cmd
 
   ```
