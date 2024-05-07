@@ -187,6 +187,16 @@ Evading Maleare Detection
 - Hooks
 - iat patching
 
+
+### Windows Rights/Privileges
+
+Rights deal with permission to access object such as files
+Privileges grant user permission to perform an action such as run a program
+
+
+
+
+
 ### IAT (Import Address Table)
 
 Contains the list of DLLs and function names and the function addresses , a P.E depends on to run
