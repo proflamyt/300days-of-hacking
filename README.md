@@ -86,5 +86,6 @@ git is already preinstalled in most linux distro
 61. Building Custom Mail Server (Project)
 62. Google (Cloud)
 63. Azure (Cloud)
+64. Web attacks
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
