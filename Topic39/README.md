@@ -102,6 +102,8 @@ such that px + qy = gcd(a,b)
 
 
 
+#  LSB ORACLE ATTACK
+
 
 
 
