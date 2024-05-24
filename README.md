@@ -87,5 +87,6 @@ git is already preinstalled in most linux distro
 62. Google (Cloud)
 63. Azure (Cloud)
 64. Web attacks
+65. Nginx
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
