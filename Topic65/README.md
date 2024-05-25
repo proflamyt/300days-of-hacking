@@ -9,7 +9,9 @@
 missing root path location 
 
 ```bash
-location / {
+root /etc/nginx;
+
+location /index.html {
 ...
 }
 ```
@@ -18,19 +20,28 @@ files within the set root directory will be reachable to any user on the interne
 ### Off By Slash
 
 ```bash
-location /api {
+
+location /cats {
+    alias /usr/share/nginx/html/;
 }
 ```
+```
+$ ls /usr/share/nginx/html/
+index.html ola.html
+```
+check if both http://frontend/cats/index.html and http://frontend/catsindex.html  resolves to thesame thing
 
-check static too
-check http://frontend/api/user resolves to  http://frontend/apiuser 
+
+## usage of $uri could lead to crlf 
+
+$uri and $document_uri are already normalized , which implies that they are already decoded
+
+appending %0d%0a  to url could cause crlf injection
 
 
-## crlf 
 
-append %0d%0a  to url
 
-Unsafe variable use
+
 
 Raw Backend response reading
 
