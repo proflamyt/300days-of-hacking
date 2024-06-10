@@ -84,8 +84,8 @@ git is already preinstalled in most linux distro
 59. RED TEAM (Windows)
 60. Reverse WhataApp (Project)
 61. Building Custom Mail Server (Project)
-62. Google (Cloud)
-63. Azure (Cloud)
+62. Azure (Cloud)
+63. Google (Cloud)
 64. Web attacks
 65. Nginx
 
