@@ -44,3 +44,7 @@ Pull the APK file from the Android device to the development box.
 ```
 adb pull /data/app/com.example.someapp-2.apk
 ```
+Display Logs from app
+```
+adb logcat "MainActivity:V *:S" -v brief
+```
