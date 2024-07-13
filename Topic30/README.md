@@ -220,4 +220,18 @@ native_function(<arguments>);
 
 
 
+### Sending Intents 
+
+```java
+Intent intent1 = new Intent();
+intent1.setClassName("<packagename>", "<pathname>");
+intent1.setAction("<action>");
+intent3.putExtra("reason", "next");
+intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+intent.setData(Uri.parse("<url>"));
+startActivity(intent1);
+
+```
+
+
 https://github.com/DERE-ad2001/Frida-Labs/blob/main/Frida%200xA/Solution/Solution.md
