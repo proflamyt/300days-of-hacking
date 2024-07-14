@@ -234,4 +234,8 @@ startActivity(intent1);
 ```
 
 
+### Intent Filters 
+
+Intent filters serve important role in the resolution of implicit intents by the android os .
+
 https://github.com/DERE-ad2001/Frida-Labs/blob/main/Frida%200xA/Solution/Solution.md
