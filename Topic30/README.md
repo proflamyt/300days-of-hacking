@@ -238,4 +238,24 @@ startActivity(intent1);
 
 Intent filters serve important role in the resolution of implicit intents by the android os .
 
+
+### Broadcast Receiver
+
+check AndroidManifest.xml  for tag
+
+```
+<receiver>
+```
+
+The other way is by dynamically registering a receiver class using 
+
+```
+registerReceiver().
+```
+
+#### AppWidgets
+
+
+
+
 https://github.com/DERE-ad2001/Frida-Labs/blob/main/Frida%200xA/Solution/Solution.md
