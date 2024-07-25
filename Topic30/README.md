@@ -255,7 +255,11 @@ registerReceiver().
 
 #### AppWidgets
 
+check 
 
+```
+ AppWidgetProvider 
+```
 
 
 https://github.com/DERE-ad2001/Frida-Labs/blob/main/Frida%200xA/Solution/Solution.md
