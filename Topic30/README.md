@@ -81,6 +81,21 @@ adb shell
 
 adb shell getprop ro.product.cpu.abi # get device architecture
 ```
+## Frida and Objection
+
+Inject Frida into APK 
+
+```
+objection patchapk -s <apk>
+```
+
+Start Application and drop into frida shell
+
+```
+frida -U <appname>
+```
+
+
 
 ## Dynamic Analysis Using Frida
 
