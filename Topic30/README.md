@@ -95,6 +95,20 @@ Start Application and drop into frida shell
 frida -U <appname>
 ```
 
+### Uploading and running Frida Server on android
+
+get architechture
+
+```
+adb shell getprop ro.product.cpu.abi
+```
+
+get release https://github.com/frida/frida/releases
+
+```
+adb push frida-server* /data/local/tmp
+```
+
 
 
 ## Dynamic Analysis Using Frida
