@@ -129,6 +129,11 @@ Install Frida Server on mobile based on the architechture of the mobile device
 
 download server release here > "https://github.com/frida/frida/releases"
 
+ ### Frida Trace
+ trace function calls in application
+ ```
+frida-trace -U -j '<lassname>.*!*' <Application>
+ ```
 
  ### Frida
  
