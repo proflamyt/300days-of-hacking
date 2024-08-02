@@ -169,6 +169,12 @@ Java.perform(function (){
 
 })
  ```
+ Enumerate Package Names 
+
+ ```js
+  Java.enumerateMethods('*!*')
+ ```
+
 
 change function implementation
 
