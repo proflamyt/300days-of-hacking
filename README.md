@@ -90,5 +90,6 @@ git is already preinstalled in most linux distro
 65. Nginx
 66. Building Operating System (Project)
 67. Certificates
+68. NOSQL
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
