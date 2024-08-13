@@ -91,5 +91,6 @@ git is already preinstalled in most linux distro
 66. Building Operating System (Project)
 67. Certificates
 68. NOSQL
+69. Frontend Vulnerabilities
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
