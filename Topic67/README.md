@@ -150,3 +150,26 @@ print(result.to_bytes(256, "little"))
 
 ### Certificate Pinning Bypass
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+netsh interface portproxy add v4tov4 listenport=9900 listenaddress=0.0.0.0 connectport=9900 connectaddress=$hostname -I
+netsh interface portproxy show v4tov4 
+```
+
