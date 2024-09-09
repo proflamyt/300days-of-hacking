@@ -14,3 +14,15 @@ JOIN `bigquery-public-data.github_repos.files`  as files on files.id = contents.
 ```
 cut -d '/' -f 4,5 | sed 's/?.*//g' | sort -u
 ```
+
+
+```
+unfurl paths |
+
+  tr '/' '\\n'  |
+
+  # or sed 's#/#\\n#g' paths.txt | sort -u
+
+  sort -u
+
+```
