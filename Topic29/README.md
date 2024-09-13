@@ -122,4 +122,36 @@ Trying to find out what is going on in run-time
 
 
 
+
+
+### IDA 
+
+Define struct process 
+
+```
+shift f1;
+local types
+insert
+
+struct yarn_struct {
+char buf[256];
+char reg1;
+char reg2;
+char reg3;
+char reg4;
+char reg5;
+}
+
+enter
+
+
+rename type to
+
+yarn_struct 
+
+
+```
+
+
+
 reference : https://0xinfection.github.io/reversing/pages/
