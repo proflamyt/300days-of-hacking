@@ -46,3 +46,13 @@ display/4gx $rsp # Display 4 8byte hex values from rsp
 
 ```
 
+Analysing Programs with setuid set
+
+
+1. copy program to location with permission
+2. set base address if you havent
+   ```
+   nano ~/.gdbinit
+
+        set $BASE = 0x0000555555554000
+   ```
