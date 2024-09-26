@@ -152,6 +152,10 @@ yarn_struct
 
 ```
 
+convert to signed 
+```
+hex((-0x72) & (2**64-1))
+```
 
 
 reference : https://0xinfection.github.io/reversing/pages/
