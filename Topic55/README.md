@@ -43,7 +43,11 @@ display/8i $rip # Display next 8 instructions
 
 display/4gx $rsp # Display 4 8byte hex values from rsp 
 
+# Information
+info proc map
+info break
 
+dis break 2
 ```
 
 Analysing Programs with setuid set
