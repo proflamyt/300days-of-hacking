@@ -301,12 +301,18 @@ ret
 
 ### FUNCTION CALLS
 
-** Registers for Function Arguments **
+#### Registers for Function Arguments 
+
 RDI: First argument
+
 RSI: Second argument
+
 RDX: Third argument
+
 RCX: Fourth argument
+
 R8: Fifth argument
+
 R9: Sixth argument
 
 ** Stack Usage **
