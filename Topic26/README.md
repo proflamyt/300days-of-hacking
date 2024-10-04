@@ -297,4 +297,18 @@ mov rsp, rbp
 ret
 
 ```
+
+
+### FUNCTION CALLS
+
+** Registers for Function Arguments **
+RDI: First argument
+RSI: Second argument
+RDX: Third argument
+RCX: Fourth argument
+R8: Fifth argument
+R9: Sixth argument
+
+** Stack Usage **
+If there are more than six arguments, or if any arguments are larger than 8 bytes (like structures), the additional arguments are passed on the stack. In such cases, the caller must ensure that the stack is properly aligned (to a 16-byte boundary) before the call.
 https://tryhackme.com/room/win64assembly
