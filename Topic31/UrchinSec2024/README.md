@@ -39,8 +39,6 @@ def encrypt_message(message, knapsack, m, n):
         ciphertext.append(encrypted_value)
     return ciphertext
 
-k = [1, 2, 4, 8, 16, 32, 64, 128]
-
 
 
 
