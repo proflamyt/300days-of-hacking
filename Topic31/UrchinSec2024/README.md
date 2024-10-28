@@ -120,7 +120,7 @@ since I know part of the plaintext (what the flag begins with) and i can use tha
  From this, we can deduce that the character 'u' (the first character of the flag) produced a c_value of 174, corresponding to the first ciphertext value of 251. Similarly, 'r' produced a c_value of 78, which corresponds to a ciphertext value of 210.
 
 In the iteration below, I calculated the value of n that, when multiplied by the c_value for 'u' and 'r', yields their respective ciphertext values of 251 and 210.
-```
+```py
 	 for n in range(-1000, 1000):
 	    if ((174 * n) % 257 == 251) and ((78 * n) % 257 == 210):
 	       print(i)
@@ -133,7 +133,7 @@ Now that we know n, k (knapsack), and m, the only unknown variable left is the p
 
 The next question to address, then, is: which ASCII character (in the range 32 to 127) would yield the given ciphertext using the above algorithm with all variables accounted for?
 
-```
+```py
 m = 257
 ola = ''
 n = 64
@@ -198,26 +198,26 @@ with open('public-key.txt', 'w') as f:
 
 ### RSA ?
 
-This other challenge howerver follows the basic RSA encryption equation,  \plaintext raise to power e modulus multiplication of 2 prime numbers (p, q)
+This other challenge, however, follows the basic RSA encryption equation: the plaintext raised to the power of e, modulo the product of two prime numbers (p and q).
 
 C = M**e mod N.
 
-yh our entire internet rest on this simple math lol, the security of this lies in the dificulty of how difficult it will be to factorize multiplication of two prime numbers without bruteforce
+Yh... our entire internet rest on this simple math lol, the security of this lies in the dificulty of how hard it will be to factorize multiplication of two prime numbers without bruteforce
 
 
-to decrypt , we need to know the value of the two prime numbers that took path in the encryption (p, q), deduct one from each and multiply them (p-1)(q-1), then take inverse of e mod this multiplication, let's call the result d 
+To decrypt , we need to know the value of the two prime numbers that took path in the encryption (p, q), deduct one from each and multiply them (p-1)(q-1), then take inverse of e mod this multiplication, let's call the result d 
 
 
-to get the plaintext , we then multiply the ciphertext with d modulus of n (p*q)
+To retrieve the plaintext, we then have to multiply the ciphertext with d (computed above) modulus of n (p*q)
 
-glad thats out of the way, i didnt write the math its here ....
+Glad that is out of the way, you can read more about it here .... https://people.csail.mit.edu/rivest/Rsapaper.pdf
 
-remember the security of this relies on the value of p and q.
+*Remember the security of this relies on the value of p and q.*
 
-In the flag encyption above, we can see p , q and r were generated with getPrime(1024), 1024 bytes is definately not bruteforceable , so gettig p, r and q that way is out of question
+back to the flag encyption above, we can see p , q and r were generated with getPrime(1024), 1024 bytes is definately not bruteforceable , so gettig the value of p, r and q that way is out of question
 
 
-however, in there genius implementation they encrypted the plaintext thrice , using 3 public keys  and provided us with it 
+However, in there genius implementation they encrypted the plaintext thrice , using 3 public keys and provided us with it 
 
 ```
 n1 = p * q
@@ -227,44 +227,52 @@ n3 = q * r
 ```
 
 
-why is this a bad idea ? ,  GCD or HCF
 
-# GCD (Greatest Common Divisor ) also known as highest common factor
 
-This is the largest integer that divides two variable . The greatest common divisor of any two distint prime numbers is 1. however in a situation like above
+### Why is this such a bad idea ? : GCD (Greatest Common Divisor ) also known as highest common factor
 
-n1 (pq) and n2 (pr), these two numbers share a GCD of p as they are both divisible by only p
+The greatest common divisor (GCD) is the largest integer that divides two variables. For any two distinct prime numbers, the GCD is 1. However, in a situation like the one above with n1 = pq and n2 = pr, these two numbers share a GCD of p, as they are both divisible only by p and they are all prime 
 
 
 
-To retrive variable p, q and r .... 
+To retrive variable p, q and r . These are things we should note .... 
 
-pq and pr share a common divisor of p
-pr and qr share a common divisor of r
-qr and pq share a common divisor of q
+	
+	pq and pr share a common divisor of p
+	pr and qr share a common divisor of r
+	qr and pq share a common divisor of q
+ 
 
-There are two common algorithms used for GCD, euclidean algorithm (simpler but slower) and Lehmer's GCD algorithm (faster for large numbers )
-
-
-check implementation here : https://gist.github.com/cmpute/baa545f0c2b6be8b628e9ded3c19f6c1
-
+There are two common algorithms used for retriving GCD, euclidean algorithm (simpler but slower) and Lehmer's GCD algorithm (faster for large numbers ) check implementation here : https://gist.github.com/cmpute/baa545f0c2b6be8b628e9ded3c19f6c1
 
 
+```python
+def extended_gcd(a, b):
+    """Return gcd(a, b), and x, y such that a*x + b*y = gcd(a, b)"""
+    if a == 0:
+        return b, 0, 1
+    gcd, x1, y1 = extended_gcd(b % a, a)
+    x = y1 - (b // a) * x1
+    y = x1
+    return gcd, x, y
+
+p == extended_gcd(n1, n2)
+```
  
 After retrieving the value of p, q, and r , we can proceed with the decryption, 
 
-remember the ciphertext was first encrypted with n1 followed by n2 then n3 , to decrypt we have to reverse the order. First decrypt from n3 followed by n2 then n1.
+Remember the ciphertext was first encrypted with n1 followed by n2 then n3 , to decrypt we have to reverse the order. First decrypt from n3 followed by n2 then n1.
+
+*RSA decryption equation*
+
+	d = e−1 mod (p − 1)(q − 1).
+	 Decoding: m = Md mod N.
 
 
-d = e−1 mod (p − 1)(q − 1).
-
- Decoding: m = Md mod N.
-
-
-```
+```python
 from sympy import mod_inverse
 
-	def decrypt(p, q):
+	def decrypt(p, q, M):
 
 		N = p * q
 
@@ -278,5 +286,5 @@ from sympy import mod_inverse
 
 		return m
 
-	```
+```
 
