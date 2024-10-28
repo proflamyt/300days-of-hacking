@@ -1,20 +1,25 @@
 # ROP Challenge 
 
-provided with a libc binary and a binary file
+Provided with a libc binary and a binary file
 
 
-checking the security enabled on the binary during copilation
+Checking the security enabled on the binary during copilation
 
-This shows  it as no stack canary 
-it's stack is not executable 
-and No PIE, hence we would have no problem with aslr when working on the binary 
+![Screenshot 2024-10-28 104653](https://github.com/user-attachments/assets/f0326a52-928e-4922-ba15-2bfd016bd329)
 
 
-still enumerating the binary i decided to run it and to see what it really does , it keeps asking for address over and over suggesting a while loop and it expecting an input
+This shows that there’s no stack canary, the stack is non-executable, and there’s no PIE enabled, so ASLR won’t be an issue when working with this binary.
 
-analyzing the binary in gdb , i decided to disassemble the main function , given its not stripped
+Continuing with the binary analysis, I ran it to observe its behavior. It repeatedly prompts for an address, suggesting a while loop and an expected input.
 
-here we can see the binary is setting up a tcp socket connection and waiting for connection request , this however is a disturbance at the moment for analyzing the challenge , so i decided to write a quick gdb script that allows the function frame to set up before bypassing the entire socket connection shenanegan
+![Screenshot 2024-10-28 105354](https://github.com/user-attachments/assets/01a75f7d-8e0b-44ef-9993-09e671eb9056)
+
+
+Using GDB, I proceeded to disassemble the main function, as the binary is not stripped.
+
+![Screenshot 2024-10-28 110023](https://github.com/user-attachments/assets/45d999b9-1124-48b8-8fa7-3cbe41c97362)
+
+We can see that the binary sets up a TCP socket and waits for incoming connection requests. This, however, interferes with analyzing the challenge directly. To work around it, I wrote a quick GDB script to allow the function frame to initialize, then bypass the entire socket connection setup.
 
 
 ```
