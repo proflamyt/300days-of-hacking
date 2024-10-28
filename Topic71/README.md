@@ -1,6 +1,6 @@
 # ROP Challenge 
 
-Provided with a libc binary and a binary file
+	Provided with a libc binary and a binary file
 
 
 Checking the security enabled on the binary during copilation
@@ -95,21 +95,21 @@ You can read more about PLT and GOT here...
 ![image](https://github.com/user-attachments/assets/1e46192f-0296-4c27-8d8b-87de96b84bdf)
 
   
-  pop rdi; ret suits our purpose perfectly. remember we control the stack, hence we control was will be poped into rdi
+  `pop rdi; ret` suits our purpose perfectly. remember we control the stack, hence we control was will be poped into rdi
 
   
   So Let's go over our exploit again
 
-  we control return pointer; and we point it to pop rdi
-  we set the stack to the value we want in rdi ; puts@got 
-  once pop rdi returns it gets return address from rsp which we control; where puts@plt awaits
-  the instance puts@plt is called , its argument (rdi), will already contain libc puts address , hence leaking our libc address of puts
-  then we restart the binary by setting the next ret's rsp as the *main*'s address
+  - we control return pointer; and we point it to pop rdi
+  - we set the stack to the value we want in rdi ; puts@got 
+  - once pop rdi returns it gets return address from rsp which we control; where puts@plt awaits
+  - the instance puts@plt is called , its argument (rdi), will already contain libc puts address , hence leaking our libc address of puts
+  - then we restart the binary by setting the next ret's rsp as the *main*'s address
   
-  then we restart the binary to read in new input for our second payload
+  once we restart the binary to read in new input for our second payload
 
 
-building our exploit to this point
+Building our exploit to this point
 
 
 ```python
@@ -140,6 +140,7 @@ This will send in 72 bytes of 'A's to fill the buffer end everything until the r
 This chain is facinating right, i follow it by explicitly following and  replacing *leave;ret* with its equivalent instructions
 
 ```asm
+# leave; ret
 mov rsp, rbp
 pop rbp;
 pop rdi;
