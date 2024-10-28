@@ -75,9 +75,9 @@ encrypted_value = (c_value * n) % m
 Let's take a look at how the ciphertext is generated, each of the value of knapsack is multiplied by a bit of the chunk message 
 
 
-there is a flaw in this (aparently ), lets consider this operation (c_value * n) % m , The key thing to note is if a modulus operation is performed on a smaller positiive number , it changes nothing about the result 
+There may be a flaw here. Consider the operation (c_value * n) % m. The key point to note is that if the modulus operation is applied to a smaller positive number, it does not affect the result
 
-for example :
+For example :
 
 ```
 2 % 7 == 2
