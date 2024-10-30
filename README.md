@@ -92,5 +92,8 @@ git is already preinstalled in most linux distro
 67. Certificates
 68. NOSQL
 69. Frontend Vulnerabilities
+70. nop
+71. nop
+72. Heap Exploitation
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
