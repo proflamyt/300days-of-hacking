@@ -21,3 +21,10 @@ free(a);
 a[1]= 1234
 free(a)
 ```
+
+
+
+
+https://infosecwriteups.com/the-toddlers-introduction-to-heap-exploitation-part-1-515b3621e0e8
+
+https://infosecwriteups.com/the-toddlers-introduction-to-heap-exploitation-part-2-d1f325b74286
