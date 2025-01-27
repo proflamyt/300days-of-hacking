@@ -112,6 +112,14 @@ adb push frida-server* /data/local/tmp
 ## Network Interception 
 
 
+### Install Split app
+```
+adb shell pm path com.app | sed 's/^package://g' | xargs -L1 adb pull
+```
+
+```
+adb install-multiple *a.apk
+```
 Android 14
 
 ```
