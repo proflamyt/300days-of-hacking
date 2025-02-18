@@ -21,11 +21,20 @@ Port forwarding is a technique that is used to allow external devices access to 
    
    
  #### SSH TUNNELLING/PROXYING 
+ 
   ### TUNNELLING 
   
  #### Forward Port forwarding
       ssh -L <port to open on attacker>:< intrernal IP>:<internal port> <compromised machine ssh> -fN
-      
+
+ ### File Transfer
+  ```
+  # copy direcory
+  scp -r user@remote_host:/path/to/remote/directory /path/to/local/destination
+  # copy direcory
+  scp user@remote_host:/path/to/remote/file /path/to/local/destination
+  ```
+  
  #### SOCAT
  The quick and easy way to set up a port forward with socat is quite simply to open up a listening port on the compromised server, and redirect whatever comes into it to the target server.
       
