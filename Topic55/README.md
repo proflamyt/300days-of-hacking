@@ -51,10 +51,16 @@ info frame
 dis break 2
 ```
 
-cast to file ptr and get offset to read_ptr
+cast 0 to file ptr and get offset to read_ptr
 ```
  p &((struct _IO_FILE *)0)->_IO_read_ptr
 ```
+cast to file ptr plus
+```
+ p *(struct _IO_FILE_plus *) fp
+```
+
+
 Analysing Programs with setuid set
 
 
