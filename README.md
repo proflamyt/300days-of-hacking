@@ -96,7 +96,7 @@ git is already preinstalled in most linux distro
 71. nop
 72. Heap Exploitation
 73. nop
-74. nop
+74. Paging and Page Walking
 75. Fuzzing (AFL fuzzer)
 76. WinDBG
 
