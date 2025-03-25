@@ -95,5 +95,9 @@ git is already preinstalled in most linux distro
 70. nop
 71. nop
 72. Heap Exploitation
+73. nop
+74. nop
+75. Fuzzing (AFL fuzzer)
+76. WinDBG
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
