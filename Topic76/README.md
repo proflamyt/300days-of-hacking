@@ -41,3 +41,22 @@ unassemble
 ```
 u @rip
 ```
+
+trace (step instruction)
+```
+t
+```
+
+trace until call (stop at call)
+```
+tc
+```
+
+next instruction
+```
+p
+```
+go up 
+```
+gu
+```
