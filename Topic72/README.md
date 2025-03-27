@@ -28,6 +28,51 @@ size up to 1024
 Doubly linked lists
 
 
+The **maximum chunk size** in glibc's heap memory allocator (`ptmalloc2`) depends on whether the chunk is allocated from the **TCache**, **Fastbin**, **Smallbin**, **Largebin**, or is handled by the **mmap system call**. 
+---
+
+### **1. TCache (Thread-local Cache) Maximum Chunk Size**
+- **Maximum chunk size:** **1032 bytes** (on x86_64).
+- **Why?** TCache bins store chunks up to `0x408` bytes (1032 bytes), aligned to 16 bytes.
+
+---
+
+### **2. Fastbin Maximum Chunk Size**
+- **Maximum chunk size:** **0x80 (128 bytes)**
+- **Why?** Fastbins are for quick allocations of small chunks and are limited to prevent fragmentation.
+
+---
+
+### **3. Smallbin Maximum Chunk Size**
+- **Maximum chunk size:** **1024 bytes (0x400)**.
+- **Why?** Smallbins store fixed-size allocations that avoid merging.
+
+---
+
+### **4. Largebin Maximum Chunk Size**
+- **Maximum chunk size:** **Up to the system `mmap_threshold` (typically ~128 KB, configurable).**
+- **Why?** Largebins store bigger chunks and are merged when freed.
+
+---
+
+### **5. mmap (Direct Memory Mapping)**
+- **Threshold:** **Typically 128 KB (`MMAP_THRESHOLD`)**.
+- **Why?** Chunks larger than the `mmap_threshold` bypass the heap and are allocated directly via `mmap()`.  
+- **Maximum chunk size:** **Limited by available virtual memory** (theoretically **several terabytes** on 64-bit systems).
+
+---
+
+### **Practical Maximum Chunk Sizes (x86_64 Default)**
+| Allocation Type | Max Chunk Size |
+|---------------|--------------|
+| **TCache** | 1032 bytes (`0x408`) |
+| **Fastbin** | 128 bytes (`0x80`) |
+| **Smallbin** | 1024 bytes (`0x400`) |
+| **Largebin** | Up to `mmap_threshold` (~128 KB) |
+| **mmap** | Several TB (limited by virtual memory) |
+
+
+
 ### Use After Free (Tcache)
 
 ```c
