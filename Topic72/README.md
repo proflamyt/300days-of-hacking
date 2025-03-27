@@ -1,5 +1,33 @@
 # Heap Exploitation
 
+### tcahe
+singly linked list
+mangled pointer
+maximum of 7 chunks 
+per thread
+
+### Fast bins
+Singly linked list with safe-linking - similar to tcache
+Bin lists grow to unlimited length
+Bins of constant size up to 0x80 bytes
+P bit is never cleared for chunks in the fast bin
+Only checks top chunk for double-free
+
+
+### Unsorted Bins
+Freed not fit for tchache and fast bins stays here first
+On malloc if chunk is not satisfied, it gets sorted into fast or small bins
+consolidates
+
+### Small bins
+Doubly linked lists
+size up to 1024
+
+
+### Large bins
+Doubly linked lists
+
+
 ### Use After Free (Tcache)
 
 ```c
