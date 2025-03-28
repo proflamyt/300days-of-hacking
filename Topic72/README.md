@@ -26,6 +26,8 @@ size up to 1024
 
 ### Large bins
 Doubly linked lists
+stored in sorted order 
+Each freed chunk has forward (fd) and backward (bk) pointers to link it to the next and previous chunks.
 
 
 The **maximum chunk size** in glibc's heap memory allocator (`ptmalloc2`) depends on whether the chunk is allocated from the **TCache**, **Fastbin**, **Smallbin**, **Largebin**, or is handled by the **mmap system call**. 
