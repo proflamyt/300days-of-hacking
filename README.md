@@ -99,5 +99,6 @@ git is already preinstalled in most linux distro
 74. Paging and Page Walking
 75. Fuzzing (AFL fuzzer)
 76. WinDBG
+77. Kernel Exploitation
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
