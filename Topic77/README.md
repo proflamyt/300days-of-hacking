@@ -32,6 +32,13 @@ sudo cat /proc/slabinfo
 ```
 
 
+Kernel Heap
+
+caches are backed backed by pages , unique by sizes , 
+
+e.g a cache of specifically of size 512, may contain diffrent slabs each with 8 objects as each slab is backed by a page . (512*8 == a 4kb page)
+
+
 kalloc Internal
 
 http://www.jikos.cz/jikos/Kmalloc_Internals.html
