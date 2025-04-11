@@ -42,8 +42,10 @@ e.g a cache of specifically of size 512, may contain diffrent slabs each with 8 
 Kernel Heap Hardnening 
 
 -> SLUB allocation randomization
+
 -> Hardened Usercopy
--> Mangling Next pointer : rev(ptr) ^ ptr_addr ^ random
+
+-> freelist hardening : Mangling Next pointer : rev(ptr) ^ ptr_addr ^ random
 
 
 FreeList randomization
@@ -53,7 +55,13 @@ When allocating objects from slabs , the slots are returned randomly
 Free list poisoning
 Overwrite next pointer such that when next it is allocated it returns your address
 
-####  SMAP, SMEP, and KASLR 
+####  SMAP, SMEP, and 
+
+
+
+KASLR 
+
+randomize base address during boot
 
 
 
