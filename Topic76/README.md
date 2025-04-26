@@ -42,6 +42,21 @@ unassemble
 u @rip
 ```
 
+dump from rsp
+```
+dq @rsp
+```
+registers
+```
+r
+```
+
+evaluation
+
+```
+? a- b
+```
+
 trace (step instruction)
 ```
 t
