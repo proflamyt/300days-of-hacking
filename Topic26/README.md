@@ -299,7 +299,7 @@ ret
 ```
 
 
-### FUNCTION CALLS
+### FUNCTION CALLS LINUX
 
 #### Registers for Function Arguments 
 
@@ -317,4 +317,16 @@ R9: Sixth argument
 
 ** Stack Usage **
 If there are more than six arguments, or if any arguments are larger than 8 bytes (like structures), the additional arguments are passed on the stack. In such cases, the caller must ensure that the stack is properly aligned (to a 16-byte boundary) before the call.
+
+
+
+### FUNCTION CALLS WINDOWS
+```
+func1(int a, int b, int c, int d, int e, int f);
+// a in RCX, b in RDX, c in R8, d in R9, f then e pushed on stack
+```
+
+
+reference: 
 https://tryhackme.com/room/win64assembly
+https://learn.microsoft.com/en-us/cpp/build/x64-calling-convention?view=msvc-170
