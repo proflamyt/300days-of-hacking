@@ -326,6 +326,43 @@ func1(int a, int b, int c, int d, int e, int f);
 // a in RCX, b in RDX, c in R8, d in R9, f then e pushed on stack
 ```
 
+WriteFile windows asm
+```
+BOOL WriteFile(
+  [in]                HANDLE       hFile,
+  [in]                LPCVOID      lpBuffer,
+  [in]                DWORD        nNumberOfBytesToWrite,
+  [out, optional]     LPDWORD      lpNumberOfBytesWritten,
+  [in, out, optional] LPOVERLAPPED lpOverlapped
+);
+```
+
+```
+mov rcx, 0xb4
+mov rd, buf
+mov r8, 100
+mov r9, 0
+mov r8, 100
+mov r9, 0
+sub rsp, 0x28
+mov r11, 0
+mov [rsp + 32], r11
+```
+
+windows shadow space -> 32 bytes 
+space for the callee to optionally save the first 4 registers if needed 
+
+Add 8 bytes to account for misalignment of the stack after push rbp
+
+```
+rsp + 0 -> rcx
+rsp + 8 -> rdx
+rsp + 0x10 -> r8
+rsp + 0x18 -> r9
+rsp + 0x20 -> 5th arg
+```
+
+
 
 reference: 
 https://tryhackme.com/room/win64assembly
