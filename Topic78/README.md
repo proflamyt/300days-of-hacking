@@ -9,6 +9,8 @@ VirtualAllocEx
 
 WriteProcessMemory
 
+CreateRemoteThread
+
 
 ### Inject thread 
 
@@ -40,3 +42,8 @@ int main() {
 }
 
 ```
+
+
+without virtualalloc
+
+find writeable memory, put loadlibrary , pass dll as argument and call CreateRemoteThread
