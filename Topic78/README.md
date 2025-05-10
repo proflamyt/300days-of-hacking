@@ -47,3 +47,20 @@ int main() {
 without virtualalloc
 
 find writeable memory, put loadlibrary , pass dll as argument and call CreateRemoteThread
+
+
+```
+
+typedef HANDLE (WINAPI *CREATEFILE2)(LPCWSTR, DWORD, DWORD, DWORD, LPCREATEFILE2_EXTENDED_PARAMETERS);
+
+GetProcAddress(GetModuleHandleA("kernelbase"), "CreateFile2");
+```
+
+
+```
+typedef NTSTATUS (NTAPI *NtCreateFile_t)(
+    PHANDLE, ACCESS_MASK, POBJECT_ATTRIBUTES, PIO_STATUS_BLOCK,
+    PLARGE_INTEGER, ULONG, ULONG, ULONG, ULONG, PVOID, ULONG
+);
+GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtCreateFile");
+```
