@@ -45,7 +45,7 @@ int main() {
 ```
 
 
-without virtualalloc
+### without virtualalloc
 
 find writeable memory, put loadlibrary , pass dll as argument and call CreateRemoteThread
 
@@ -75,7 +75,7 @@ GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtCreateFile");
     f(&hPipe);
 ```
 
-inject inline asm with naked function
+### inject inline asm with naked function
 
 
 
