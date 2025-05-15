@@ -3,14 +3,15 @@
 
 ### Win APi Functions
 
-OpenProcess 
+```cpp
+OpenProcess ()
 
-VirtualAllocEx 
+VirtualAllocEx ()
 
-WriteProcessMemory
+WriteProcessMemory()
 
-CreateRemoteThread
-
+CreateRemoteThread()
+```
 
 ### Inject thread 
 
@@ -50,11 +51,12 @@ find writeable memory, put loadlibrary , pass dll as argument and call CreateRem
 
 
 ```
-
 typedef HANDLE (WINAPI *CREATEFILE2)(LPCWSTR, DWORD, DWORD, DWORD, LPCREATEFILE2_EXTENDED_PARAMETERS);
 
 GetProcAddress(GetModuleHandleA("kernelbase"), "CreateFile2");
 ```
+
+
 
 
 ```
@@ -64,3 +66,12 @@ typedef NTSTATUS (NTAPI *NtCreateFile_t)(
 );
 GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtCreateFile");
 ```
+
+
+```cpp
+    execMem = VirtualAlloc(NULL, sizeof(code), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+    memcpy(execMem, code, sizeof(code));
+    f = (Func)execMem;
+    f(&hPipe);
+```
+
