@@ -75,3 +75,36 @@ GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtCreateFile");
     f(&hPipe);
 ```
 
+inject inline asm with naked function
+
+
+
+```asm
+; syscall.asm
+
+.code
+public MyNakedFunction
+
+MyNakedFunction proc
+    mov r10, rcx        ; Windows x64 ABI requires syscall target in R10
+    mov eax, 0c4h       ; 
+    ret
+MyNakedFunction endp
+
+end
+```
+assemble
+
+```
+ml64 /c /Fo syscall.obj syscall.asm 
+```
+
+then in your cpp
+```cpp
+extern "C" int MyNakedFunction(HANDLE *); 
+```
+
+compile with 
+```
+cl /O2 windows.cpp syscall.obj
+```
