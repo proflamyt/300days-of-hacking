@@ -74,10 +74,11 @@ GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtCreateFile");
     f = (Func)execMem;
     f(&hPipe);
 ```
+## Bypassing EDR API Hooking 
 
 ### inject inline asm with naked function
 
-
+    Note: When preparing for system call, windows move rcx (first arg) into r10 as rcx will be use to store the return address and r10 now represent the first argument . rax still stores the system call number
 
 ```asm
 ; syscall.asm
