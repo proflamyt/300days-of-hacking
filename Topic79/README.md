@@ -113,10 +113,22 @@ Loads two 64-bit registers from memory.
   result: load into X0 into memory pointed to by X3 and into X1 memory pointed to by the next 8 bytes  
 ```
 
+pop 2 instruction from the stack
+```asm
+  ldp X1, X2, [sp], #16
+```
+
+push on the stack
+
+```asm
+str X0, [sp, #-8]!
+```
+Remember Stack grows "down" memory, that is it grows by reducing in mordern architecture
+
  > Pre-indexing: [SP, #-16]! – updates the base register before accessing memory.
  
  > Post-indexing: [SP], #16 – accesses memory, then updates the base register.
  
  > Offset: [SP, #offset] – accesses memory at the address SP + offset
 
-Remember Stack grows "down" memory
+
