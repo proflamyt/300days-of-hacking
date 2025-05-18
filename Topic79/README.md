@@ -28,7 +28,49 @@ add X0, X1, X2
 ### MADD instruction
 multiply 2 regs,  adds a third register value, and writes the result to the destination register
 
-```
+```asm
  madd X3, X0, X1, X2
- X3 = (X0 * X1) + X2
+ X3 = X2 + (X0 * X1) 
+```
+
+### Unsigned divide
+
+```asm
+udiv X2, X0, X1
+```
+
+### MSUB instruction
+multiply 2 regs, and subtract 3rd value
+
+```asm
+ msub X3, X0, X1, X2
+ X3 =  X2 - (X0 * X1) 
+```
+
+### can you get modulus?
+
+```
+5/2
+
+remainder?
+
+5 - (2 * 2)
+
+dividend - (res * divisor )
+
+remainder 1
+```
+
+### lsl instruction shift left 
+
+```asm
+lsl reg1, reg1, reg2
+result : reg1 = reg1 << reg2
+```
+
+### lsr instruction shift left 
+
+```asm
+lsr reg1, reg1, reg2
+result : reg1 = reg1 >> reg2
 ```
