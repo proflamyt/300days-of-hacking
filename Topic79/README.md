@@ -74,3 +74,49 @@ result : reg1 = reg1 << reg2
 lsr reg1, reg1, reg2
 result : reg1 = reg1 >> reg2
 ```
+
+
+### ldr instruction load from memory to register
+
+```asm
+ldr x0, [x1]
+result: goes into memory pointed to by X1 fetch content and put into X0
+> can compute offset by
+ldr x0, [x1, #8]
+result : memory pointed to by X1 + 8
+```
+
+### str instruction stores from register to memory
+
+```asm
+str x0, [x1]
+result: goes into memory pointed to by X1 put what is in X0
+> can compute offset
+str X4, [X3, #0x10]
+store into memory pointed to by X3+ 0x10 X4
+```
+
+
+### stp instruction
+store 2 registers at once 
+
+```asm
+  stp X0, X1, [X3]
+  result: stores X0 into memory pointed to by X3 and X1 into next 8 bytes  
+```
+
+### ldp instruction
+Loads two 64-bit registers from memory.
+
+```asm
+  ldp X0, X1, [X3]
+  result: load into X0 into memory pointed to by X3 and into X1 memory pointed to by the next 8 bytes  
+```
+
+ > Pre-indexing: [SP, #-16]! – updates the base register before accessing memory.
+ 
+ > Post-indexing: [SP], #16 – accesses memory, then updates the base register.
+ 
+ > Offset: [SP, #offset] – accesses memory at the address SP + offset
+
+Remember Stack grows "down" memory
