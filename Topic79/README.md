@@ -24,3 +24,11 @@
 add X0, X1, X2
 # X0 = X1 + X2
 ```
+
+### MADD instruction
+multiply 2 regs,  adds a third register value, and writes the result to the destination register
+
+```
+ madd X3, X0, X1, X2
+ X3 = (X0 * X1) + X2
+```
