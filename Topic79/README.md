@@ -67,7 +67,10 @@ remainder 1
 lsl reg1, reg1, reg2
 result : reg1 = reg1 << reg2
 ```
-
+-> X2 * 2^3
+```
+lsl X3, X2, #3 
+```
 ### lsr instruction shift left 
 
 ```asm
