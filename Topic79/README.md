@@ -134,4 +134,18 @@ Remember Stack grows "down" memory, that is it grows by reducing in mordern arch
  
  > Offset: [SP, #offset] – accesses memory at the address SP + offset
 
+Note: 
+stp x29, x30 saves x29 first, then x30
+
+ldp x29, x30 loads x29 first, then x30
+
+```asm
+CBZ     x0, is_zero    ; if x0 == 0, branch to is_zero
+CBNZ    x1, not_zero   ; if x1 != 0, branch to not_zero
+```
+
+### break
+```asm
+b #0x40
+```
 
