@@ -100,5 +100,7 @@ git is already preinstalled in most linux distro
 75. Fuzzing (AFL fuzzer)
 76. WinDBG
 77. Kernel Exploitation
+78. Nop
+79. Arm64 Assembly
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
