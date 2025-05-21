@@ -144,8 +144,78 @@ CBZ     x0, is_zero    ; if x0 == 0, branch to is_zero
 CBNZ    x1, not_zero   ; if x1 != 0, branch to not_zero
 ```
 
-### break
+
+### Branch (jump)
+
 ```asm
 b #0x40
 ```
+brrance to register
+```asm
+BR X0
+```
 
+Prologue
+```asm
+stp x29, x30, [sp, #-16]!
+mov x29, sp 
+```
+
+Epilogue
+```asm
+ldp x29, x30, [sp], #16
+ret
+```
+
+
+Project (Fibonacci in arm)
+
+
+```py
+def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+```
+
+```asm
+
+
+
+  fib:
+    cmp X0, #1
+    b.le finish
+
+
+    stp x29, x30, [sp, #-0x20]!
+    mov x29, sp 
+
+
+    sub X1, X0, #1
+    str X1, [sp, #0x10]
+
+
+    sub X2, X0, #2
+    str X2, [sp, #0x18]
+
+    mov X0, X1 // did x1
+    bl fib
+    str X0, [sp, #0x10]
+
+
+    ldr X2,  [sp, #0x18]
+    mov X0, X2
+    bl fib
+    
+    ldr X3, [sp, #0x10]
+    add X0, X3, X0
+
+
+    ldp x29, x30, [sp], #0x20  
+
+    finish:
+      
+      ret
+
+```
