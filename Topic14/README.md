@@ -74,4 +74,25 @@ Here is the twelve-step process for Kerberos authentication:
 
 ## LDAP (Lightweight Directory Access Protocol)
 
+## MS-RPC
+
+## SMB
+
+
+### Relative ID
+
+```
+500 is the Administrator account
+501 is the Guest account
+512-514 are for the following groups: Domain Admins, Domain users and Domain guests.
+User accounts typically start from RID 1000 onwards.
+```
+
+
+
 reference : https://www.crowdstrike.com/cybersecurity-101/ntlm-windows-new-technology-lan-manager/
+
+
+
+
+
