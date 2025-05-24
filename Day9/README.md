@@ -6,6 +6,10 @@ Windows Architecture
 
 https://medium.com/@putrasulung2108/windows-architecture-d2b022f136d3
 
+
+
+### Secure Desktop 
+
 # TERMs
 ## Windows API
 An Application Programming Interface Provided by microsoft for interaction with windows operating system. 
