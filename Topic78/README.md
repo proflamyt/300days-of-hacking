@@ -1,6 +1,11 @@
 # Windows 
 ### Injection and Hijacking
 
+### EDR
+Sensor - > Userland ( collects telemetry and monitors behavior)
+Driver -> Kernel ( monitor low-level operations)
+Backend -> Online Infra (Where all received telementry is sent to for processing, logging and analysis)
+
 ### Win APi Functions
 
 ```cpp
