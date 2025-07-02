@@ -118,6 +118,42 @@ That gives us the intermediate value J (the result of decrypting D before XORing
 Later, we can recover plaintext using: Plaintext = J ⊕ Original Cipher Byte.
 
 
+I implemented this for a 16 byte block , validating each byte with the oracle provided in the CTF i mentioned earlier (Web app)
+
+```py
+def modify_block(original_block, blocks, index):
+    modified_block = bytearray(original_block)
+    D_blocks = []
+    for pad in range(15, -1, -1):
+        if len(D_blocks) > 0:
+            for i, value in enumerate(D_blocks):
+                print(hex(len(D_blocks) + 1), end=" ")
+                modified_block[pad + i + 1] = value ^ (len(D_blocks) + 1) # 0x01 for 1 pad , 0x02 for 2 pad
+        # print(modified_block)
+        guess = bruteforce_pad(modified_block, blocks, pad, index) ^ (len(D_blocks) + 1)
+        D_blocks.insert(0, guess)
+    print(D_blocks)
+    return D_blocks
+        
 
 
+
+
+def bruteforce_pad(modified_block: bytearray, blocks, pos:int, index:int):
+    for guess in range(256):
+        modified_block[pos] = guess
+        if check_oracle(modified_block, blocks, iv, index):
+            # print(guess)
+            return guess
+        
+    return guess
+```
+
+This gave me the **intermediate block**, which I then XORed with the **original ciphertext** to recover the **plaintext**—all without ever knowing the original encryption key.
+
+
+![image](https://github.com/user-attachments/assets/a7eb71df-0243-42cd-8c56-47f5cb94bfc9)
+
+
+This just goes to show how even the most secure encryption algorithms can be broken—not because the algorithm is weak, but because of **insecure or careless implementation**.
 
