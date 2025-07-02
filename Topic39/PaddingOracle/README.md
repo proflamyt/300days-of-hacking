@@ -1,6 +1,6 @@
 ## Padding Oracle Attack AES CBC
 
-I was working on a CTF earlier this weekend and encountered a web application that uses encrypted values as its cookie. When manipulated, the web app gives verbose error output, telling you exactly what’s wrong with your encryption.
+I was working on a CTF earlier this weekend and encountered a web application that uses AES CBC encrypted values as its cookie. When manipulated, the web app gives verbose error output, telling you exactly what’s wrong with your ciphertext during decryption (including padding errors).
 
 This meets all the criteria for a padding oracle attack. I decided to dig up my old implementation of this attack, but I couldn’t find it. I could have sworn I had it written down somewhere—this isn’t the first time I’m encountering this attack in a CTF, lol. Alas, I couldn’t find it, so I decided to craft a new implementation and write about it.
 
