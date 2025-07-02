@@ -17,7 +17,7 @@ This is secure under the assumption that the key is unknown. Without the key, th
 ```
 |---------------| 16 block plaintext
 -----------------
-|'?/'/';';';;';--p''| 16 block ciphertext
+|'';';';;';--p''| 16 block ciphertext
 -----------------
 ```
 But there’s a weakness here: predictability. Since a given plaintext will always produce the same ciphertext (when encrypted with the same key), an attacker doesn’t necessarily need to decrypt the ciphertext—they just need to recognize what was encrypted, kind of like how we approach hashes.
@@ -85,7 +85,7 @@ Let’s say C D is the block being decrypted with an unknown key, and the result
 ```
 | A B | C D |
         ↓ ↓
-        Y  J
+        Y J
 ```
 In AES-CBC mode, the decrypted output Y J is then XORed with the previous ciphertext block A B to produce the final plaintext:
 
