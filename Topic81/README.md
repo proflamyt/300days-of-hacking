@@ -48,7 +48,27 @@ bootstrap_look_up(
 );
 ```
 
+# MAC Message Header 
 
+```
+typedef struct {
+  mach_msg_bits_t       msgh_bits;
+  mach_msg_size_t       msgh_size;
+  mach_port_t           msgh_remote_port;
+  mach_port_t           msgh_local_port;
+  mach_port_name_t      msgh_voucher_port;
+  mach_msg_id_t         msgh_id;
+} mach_msg_header_t;
+```
+
+A brief description of these fields is the following:
+- msgh_bits - options and message metadata, such as disposition of port rights in the message
+- msgh_size - total message size, including header
+- msgh_remote_port - remote Mach port, used as the destination when sending a message, or a reply port when receiving
+- msgh_local_port - local Mach port, the port the message was received on, or a reply port when sending a message
+- msgh_voucher_port - port identifying a Mach Voucher, that’s an optional field
+- msgh_id - user defined message identifier
 
 reference: https://karol-mazurek.medium.com/mach-ipc-security-on-macos-63ee350cb59b
+
 https://ulexec.github.io/post/2022-12-01-xnu_ipc/
