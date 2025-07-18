@@ -178,8 +178,27 @@ typedef struct {
 } mach_msg_port_descriptor_t;
 ```
 
+# OOL Messages
 
 
+```
+typedef struct {
+  mach_msg_header_t header;
+  mach_msg_size_t msgh_descriptor_count;
+  mach_msg_ool_descriptor_t descriptor;
+} OOLMachMessage;
+```
+
+```
+typedef struct{
+  void*                         address;
+  mach_msg_size_t               size;
+  boolean_t                     deallocate: 8;
+  mach_msg_copy_options_t       copy: 8;
+  unsigned int                  pad1: 8;
+  mach_msg_descriptor_type_t    type: 8;
+} mach_msg_ool_descriptor_t;
+```
 
 reference: 
 - https://karol-mazurek.medium.com/mach-ipc-security-on-macos-63ee350cb59b
