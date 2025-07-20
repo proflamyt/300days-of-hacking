@@ -18,16 +18,18 @@ There are two ways to access a shell (bind shell and reverse shell)
 
 **The Bind shell** is rarely used in practice, due to firewalls that restricts imbound connection . dynamic IP addresses etc . In the case of a bind shell you make a connection to the user , that means the user has to be waiting (listening ) for connection and you connect to it. for this to work you will need the IP address of the system and the port you want to make connection to . note: once the IP address changes there is no way for you to access the system unless ofcourse you find its new IP
 
+## Using Netcat for a bind shell 
+First we need to install netcat.
 
-# 🔌 Installing Netcat (`nc`) on Android, Windows, and Linux
+### 🔌 Installing Netcat (`nc`) on Android, Windows, and Linux
 
 Netcat (often abbreviated as `nc`) is a powerful network tool used for reading from and writing to network connections using TCP or UDP.
 
 ---
 
-## 📱 Android
+### 📱 Android
 
-### Option 1: Using Termux (Recommended)
+#### Option 1: Using Termux (Recommended)
 1. Install [**Termux**](https://f-droid.org/en/packages/com.termux/) from F-Droid.
 2. Run the following commands in Termux:
    ```bash
@@ -92,12 +94,6 @@ ncat --version
 ℹ️ Note: Depending on your OS and install method, the command may be nc, netcat, or ncat.
 
 Feel free to open an issue or PR if you encounter platform-specific differences!
-
-vbnet
-Copy
-Edit
-
-Let me know if you want me to add a "Usage Examples" section right after.
 
   ## Using Netcat for a bind shell
      Attacker's Host: nc <IP> <port> # makes connection to remote machine (looks for machine with that IP and has that port opened and makes a connection to it)
