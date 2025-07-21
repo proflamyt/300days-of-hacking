@@ -34,7 +34,8 @@ Netcat (often abbreviated as `nc`) is a powerful network tool used for reading f
 2. Run the following commands in Termux:
    ```bash
    pkg update
-   pkg install netcat
+   pkg install netcat-openbsd
+   
 ✅ Netcat will be installed as nc.
 
 ####  Option 2: Using BusyBox (Root Required)
@@ -79,12 +80,13 @@ Netcat (often abbreviated as `nc`) is a powerful network tool used for reading f
    ```bash
    nc --version
 #### or
-    ```bash
+2.
+   ```bash
     ncat --version
 
 #### ℹ️ Note: Depending on your OS and install method, the command may be nc, netcat, or ncat.
 
-    ```vbnet
+    
     Feel free to open an issue or PR if you encounter platform-specific differences!
 
 
