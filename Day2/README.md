@@ -37,63 +37,56 @@ Netcat (often abbreviated as `nc`) is a powerful network tool used for reading f
    pkg install netcat
 ✅ Netcat will be installed as nc.
 
-Option 2: Using BusyBox (Root Required)
-Install BusyBox from Play Store or F-Droid.
+####  Option 2: Using BusyBox (Root Required)
+1. Install BusyBox from Play Store or F-Droid.
 
-Open a terminal emulator or ADB shell:
+2. Open a terminal emulator or ADB shell:
 
-bash
-Copy
-Edit
-busybox nc
-🪟 Windows
-Option 1: Using Nmap's Ncat
-Download and install Nmap from https://nmap.org/download.html.
+   ```bash
+   busybox nc
 
-Use Ncat (a Netcat-compatible tool) from the command line:
 
-powershell
-Copy
-Edit
-ncat.exe -l -p 4444
-Option 2: Standalone Netcat Binary
-Download from a trusted source like https://eternallybored.org/misc/netcat/.
+### 🪟 Windows
 
-Extract and run from Command Prompt:
+#### Option 1: Using Nmap's Ncat
+1. Download and install Nmap from https://nmap.org/download.html.
 
-cmd
-Copy
-Edit
-nc.exe -l -p 4444
-🐧 Linux
-Debian/Ubuntu-based:
-bash
-Copy
-Edit
-sudo apt update
-sudo apt install netcat
-Arch-based:
-bash
-Copy
-Edit
-sudo pacman -S gnu-netcat
-RHEL/CentOS/Fedora:
-bash
-Copy
-Edit
-sudo dnf install nmap-ncat
-✅ Verify Installation
-Run one of the following commands:
+2. Use Ncat (a Netcat-compatible tool) from the command line:
+   ```powershell
+   ncat.exe -l -p 4444
+   
+### Option 2: Standalone Netcat Binary
+1. Download from a trusted source like https://eternallybored.org/misc/netcat/
+2. Extract and run from Command Prompt:
+   ```cmd
+   nc.exe -l -p 4444
+   
+###🐧 Linux
+1. Debian/Ubuntu-based:
+   ```bash
+   sudo apt update
+   sudo apt install netcat
+2. Arch-based:
+   ```bash
+    sudo pacman -S gnu-netcat
 
-bash
-Copy
-Edit
-nc --version
-# or
-ncat --version
-ℹ️ Note: Depending on your OS and install method, the command may be nc, netcat, or ncat.
+3. RHEL/CentOS/Fedora:
 
-Feel free to open an issue or PR if you encounter platform-specific differences!
+   ```bash
+   sudo dnf install nmap-ncat
+#### ✅ Verify Installation
+1. Run one of the following commands:
+   ```bash
+   nc --version
+#### or
+    ```bash
+    ncat --version
+
+#### ℹ️ Note: Depending on your OS and install method, the command may be nc, netcat, or ncat.
+
+    ```vbnet
+    Feel free to open an issue or PR if you encounter platform-specific differences!
+
 
   ## Using Netcat for a bind shell
      Attacker's Host: nc <IP> <port> # makes connection to remote machine (looks for machine with that IP and has that port opened and makes a connection to it)
