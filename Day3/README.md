@@ -15,8 +15,10 @@ an encryption layer to the data in transit, this way anyone between you and the 
 communicating with will only see jumbled, rubbish and un-meaningful data , also, won’t be able
 to change it in transit , thus affecting your data integrity.
 For you to understand the ways data are transmitted and received you have to understand these;
+
 • Request and
 • Responses.
+
 Earlier, it was mentioned, that data being transferred to and from you to a webserver, in this case
 “tryhackme.com”, these data are in form of request and responses, most times you access a website
 through a browser, your browser underneath the hood has to get the images, texts, html from the
@@ -169,3 +171,45 @@ Once you have developer tools open, click on the "Network" tab. This tab will sh
 all the resources your browser has requested. You can click on each one to receive a detailed
 breakdown of the request and response. If your browser sent a cookie, you will see these on the
 "Cookies" tab of the request.
+
+
+
+# HTTP VERSIONS 
+
+### HTTP/0.9
+This starts the beginning of HTTP Versioning, In  this version of http protocol only one method is available which is the GET request, there were no HTTP headers hence only Html files can be transmitted.
+
+### HTTP/1.0
+The protocol becomes more evolved and the concept of HTTP headers was introduced for both requests and responses. Metadata could be transmitted and the protocol became extremely flexible and extensible. Other documents asides HTML Files can be transmitted.
+
+### HTTP/1.1
+
+- Connection Reuse:
+
+Prior to this version, every time a client wants to connect to a server , it has to create new TCP connection request. Upgrade was made with HTTP/1.1 that allows connection reuse ,  It reduce the connection overhead of having to tear down TCP connections for every HTTP request/response pair. With the version of HTTP, after the initial handshake, request and response can continue without having to close down the connection . To achieve this , the HTTP client has to tell the server about its intention to reuse TCP connection they just established using the HTTP header. They both have to include  
+a Connection header with the value "keep-alive" to indicate their intention to reuse the TCP connection for multiple requests. Until the client or the server indicates they are xplicitly done by issueing a Connection: close header in an HTTP request or response, the connection stays open until timeout.
+
+- HTTP Pipelining: 
+
+Before a HTTP response to a request is complete, HTTP/1.1 supports another request to be sent .
+
+- Support for Chunked responses:
+
+This feature allows server to send a response as a series of "chunks" instead of sending the entire response at once. This encoding method is particularly useful when the server cannot determine the total size of the response in advance or when the response needs to be streamed progressively to the client. 
+
+
+### HTTP/2
+The Http/2 has some improvemts such as :
+
+- It's a binary protocol
+- Parallel requests can be made over the same connection
+-  It compresses headers.
+-  It allows a server to populate data in a client cache through a mechanism called the server push.
+
+### HTTP/3
+This HTTP version use QUIC protocol for data exchange 
+
+
+
+
+reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP
