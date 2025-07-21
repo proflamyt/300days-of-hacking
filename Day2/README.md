@@ -66,7 +66,7 @@ Netcat (often abbreviated as `nc`) is a powerful network tool used for reading f
 1. Debian/Ubuntu-based:
    ```bash
    sudo apt update
-   sudo apt install netcat
+   sudo apt install netcat-openbsd
 2. Arch-based:
    ```bash
     sudo pacman -S gnu-netcat
