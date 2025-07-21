@@ -62,7 +62,7 @@ Netcat (often abbreviated as `nc`) is a powerful network tool used for reading f
    ```cmd
    nc.exe -l -p 4444
    
-###🐧 Linux
+### 🐧 Linux
 1. Debian/Ubuntu-based:
    ```bash
    sudo apt update
