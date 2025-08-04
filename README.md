@@ -103,5 +103,7 @@ git is already preinstalled in most linux distro
 78. Nop
 79. Arm64 Assembly
 80. Desktop Application Security
+81. MAC IPC
+82. LLDB
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
