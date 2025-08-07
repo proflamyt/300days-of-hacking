@@ -113,11 +113,13 @@ such that px + qy = gcd(a,b)
 
 ### 🧮 Elliptic Curve Point Addition Example
 
+Elliptic curve addition means "drawing a line between two points" and finding the third point where it hits the curve, then flipping it.
+
+
+```
 We are given the elliptic curve:
 
-\[
-E: Y^2 = X^3 + 497X + 1768 \mod 9739
-\]
+[E: Y^2 = X^3 + 497X + 1768 mod 9739 ]
 
 Points:
 
@@ -131,7 +133,50 @@ We are to compute:
 S = P + P + Q + R = 2P + Q + R
 \]
 
+```
+ 
+A point like 𝑃= (493,5564)lies on this curve if plugging it into the equation gives a true statement:
+5564^2 ≡ 493^3 + 497⋅493 +1768 mod  9739
+
+That’s how elliptic curve points are defined.
+
+## ➕ What Does `P + Q` Mean?
+
+Elliptic curve point addition is **not** normal addition.
+
+Each + in our expression means:
+
+“Draw a line, find intersection, reflect”
+
+It follows these rules:
+
+1. Draw a line between `P` and `Q`
+2. Find the third place the line intersects the curve
+3. Flip it over the x-axis
+4. That’s `P + Q`
+
+If `P = Q`, then you “draw a tangent line” instead — this is **point doubling**.
+
+
+So : 𝑆=(((𝑃+𝑃)+𝑄)+𝑅) 
+
+Is like :
+
+1. Tangent at P → reflect → 2𝑃
+2. Line through 2P and 𝑄 → reflect → next point
+3. Line through that and 𝑅 → reflect → final answer
+
+All this is done using special math formulas.
+
 ---
+
+## 🧮 Why Do This Calculation?
+
+You're computing:
+
+
+
+
 
 ```
 # Define the field and curve
