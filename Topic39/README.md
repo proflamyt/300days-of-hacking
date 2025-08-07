@@ -108,6 +108,76 @@ such that px + qy = gcd(a,b)
 
 
 
+### ECC 
+
+
+### 🧮 Elliptic Curve Point Addition Example
+
+We are given the elliptic curve:
+
+\[
+E: Y^2 = X^3 + 497X + 1768 \mod 9739
+\]
+
+Points:
+
+- \( P = (493, 5564) \)
+- \( Q = (1539, 4742) \)
+- \( R = (4403, 5202) \)
+
+We are to compute:
+
+\[
+S = P + P + Q + R = 2P + Q + R
+\]
+
+---
+
+```
+# Define the field and curve
+p = 9739
+a = 497
+b = 1768
+
+# Elliptic curve point addition
+def inverse_mod(k, p):
+    return pow(k, -1, p)
+
+def point_add(P, Q):
+    if P == "O":
+        return Q
+    if Q == "O":
+        return P
+    (x1, y1) = P
+    (x2, y2) = Q
+    if x1 == x2 and y1 != y2:
+        return "O"
+    
+    if P != Q:
+        m = ((y2 - y1) * inverse_mod(x2 - x1, p)) % p
+    else:
+        # Point doubling
+        m = ((3 * x1**2 + a) * inverse_mod(2 * y1, p)) % p
+    
+    x3 = (m**2 - x1 - x2) % p
+    y3 = (m * (x1 - x3) - y1) % p
+    return (x3, y3)
+
+# Define the points
+P = (493, 5564)
+Q = (1539, 4742)
+R = (4403, 5202)
+
+# Compute S = P + P + Q + R
+S1 = point_add(P, P)      # 2P
+S2 = point_add(S1, Q)     # 2P + Q
+S  = point_add(S2, R)     # 2P + Q + R
+
+print("S =", S)
+
+```
+
+
 
 
 refrence: https://en.wikipedia.org/wiki/Euclidean_algorithm
