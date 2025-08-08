@@ -123,15 +123,13 @@ We are given the elliptic curve:
 
 Points:
 
-- \( P = (493, 5564) \)
-- \( Q = (1539, 4742) \)
-- \( R = (4403, 5202) \)
+- ( P = (493, 5564) )
+- ( Q = (1539, 4742) )
+- ( R = (4403, 5202) )
 
 We are to compute:
 
-\[
-S = P + P + Q + R = 2P + Q + R
-\]
+[S = P + P + Q + R = 2P + Q + R]
 
 ```
  
@@ -222,7 +220,14 @@ print("S =", S)
 
 ```
 
+## Elliptic Curve Diffie-Hellman Key Exchange 
 
+The Elliptic Curve Diffie-Hellman Key Exchange goes as follows :
+- Alice generates a secret random integer nA  and calculates Qa =[nA]G
+- Bob generates a secret random integer nBand calculates Qb=[nB]G
+- Alice sends Bob QA, and Bob sends Alice QB. Due to the hardness of ECDLP, an onlooker Eve is unable to calculate nA/B  in reasonable time.
+- Alice then calculates [nA]Qb , and Bob calculates [nB]Qa .Due to the associativity of scalar multiplication, S=[nA]Qb = [nB]Qa
+- Alice and Bob can use SS as their shared secret.
 
 
 refrence: https://en.wikipedia.org/wiki/Euclidean_algorithm
