@@ -37,3 +37,8 @@ Get all services within a  namespace
 ```bash
 kubectl get svc -n <namespace>
 ```
+
+
+### Video
+
+https://madhuakula.com/kubernetes-goat/docs/learning-kubernetes
