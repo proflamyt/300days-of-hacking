@@ -8,7 +8,7 @@
 
 - Pods:  one or more containers that share storage and network resources.
 
-- Namespace : 
+- Namespace : gives privacy to resources. keeping their secrets secluded from other servi
 
 - Services : A way to expose an application running on a set of pods as a network service.
 
@@ -37,6 +37,18 @@ Get all services within a  namespace
 ```bash
 kubectl get svc -n <namespace>
 ```
+
+## What is containerd.sock specifically?
+
+This file (often located at /run/containerd/containerd.sock) is where clients connect to containerd.
+
+For example:
+
+- Docker uses it to tell containerd: “Hey, pull this image” or “Run this container.”
+
+- Kubernetes (via CRI plugin) uses it to manage pods.
+
+
 
 
 ### Video
