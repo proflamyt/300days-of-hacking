@@ -14,6 +14,8 @@ unique id for services
 
 ### BLE MESH PROXY
 
+ DATA IN
+ DATA OUT
 
 
 https://www.bluetooth.com/specifications/assigned-numbers/
