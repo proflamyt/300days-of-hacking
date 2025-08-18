@@ -93,12 +93,40 @@ A more efficient version of the algorithm shortcuts these steps, instead replaci
 ```
 
 ## Etended Euclidean 
-The extended Euclidean algorithm is an algorithm to compute integers p, q
+The extended Euclidean algorithm is an algorithm to compute integers p, q. 
 
 such that px + qy = gcd(a,b)
 
+```
+It can be used to find modular inverse
+```
+
+# Quadratic residue mod 𝑝
+
+An integer 𝑎 such that there exists some x with
+𝑥^2 ≡ 𝑎 (mod 𝑝)
+Legendre Symbol is a fast way to determine whether a number is a square root modulo a prime.
+
+### Chinese remainder theorem
+
+Chinese remainder theorem will determine a number p that, when divided by some given divisors, leaves given remainders.
+
+### coprime
+Two numbers are coprime (also called relatively prime) if their greatest common divisor (GCD) is 1.
 
 
+### Modular Inverse
+
+if a and N are integers such that gcd(a, N) = 1, then there exists an integer x such that ax ≡ 1(modN).
+
+an integer 𝑎 has an inverse modulo n only if a and 𝑛 are coprime (gcd(𝑎, 𝑛) =1).
+
+#### Question
+does the modular inverse of 2 mod 5 exist?
+
+```
+gcd(2, 5) == 1; so there is a modulus inverse
+```
 
 
 
