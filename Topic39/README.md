@@ -261,3 +261,4 @@ The Elliptic Curve Diffie-Hellman Key Exchange goes as follows :
 refrence: https://en.wikipedia.org/wiki/Euclidean_algorithm
 https://brilliantorg-infra-prod.brilliant.org/wiki/extended-euclidean-algorithm/
 https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/what-is-modular-arithmetic
+https://brilliant.org/wiki/chinese-remainder-theorem/
