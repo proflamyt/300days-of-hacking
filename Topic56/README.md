@@ -49,7 +49,9 @@ For example:
 - Kubernetes (via CRI plugin) uses it to manage pods.
 
 
-
+```
+crictl -r unix://<path_to_containerd>/containerd.sock images
+```
 
 ### Video
 
