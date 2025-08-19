@@ -104,8 +104,21 @@ It can be used to find modular inverse
 # Quadratic residue mod 𝑝
 
 An integer 𝑎 such that there exists some x with
+
 𝑥^2 ≡ 𝑎 (mod 𝑝)
+
 Legendre Symbol is a fast way to determine whether a number is a square root modulo a prime.
+
+
+
+Take a prime number 𝑝. A number 𝑥 (between 1 and p−1) is called a quadratic residue modulo 𝑝 if there exists some number 
+𝑦 such that:
+
+y^2 ≡ x (mod p)
+
+In plain words:
+👉 
+𝑥 is a quadratic residue if it’s a perfect square when you work modulo 𝑝.
 
 ### Chinese remainder theorem
 
@@ -136,7 +149,7 @@ gcd(2, 5) == 1; so there is a modulus inverse
 
 
 
-### ECC 
+## ECC 
 
 
 ### 🧮 Elliptic Curve Point Addition Example
