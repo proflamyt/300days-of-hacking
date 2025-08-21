@@ -151,6 +151,9 @@ gcd(2, 5) == 1; so there is a modulus inverse
 
 ## ECC 
 
+Terms
+- Group order : how many unique positions exist before you cycle back to the start.
+- Finite Fields : Think of “normal numbers” but wrapped around after some modulus p.
 
 ### 🧮 Elliptic Curve Point Addition Example
 
