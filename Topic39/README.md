@@ -271,7 +271,34 @@ The Elliptic Curve Diffie-Hellman Key Exchange goes as follows :
 - Alice and Bob can use SS as their shared secret.
 
 
-refrence: https://en.wikipedia.org/wiki/Euclidean_algorithm
+### Elliptic Curve Signature
+
+Bob generates a private key n
+Bob then generates a public key by doting n with a Generator Qb  = nG
+Bob gets the message to sign (M)
+Bob generates a random value (k)
+Bob dots k with a generator G and saves it as r = k.G
+Bob computes s = k^-1(H(M) + r.n)
+Bob sends the signature as (r,s) and public key as Qb
+
+
+
+### If k is compromised
+
+Attacker can compute n(private key) by r^-1(s.k-H(M))
+
+
+
+
+Alice generates (r, s) with her public key =>   Qa =[nA]G (where G is the generator)
+
+
+
+refrence: 
+https://en.wikipedia.org/wiki/Euclidean_algorithm
 https://brilliantorg-infra-prod.brilliant.org/wiki/extended-euclidean-algorithm/
 https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/what-is-modular-arithmetic
 https://brilliant.org/wiki/chinese-remainder-theorem/
+https://www.youtube.com/watch?v=RdP7_hMUTn0
+
+
