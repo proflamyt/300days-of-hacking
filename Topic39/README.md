@@ -273,13 +273,13 @@ The Elliptic Curve Diffie-Hellman Key Exchange goes as follows :
 
 ### Elliptic Curve Signature
 
-Bob generates a private key n
-Bob then generates a public key by doting n with a Generator Qb  = nG
-Bob gets the message to sign (M)
-Bob generates a random value (k)
-Bob dots k with a generator G and saves it as r = k.G
-Bob computes s = k^-1(H(M) + r.n)
-Bob sends the signature as (r,s) and public key as Qb
+- Bob generates a private key n
+- Bob then generates a public key by doting n with a Generator Qb  = nG
+- Bob gets the message to sign (M)
+- Bob generates a random value (k)
+- Bob dots k with a generator G and saves it as r = k.G
+- Bob computes s = k^-1(H(M) + r.n)
+- Bob sends the signature as (r,s) and public key as Qb
 
 
 
