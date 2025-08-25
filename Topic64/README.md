@@ -26,3 +26,11 @@ unfurl paths |
   sort -u
 
 ```
+
+
+```
+curl --silent --fail "https://example.com/[0-10]" -o "out/post_#1.txt"
+curl -s -w '%{url} %{http_code}\n' https://example.com/[0-10] -o/dev/null
+curl -s -w '%{url} %{http_code}\n' https://example.com/[0-10] -o/dev/null | grep 200
+curl -s -w '%{url} %{http_code}\n' https://example.com/[0-10] -o/dev/null | grep -v 404
+```
