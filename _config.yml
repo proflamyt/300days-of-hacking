@@ -3,8 +3,3 @@ description: 300 days of Documentation and notes on Hacking
 theme: minima
 markdown: kramdown
 
-header_pages:
-  - index.md
-  - Day1/README.md
-  - Day2/README.md
-  - Day3/README.md
