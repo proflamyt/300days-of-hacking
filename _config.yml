@@ -1,5 +1,17 @@
-title: 300 days of Hacking 
-description: 300 days of Documentation and notes on Hacking 
-theme: minima
-markdown: kramdown
+title: My Knowledge Base
+description: Topics and Vulnerabilities
+remote_theme: just-the-docs/just-the-docs
 
+# Enable dark theme by default
+color_scheme: dark
+
+# Navigation order
+nav_order: 1
+
+# Sidebar (auto from front matter)
+search_enabled: true
+
+# Optional: External link to repo
+nav_external_links:
+  - title: GitHub Repo
+    url: https://github.com/your-username/your-repo
