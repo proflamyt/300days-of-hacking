@@ -66,6 +66,15 @@ mov RAX, 8
 cmp RAX, 5
 ```
 
+### Dereferencing
+
+```
+mov rax, [rdi]         <=>     Moves the thing stored at the address of what rdi holds to rax
+```
+
+```
+mov [rax], rdi         <=>     Moves rdi to the address of what rax holds.
+```
 
 ### NOP
 
@@ -129,11 +138,11 @@ Floating point : YMM0 to YMM15,  256-bit wide each and can hold 4 64-bit values 
 
 ## ARM
 
+Refer to :
+[Arm](https://proflamyt.github.io/300days-of-hacking/Topic79)
 
 
-
-
-================================================================================
+ https://github.com/proflamyt/300days-of-hacking/tree/main/Topic79
 
 solving mx + b
 
