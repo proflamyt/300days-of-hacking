@@ -383,4 +383,7 @@ rsp + 0x20 -> 5th arg
 
 reference: 
 https://tryhackme.com/room/win64assembly
+
 https://learn.microsoft.com/en-us/cpp/build/x64-calling-convention?view=msvc-170
+
+https://ftp.gnu.org/old-gnu/Manuals/gas-2.9.1/html_chapter/as_7.html
