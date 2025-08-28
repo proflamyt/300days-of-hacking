@@ -82,6 +82,14 @@ Nop is short for No Operation. This instruction effectively does nothing. its us
 
 
 
+### Rept
+
+```
+.rept <num of times>
+    nop
+.endr
+```
+
 ### Example
 
 ```x86asm
