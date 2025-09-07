@@ -303,5 +303,6 @@ https://brilliantorg-infra-prod.brilliant.org/wiki/extended-euclidean-algorithm/
 https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/what-is-modular-arithmetic
 https://brilliant.org/wiki/chinese-remainder-theorem/
 https://www.youtube.com/watch?v=RdP7_hMUTn0
+https://www.youtube.com/watch?v=S-vLA7d1ORI&list=PLBlnK6fEyqRgJU3EsOYDTW7m6SUmW6kII
 
 
