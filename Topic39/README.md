@@ -13,6 +13,9 @@ Using bytes.fromhex function , each hex would be converted to its equivalent dec
 
 Base64 encoding can also be used to represent bytes as an ASCII string, in a format that can be easily transmitted over networks and stored in text-based formats. One character of a Base64 string encodes 6 bits
 
+
+confusion: Given just a ciphertext, there should be no way to learn anything about the key and plaintext. implementation: s-block
+
 ## TrapDoor Function
 trapdoor functions allow a client to keep data secret by performing a mathematical operation which is computationally easy to do, but currently understood to be very expensive to undo.
 
