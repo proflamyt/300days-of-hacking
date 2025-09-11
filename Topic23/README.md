@@ -48,3 +48,14 @@ Display Logs from app
 ```
 adb logcat "MainActivity:V *:S" -v brief
 ```
+
+
+# Merge split Apk
+```
+java -jar .\APKEditor-1.4.5.jar m -i <directory>
+```
+
+
+```
+java -jar .\uber-apk-signer-1.2.1.jar --allowResign -a <>.apk
+```
