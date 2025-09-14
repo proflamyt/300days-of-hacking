@@ -1,4 +1,5 @@
 title: My Knowledge Base
+hide_sidebar: true
 description: Topics and Vulnerabilities
 remote_theme: just-the-docs/just-the-docs
 
