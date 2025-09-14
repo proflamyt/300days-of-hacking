@@ -7,3 +7,13 @@
 .main-content {
   margin-left: 0 !important;
 }
+
+/* Hide any sidebar / TOC container */
+.sidebar, .table-of-contents {
+  display: none !important;
+}
+
+/* Expand main content to full width */
+.main-content {
+  margin-left: 0 !important;
+}
