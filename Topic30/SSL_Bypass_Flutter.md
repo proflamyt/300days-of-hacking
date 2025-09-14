@@ -40,7 +40,7 @@ As always i set up my rooted emulator, configure the system CA to include my Bur
 
 My next step was to use a VPN ( [Rethink](https://github.com/celzero/rethink-app]) ) to route the app’s raw TCP traffic through my Burp proxy.
 
-Once I did that, the app started failing all its HTTP requests, suggesting my proxy the interception now works. Checking the error logs, I saw connection failures caused by certificate errors. This pointed to SSL pinning: the app was validating the server’s certificate itself, and since Burp’s certificate wasn’t in its trusted list, the connection was refused.
+Once I did that, the app started failing all its HTTP requests, suggesting the interception by my proxy now works. Checking the error logs, I saw connection failures caused by certificate errors. This pointed to SSL pinning: the app was validating the server’s certificate itself, and since Burp’s certificate wasn’t in its trusted list, the connection was refused.
 
 At this point, I had three possible approaches:
 
