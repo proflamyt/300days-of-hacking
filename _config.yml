@@ -1,6 +1,6 @@
 title: My Knowledge Base
 description: Topics and Vulnerabilities
-
+sidebar: false
 # Use Just the Docs theme
 remote_theme: just-the-docs/just-the-docs
 
