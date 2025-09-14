@@ -1,0 +1,9 @@
+/* Hide sidebar completely */
+.sidebar {
+  display: none !important;
+}
+
+/* Expand the main content to full width */
+.main-content {
+  margin-left: 0 !important;
+}
