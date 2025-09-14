@@ -1,6 +1,7 @@
 title: My Knowledge Base
-hide_sidebar: true
 description: Topics and Vulnerabilities
+
+# Use Just the Docs theme
 remote_theme: just-the-docs/just-the-docs
 
 # Enable dark theme by default
@@ -9,10 +10,17 @@ color_scheme: dark
 # Navigation order
 nav_order: 1
 
-# Sidebar (auto from front matter)
+# Hide sidebar globally
+hide_sidebar: true
+
+# Enable search
 search_enabled: true
 
 # Optional: External link to repo
 nav_external_links:
   - title: 300 days of Hacking
     url: https://github.com/proflamyt/300days-of-hacking
+
+# Include custom CSS (if needed)
+include:
+  - assets/css/custom.css
