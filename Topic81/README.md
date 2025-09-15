@@ -198,7 +198,21 @@ typedef struct{
   unsigned int                  pad1: 8;
   mach_msg_descriptor_type_t    type: 8;
 } mach_msg_ool_descriptor_t;
+
 ```
+
+
+### Controlling Another Task On MacOs/IOS
+
+1. **The target process sends its task port to the other process** :
+        A task must send another task a send right (MACH_PORT_RIGHT_SEND) to its task port. With that, the other task can call mach_vm_write() on it.
+
+2. **The other process obtains the task port by privilege (root / entitlement)** :
+         If the caller is root and System Integrity Protection (SIP) allows it, Or if the process has the com.apple.security.cs.debugger entitlement (task_for_pid-allow)
+   
+
+
+
 
 reference: 
 - https://karol-mazurek.medium.com/mach-ipc-security-on-macos-63ee350cb59b
