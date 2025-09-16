@@ -251,14 +251,16 @@ adr x0, my_label   // x0 := address of my_label (PC-relative)  now x0 is like le
 
 ### Syscall On arm64
 
-```
+```asm
 mov x8, syscall_no
 svc     #0
 ```
 https://arm64.syscall.sh/
 
 ### Syscall On MacOS
-```
+```asm
 mov x16, 0x2000000 | n
 svc     #0x80
 ```
+
+reference: https://cocomelonc.github.io/macos/2025/07/18/malware-mac-6.html
