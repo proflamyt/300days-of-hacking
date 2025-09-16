@@ -219,3 +219,24 @@ def fibonacci(n):
       ret
 
 ```
+
+
+### Equivalent X86_64 Registers 
+
+```
+RIP → PC (program counter). Not directly accessible as a general-purpose register.
+
+RAX → X0 (first integer/return arg)
+
+RBX → X19 (callee-saved)
+
+RCX → X1
+
+RDX → X2
+
+RSP → SP (stack pointer)
+
+RBP → X29 (frame pointer / FP)
+
+LR (return address) → X30 (link register; holds return address after BL)
+```
