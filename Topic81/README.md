@@ -209,7 +209,95 @@ typedef struct{
 
 2. **The other process obtains the task port by privilege (root / entitlement)** :
          If the caller is root and System Integrity Protection (SIP) allows it, Or if the process has the com.apple.security.cs.debugger entitlement (task_for_pid-allow)
-   
+
+
+
+
+### Exception Ports
+
+```c
+#include <mach/mach.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+mach_port_t exception_port;
+
+void *exception_server_thread(void *arg) {
+    mach_msg_header_t msg;
+    kern_return_t kr;
+
+    while (1) {
+        memset(&msg, 0, sizeof(msg));
+
+        // Receive an exception message
+        kr = mach_msg(&msg,
+                      MACH_RCV_MSG,
+                      0,
+                      sizeof(msg),
+                      exception_port,
+                      MACH_MSG_TIMEOUT_NONE,
+                      MACH_PORT_NULL);
+
+        if (kr != KERN_SUCCESS) {
+            fprintf(stderr, "mach_msg failed: %s\n", mach_error_string(kr));
+            continue;
+        }
+
+        // At this point, msg contains an exception notification
+        // You’d normally cast it to `exception_raise_request_t`
+        printf("[*] Exception message received!\n");
+
+        // Here you’d reply using exception_raise_reply_t
+        // For simplicity, skipping reply code
+    }
+    return NULL;
+}
+
+int main() {
+    kern_return_t kr;
+    pthread_t thread;
+
+    // Allocate a Mach port for exceptions
+    kr = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &exception_port);
+    if (kr != KERN_SUCCESS) {
+        fprintf(stderr, "mach_port_allocate: %s\n", mach_error_string(kr));
+        return 1;
+    }
+
+    // Insert a send right
+    kr = mach_port_insert_right(mach_task_self(),
+                                exception_port,
+                                exception_port,
+                                MACH_MSG_TYPE_MAKE_SEND);
+    if (kr != KERN_SUCCESS) {
+        fprintf(stderr, "mach_port_insert_right: %s\n", mach_error_string(kr));
+        return 1;
+    }
+
+    // Register exception port for this task
+    kr = task_set_exception_ports(mach_task_self(),
+                                  EXC_MASK_ALL,       // handle all exceptions
+                                  exception_port,
+                                  EXCEPTION_DEFAULT,  // behavior
+                                  THREAD_STATE_NONE); // flavor
+    if (kr != KERN_SUCCESS) {
+        fprintf(stderr, "task_set_exception_ports: %s\n", mach_error_string(kr));
+        return 1;
+    }
+
+    // Start a thread to handle exceptions
+    pthread_create(&thread, NULL, exception_server_thread, NULL);
+
+    // Cause a crash (EXC_BAD_ACCESS)
+    int *p = NULL;
+    *p = 42;
+
+    pthread_join(thread, NULL);
+    return 0;
+}
+
+```
 
 
 
