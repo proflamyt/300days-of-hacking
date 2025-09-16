@@ -246,6 +246,19 @@ LR (return address) → X30 (link register; holds return address after BL)
 ### Store Offset from pc to register
 
 ```asm
-adr x0, my_label   // x0 := address of my_label (PC-relative)
-    // now x0 is like lea rax, [rip + offset]
+adr x0, my_label   // x0 := address of my_label (PC-relative)  now x0 is like lea rax, [rip + offset]
+```
+
+### Syscall On arm64
+
+```
+mov x8, syscall_no
+svc     #0
+```
+https://arm64.syscall.sh/
+
+### Syscall On MacOS
+```
+mov x16, 0x2000000 | n
+svc     #0x80
 ```
