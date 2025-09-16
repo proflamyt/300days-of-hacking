@@ -215,6 +215,10 @@ typedef struct{
 
 ### Exception Ports
 
+- Exception information is delivered as a Mach message via a Mach IPC port
+- Any process with the right Mach port access to a target process can register itself as its exception handler.
+- To build a Mach exception handler with raw IPC, you call mach_msg() on the port you set as the exception handler and wait for incoming exception messages.
+
 ```c
 #include <mach/mach.h>
 #include <stdio.h>
