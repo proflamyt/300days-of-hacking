@@ -245,7 +245,7 @@ LR (return address) → X30 (link register; holds return address after BL)
 
 ### Store Offset from pc to register
 
-```arm64
-    adr x0, my_label   // x0 := address of my_label (PC-relative)
+```asm
+adr x0, my_label   // x0 := address of my_label (PC-relative)
     // now x0 is like lea rax, [rip + offset]
 ```
