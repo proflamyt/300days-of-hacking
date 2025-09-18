@@ -303,8 +303,33 @@ int main() {
 
 ```
 
+### IOKit
 
+```
+ls -l /Library/Extensions/<>.kext/Contents/MacOS
+```
 
+read executable name from info.plist
+```
+defaults read /Library/Extensions/<>.kext/Contents/Info CFBundleExecutable
+```
+
+```c
+    io_service_t service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("<>"));
+    
+    // Connect to service
+    io_connect_t connect;
+    kern_return_t kr = IOServiceOpen(service, mach_task_self(), 1, &connect);
+    IOObjectRelease(service);
+    
+    // Call external method (selector 0 == method 0)
+    kr = IOConnectCallMethod(connect, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL);
+    printf("Method call result: 0x%x\n", kr);
+    
+    // Cleanup
+    IOServiceClose(connect);
+    return 0;
+```
 
 reference: 
 - https://karol-mazurek.medium.com/mach-ipc-security-on-macos-63ee350cb59b
