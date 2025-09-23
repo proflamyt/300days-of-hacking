@@ -305,6 +305,8 @@ int main() {
 
 ### IOKit
 
+list 3rd Party Driver kex binary
+
 ```
 ls -l /Library/Extensions/<>.kext/Contents/MacOS
 ```
@@ -313,6 +315,11 @@ read executable name from info.plist
 ```
 defaults read /Library/Extensions/<>.kext/Contents/Info CFBundleExecutable
 ```
+
+
+### Connecting to Driver Kex
+
+
 
 ```c
     io_service_t service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("<>"));
@@ -330,6 +337,95 @@ defaults read /Library/Extensions/<>.kext/Contents/Info CFBundleExecutable
     IOServiceClose(connect);
     return 0;
 ```
+
+
+### Calling External Methods From UserSpace 
+
+```
+IOConnectCallMethod
+IOConnectCallScalarMethod
+IOConnectCallStructMethod ...
+```
+
+
+### Implementing Kext takes an argument from user-space. 
+
+```c
+    virtual bool initWithTask(task_t owningTask, void*, UInt32) override {
+        fTask = owningTask;
+        return super::init();
+    }
+```
+
+- It’s called by IOKit when userspace first opens a connection to your driver via IOServiceOpen.
+
+- IOServiceOpen is the userland call, and on the kernel side it maps to your IOUserClient::initWithTask.
+
+- Think of it as the constructor for the user client object, binding it to the task (process) that opened the connection.
+
+
+```c
+    virtual IOReturn externalMethod(uint32_t selector,
+                                    IOExternalMethodArguments* args,
+                                    IOExternalMethodDispatch* dispatch,
+                                    OSObject* target,
+                                    void* ref) override {
+        if (selector < 1) {
+            *dispatch = sMethods[selector];
+            target = this;
+            return IOUserClient::externalMethod(selector, args, dispatch, target, ref);
+        }
+        return kIOReturnUnsupported;
+    }
+```
+
+
+```c
+    // Our Selector Implementation
+    IOReturn SayHi(void* argStruct, IOByteCount argStructSize) {
+        if (argStructSize < sizeof(uint64_t)) {
+            IOLog("SayHi: argument too small\n");
+            return kIOReturnBadArgument;
+        }
+        uint64_t* val = (uint64_t*)argStruct;
+        IOLog("SayHi: got argument 0x%llx\n", *val);
+        return kIOReturnSuccess;
+    }
+};
+
+// Dispatch table: selector 0 = SayHi
+const IOExternalMethodDispatch IPwnKitUserClient::sMethods[] = {
+    {
+        // Function pointer
+        (IOExternalMethodAction)&IPwnKitUserClient::SayHi,
+        0,                      // no scalar inputs
+        1,                      // one struct input (we’ll send sizeof(uint64_t))
+        0,                      // no scalar outputs
+        0                       // no struct outputs
+    }
+};
+
+
+```
+
+
+### When Sending  ( 1 struct input)
+
+```
+    uint64_t myArg = 0x1337BEEF;
+    size_t inputSize = sizeof(myArg);
+
+  kr = IOConnectCallMethod(
+        connect,
+        0,      // selector index for SayHi (adjust if different in sMethods[])
+        NULL, 0,    // no scalar input
+        &myArg, inputSize,    // 1 struct input
+        NULL, NULL, // no scalar output
+        NULL, NULL  // no struct output
+    );
+```
+
+
 
 reference: 
 - https://karol-mazurek.medium.com/mach-ipc-security-on-macos-63ee350cb59b
