@@ -426,9 +426,63 @@ const IOExternalMethodDispatch IPwnKitUserClient::sMethods[] = {
 ```
 
 
+### PAC (Pointer Authentication Codes)
+
+
+PAC is a hardware feature on ARMv8.3-A+ that helps prevent pointer corruption (like ROP/JOP exploits). A cryptographic tag is prepended to pointers, and it’s checked on use. If the tag doesn’t match, the CPU faults when it is used. Address in X64 is 64bits wide , most systems use the lower 48 bits are the actual pointer address and the Bits above are reserved for PAC/metadata. XNU only uses the lower 39 bits.
+
+
+### PAC KEYS (A 128-bit key derived from a hardware root)
+
+- Instruction keys (IA, IB) → used for return addresses, code pointers.
+
+- Data keys (DA, DB) → used for data pointers.
+
+- Generic key (GA) → less common. 
+
+PAC keys are per process (task) but shared across threads. The kernel programs a new set of PAC keys when a process is created.
+
+### PAC Operations
+
+-  PAC* : generates pac
+-  XPAC* : strips pac
+-  AUT* : authenticates pac
+
+
+**pac-ing**
+
+```
+PACIA X8, X9 ; use the  IA key to add PAC to X8 with context X9
+```
+
+```
+PACIZA X8 ; use the  IA key to add PAC to X8 with context 0
+```
+
+```
+AUTIA X8, X9 ; Authenticate the PAC in X8 using the key APIAKey using X9 as the context, and write back into X8 original pointer if success, otherwise write invalid pointer
+```
+
+```
+XPACD x1            ; remove PAC from data pointer
+```
+
+```
+BLRAA X8, X9 : Authenticate X8 using the key APIAKey using X9 as the context, then branch to result
+```
+
+
+```
+LDRAA X8, [X9] : Authenticate X9 using the key APDAkey using 0 as the context, then store the result in X8
+```
+
+```
+RETAB : Authenticate LR using the key APIBKey using SP as the context, then branch to result
+```
+
 
 reference: 
 - https://karol-mazurek.medium.com/mach-ipc-security-on-macos-63ee350cb59b
-
 - https://ulexec.github.io/post/2022-12-01-xnu_ipc/
 - https://dmcyk.xyz/post/xnu_ipc_ii_message_apis/xnu_ipc_ii_message_apis/
+- https://docs.google.com/presentation/d/1jo__tA8Wp146oBkxchhgM-6V7HPw1gc1/edit?slide=id.p12#slide=id.p12
