@@ -369,6 +369,18 @@ IOConnectCallStructMethod ...
  static const IOExternalMethodDispatch sMethods[];
 ```
 
+https://github.com/apple-oss-distributions/xnu/blob/e3723e1f17661b24996789d8afc084c0c3303b26/iokit/IOKit/IOUserClient.h#L160
+```c
+struct IOExternalMethodDispatch {
+	IOExternalMethodAction function;
+	uint32_t               checkScalarInputCount;
+	uint32_t               checkStructureInputSize;
+	uint32_t               checkScalarOutputCount;
+	uint32_t               checkStructureOutputSize;
+};
+
+```
+
 ```c
     virtual IOReturn externalMethod(uint32_t selector,
                                     IOExternalMethodArguments* args,
