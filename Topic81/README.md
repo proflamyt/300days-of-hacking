@@ -363,6 +363,11 @@ IOConnectCallStructMethod ...
 
 - Think of it as the constructor for the user client object, binding it to the task (process) that opened the connection.
 
+*Dispatch table*
+
+```c
+ static const IOExternalMethodDispatch sMethods[];
+```
 
 ```c
     virtual IOReturn externalMethod(uint32_t selector,
@@ -411,7 +416,7 @@ const IOExternalMethodDispatch IPwnKitUserClient::sMethods[] = {
 
 ### When Sending  ( 1 struct input)
 
-```
+```c
     uint64_t myArg = 0x1337BEEF;
     size_t inputSize = sizeof(myArg);
 
