@@ -63,7 +63,12 @@ The model for sending and receiving messages with `postMessage` is pretty simple
 
 When the message is received, the `onmessage` callback gets an **event object** that includes:  
 - `data` → the actual content being sent, and  
-- `origin` → the domain of whoever sent the message.  
+- `origin` → the domain of whoever sent the message.
+- `source` ->  message emitter
+- `port` -> 
+- `lasteventid` -> unique ID for the event.
+
+  https://developer.mozilla.org/en-US/docs/Web/API/Worker/message_event
 
 Here’s a simple example:
 
