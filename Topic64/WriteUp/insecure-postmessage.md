@@ -1,4 +1,4 @@
-### How We Got Admin Tokens via Insecure PostMessage
+# How We Got Admin Tokens via Insecure PostMessage
 
 We’ve all heard it before — *“client-side validation and authentication don’t count.”* If you want real security, it has to be on the server.
 
@@ -18,7 +18,7 @@ Also, what can be considered as **client-side** refers to the code that runs in 
 It’s worth noting that architecture can vary. In some setups, a proxy may be in a position to be referred to  as the client depending on the situation. But in our case, when we say client, we’re strictly talking about the code running inside the browser.
 
 
-### Client-Side Validation (Why It Matters)
+## Client-Side Validation (Why It Matters)
 
 Let’s start with one of the basics of browser security — the **Same Origin Policy (SOP)**. One of the browser’s main jobs is to protect *you*, the user, and your system from the wild west of the internet.  
 
@@ -35,7 +35,7 @@ That’s the Same Origin Policy doing its job. It keeps websites in their own li
 
 For example, Chrome enforces this by running each website inside a tightly controlled **sandbox**. This sandbox stops the page from directly touching your files or any sensitive system resources. Whenever a page needs to access something local — like a file or the network — it has to go through Chrome’s trusted **browser kernel process** using **Inter-Process Communication (IPC)**. In short, even if a site tries to break out, it’s stuck talking through Chrome’s security gate.
 
-### Communicating Across Origins and Domains
+## Communicating Across Origins and Domains
 
 The Same Origin Policy is pretty awesome as it’s one of the main things keeping attackers from messing with our data or stealing info between sites. But there’s a catch: while SOP keeps us safe, it also makes it harder for different sites to talk to each other when they actually *need* to.
 
@@ -50,5 +50,39 @@ In this writeup, we’ll be focusing on the **PostMessage** part and how it was 
 
 
 ### Posting Messages
+
+The **PostMessage** API works kind of like a broadcast system. One origin can “shout” a message to another origin — or even to *anyone* who’s listening. On the other end, an origin can choose to listen for incoming messages or send out its own broadcasts. It’s basically an open communication channel within the browser world.
+
+But here’s the catch — shouting to *everyone* isn’t always a great idea. In practice, a site should only send messages to a **specific, trusted origin**. The same goes for receiving messages: blindly accepting data from any random source is risky, especially if you’re going to use that data in your page or UI. That’s how things can get messy (and sometimes, exploitable).
+
+### Origin A sending a message to Origin B
+
+The model for sending and receiving messages with `postMessage` is pretty simple:  
+- **Origin A** sends a message using the `window.postMessage()` API.  
+- **Origin B** listens for it with the `window.onmessage` event handler.  
+
+When the message is received, the `onmessage` callback gets an **event object** that includes:  
+- `data` → the actual content being sent, and  
+- `origin` → the domain of whoever sent the message.  
+
+Here’s a simple example:
+
+```js
+// ---- Origin A (sender) ----
+const popup = window.open("https://example-b.com", "_blank");
+
+// Send a message to Origin B
+popup.postMessage({ action: "getAdminToken" }, "https://example-b.com");
+
+
+// ---- Origin B (receiver) ----
+window.addEventListener("message", (event) => {
+  // Always check who sent the message
+  if (event.origin !== "https://example-a.com") return;
+
+  console.log("Message received:", event.data);
+  // respond if needed
+  event.source.postMessage({ token: "admin-123" }, event.origin);
+});
 
 
