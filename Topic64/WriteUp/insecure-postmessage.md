@@ -82,7 +82,7 @@ const popup = window.open("https://example-b.com", "_blank");
 popup.postMessage({ action: "getAdminToken" }, "https://example-b.com");
 ```
 
-```
+```js
 // ---- Origin B (receiver) ----
 window.addEventListener("message", (event) => {
   // checking who sent the message
