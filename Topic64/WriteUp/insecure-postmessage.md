@@ -6,14 +6,12 @@ That’s true in many cases (emphasis on many), but not always. As I’ll show l
 
 Here’s a quick breakdown of what I mean by client in the context of a web application:
 
-```
-[ Server (backend code) ]  ->  [ Browser (frontend code) ]  <-  User
-```
+![Diagram](https://raw.githubusercontent.com/proflamyt/300days-of-hacking/refs/heads/main/Topic64/WriteUp/ola.svg)
 
 
-What is referrred to as the **server-side** (or backend) is usually a black box — it handles logic, data processing, and serving responses for the web app.
+What we referrred to as the **server-side** (or backend) is usually a black box — it handles logic, data processing, and serving responses for the web app.
 
-Also, what can be considered as **client-side** refers to the code that runs in the browser — typically HTML, CSS, and JavaScript — responsible for rendering, interaction, and the user interface. That’s the part users directly interact with.
+Also, what can be considered as **client-side** in our scenario refers to the code that runs in the browser — typically HTML, CSS, and JavaScript — responsible for rendering, interaction, and the user interface. That’s the part users directly interact with.
 
 It’s worth noting that architecture can vary. In some setups, a proxy may be in a position to be referred to  as the client depending on the situation. But in our case, when we say client, we’re strictly talking about the code running inside the browser.
 
@@ -55,9 +53,9 @@ In this writeup, we’ll be focusing on the **PostMessage** part and how it was 
 
 ### Posting Messages
 
-The **PostMessage** API works kind of like a broadcast system. One origin can “shout” a message to another origin — or even to *anyone* who’s listening. On the other end, an origin can choose to listen for incoming messages or send out its own broadcasts. It’s basically an open communication channel within the browser world.
+The **PostMessage** API works kind of like a broadcast system. One origin can “shout” a message to another origin — or even to *anyone* who’s listening. On the other end, an origin can choose to listen for incoming messages from *anyone* or a specific *person* or send out its own broadcasts. It’s basically an open communication channel within the browser world.
 
-But here’s the catch — shouting to *everyone* isn’t always a great idea. In practice, a site should only send messages to a **specific, trusted origin**. The same goes for receiving messages: blindly accepting data from any random source is risky, especially if you’re going to use that data in your page or UI. That’s how things can get messy (and sometimes, exploitable).
+But here’s the catch — shouting to *everyone* isn’t always a great idea. In practice, a site should only send messages to a **specific, trusted origin**. The same goes for receiving messages: blindly accepting data from any random source is risky, especially if you’re going to use that data in your page(DOM) or UI (innerHTML). That’s how things can get messy (and sometimes, exploitable).
 
 ### Origin A sending a message to Origin B
 
@@ -87,7 +85,7 @@ popup.postMessage({ action: "getAdminToken" }, "https://example-b.com");
 ```
 // ---- Origin B (receiver) ----
 window.addEventListener("message", (event) => {
-  // Always check who sent the message
+  // checking who sent the message
   if (event.origin !== "https://example-a.com") return;
 
   console.log("Message received:", event.data);
