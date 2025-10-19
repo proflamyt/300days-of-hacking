@@ -33,7 +33,11 @@ And here’s where it really makes sense: your browser can technically open loca
 That’s the Same Origin Policy doing its job. It keeps websites in their own little sandbox and stops them from crossing into places they shouldn’t — like your system files or other sites you’re logged into.
 
 
-For example, Chrome enforces this by running each website inside a tightly controlled **sandbox**. This sandbox stops the page from directly touching your files or any sensitive system resources. Whenever a page needs to access something local — like a file or the network — it has to go through Chrome’s trusted **browser kernel process** using **Inter-Process Communication (IPC)**. In short, even if a site tries to break out, it’s stuck talking through Chrome’s security gate.
+For example, Chrome enforces this by running each website inside a tightly controlled **sandbox** and runs each tab as a separate **subprocess**. This sandbox stops the page from directly touching your files or any sensitive system resources. Whenever a page needs to access something local — like a file or the network — it has to go through Chrome’s trusted **browser kernel process** using **Inter-Process Communication (IPC)**. In short, even if a site tries to break out, it’s stuck talking through Chrome’s security gate.
+
+<img width="1166" height="542" alt="image" src="https://github.com/user-attachments/assets/4215f715-ec6f-4760-9de8-2f3073b981ae" />
+
+
 
 ## Communicating Across Origins and Domains
 
