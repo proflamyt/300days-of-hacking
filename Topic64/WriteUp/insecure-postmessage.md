@@ -126,6 +126,24 @@ Basically, if an admin is already logged in on that subdomain, the main site can
 
 There’s a big problem however, the JavaScript reads the post target directly from the page URL — literally from a `call_back` query parameter. That means if we change that `call_back` value to any URL we want, the script will send the `postMessage` payload to that arbitrary URL.
 
+### Our Attack (POC)
+
+We picked an attack path that’s annoyingly simple in practice. The idea: get a victim who’s already logged in as an **admin** on Website A (so they have a valid admin cookie), then get them to open an attacker-controlled page that listens for `postMessage` from Website A. Because the vulnerable site reads its post target from a `call_back` query parameter, we can point it at our listener.  
+
+So the flow looked like this:
+
+1. Lure an admin (already logged into Website A) to the vulnerable page URL we control — the URL includes a `call_back` parameter that points to our domain.  
+2. The vulnerable site runs its JavaScript and sends a `postMessage` to the `callback` URL from the admin’s browser (authenticated context).  
+3. Our attacker page (on the `call_back` domain) receives the message and can grab whatever the site sent — in our case, admin tokens — because the message was sent from the admin’s logged-in browser session.
+
+In short: trick the admin’s browser into sending sensitive data to our listener by abusing the `call_back` query parameter.
+
+
+
+
+Ps: We disclosed this to our affected clients, the vendor was contacted and a patch was issued. The fix you may ask?
+<img width="1000" height="162" alt="image" src="https://github.com/user-attachments/assets/eaf18218-3910-453a-87f8-734508b170a0" />
+
 
 
 
