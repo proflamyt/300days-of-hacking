@@ -78,8 +78,9 @@ const popup = window.open("https://example-b.com", "_blank");
 
 // Send a message to Origin B
 popup.postMessage({ action: "getAdminToken" }, "https://example-b.com");
+```
 
-
+```
 // ---- Origin B (receiver) ----
 window.addEventListener("message", (event) => {
   // Always check who sent the message
@@ -104,5 +105,23 @@ Digging through the frontend code, we found the code that opens the popup and di
 So — is this exploitable?
 
 First, we checked whether we controlled the validation URL. If we did, that would’ve been ideal — we could send a cross-origin message that the site would accept. We decided not to pursue that path because we couldn’t find a way to bypass the validation. Even if there wasn’t a strict check, we’d also need to find a **sink** — somewhere the app actually *uses* the data insecurely. Without a vulnerable sink, the best we could do was force the user to use our session if there were self xss and we couldn’t make the site accept arbitrary validation responses from us.
+
+We dug into the second origin — the one the popup was supposed to talk to — and found that the popup loads a page on a subdomain which immediately runs a small script that posts a token and username back to the opener.
+
+
+/get-active-user-session?call_back=https://example.com
+```html
+<script>
+  window.opener.postMessage(
+    { user: "admin", token: "abc123" },
+    "https://example.com" 
+  );
+  window.close();
+</script>
+
+This second subdomain uses cookie-based authentication, so if a user is already logged in, the popup just loads their info ( embeds their username and token in the js ) using their existing session cookie, and sends it straight back to the main site.  
+
+Basically, if an admin is already logged in on that subdomain, the main site can grab the token it sends and treat the admin as logged in there too. No extra login needed, smooth and clever right !.
+
 
 
