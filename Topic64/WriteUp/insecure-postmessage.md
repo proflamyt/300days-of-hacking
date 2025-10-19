@@ -109,7 +109,7 @@ First, we checked whether we controlled the validation URL. If we did, that woul
 We dug into the second origin — the one the popup was supposed to talk to — and found that the popup loads a page on a subdomain which immediately runs a small script that posts a token and username back to the opener.
 
 
-/get-active-user-session?call_back=https://example.com
+    /get-active-user-session?call_back=https://example.com
 ```html
 <script>
   window.opener.postMessage(
@@ -118,10 +118,14 @@ We dug into the second origin — the one the popup was supposed to talk to — 
   );
   window.close();
 </script>
+```
 
 This second subdomain uses cookie-based authentication, so if a user is already logged in, the popup just loads their info ( embeds their username and token in the js ) using their existing session cookie, and sends it straight back to the main site.  
 
 Basically, if an admin is already logged in on that subdomain, the main site can grab the token it sends and treat the admin as logged in there too. No extra login needed, smooth and clever right !.
+
+There’s a big problem however, the JavaScript reads the post target directly from the page URL — literally from a `call_back` query parameter. That means if we change that `call_back` value to any URL we want, the script will send the `postMessage` payload to that arbitrary URL.
+
 
 
 
