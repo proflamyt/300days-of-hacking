@@ -65,7 +65,7 @@ When the message is received, the `onmessage` callback gets an **event object** 
 - `data` → the actual content being sent, and  
 - `origin` → the domain of whoever sent the message.
 - `source` ->  message emitter
-- `port` -> 
+- `port` ->  objects  associated with the channel the message is being sent through
 - `lasteventid` -> unique ID for the event.
 
   https://developer.mozilla.org/en-US/docs/Web/API/Worker/message_event
@@ -89,5 +89,20 @@ window.addEventListener("message", (event) => {
   // respond if needed
   event.source.postMessage({ token: "admin-123" }, event.origin);
 });
+```
+
+### Vulnerability Discovered
+
+A coworker spotted a weird feature in a common web app: when you click **“Login as Admin”**, a popup briefly appears shows authentication failed and sends the user that wants to authenticate as the admin to a login page that asks for a username and password. We wondered — how was the site trying to authenticate in the first place?
+
+Digging through the frontend code, we found the code that opens the popup and discovered it waits for a postmessage `message` event. Once it receives a message, the code checks that `event.origin` matches the origin it opened (good — that prevents blindly accepting any postMessage broadcast). If the origin matches, it takes the `data` from the message and uses that data to set the user session.
+
+
+<img width="1320" height="169" alt="image" src="https://github.com/user-attachments/assets/0400040f-27ee-4bb2-a4ce-520022b4914a" />
+
+
+So — is this exploitable?
+
+First, we checked whether we controlled the validation URL. If we did, that would’ve been ideal — we could send a cross-origin message that the site would accept. We decided not to pursue that path because we couldn’t find a way to bypass the validation. Even if there wasn’t a strict check, we’d also need to find a **sink** — somewhere the app actually *uses* the data insecurely. Without a vulnerable sink, the best we could do was force the user to use our session if there were self xss and we couldn’t make the site accept arbitrary validation responses from us.
 
 
