@@ -112,6 +112,8 @@ We dug into the second origin — the one the popup was supposed to talk to — 
 
 
     /get-active-user-session?call_back=https://example.com
+
+    
 ```html
 <script>
   window.opener.postMessage(
