@@ -157,7 +157,8 @@ In short: trick the admin’s browser into sending sensitive data to our listene
 
 
 Ps: We disclosed this to our affected clients, the vendor was contacted and a patch was issued. The fix you may ask?
-<img width="1000" height="162" alt="image" src="https://github.com/user-attachments/assets/eaf18218-3910-453a-87f8-734508b170a0" />
+<img width="1000" height="162" alt="image" src="https://github.com/user-attachments/assets/0bc68afe-1ce3-435e-80d3-91e3605f76ff" />
+
 
 
 
