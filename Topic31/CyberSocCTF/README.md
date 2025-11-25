@@ -99,12 +99,220 @@ The very first message the client sends we call  the **ClientHello**, this is us
 
 Because most clients — whether it’s Chrome, Python requests, curl, Go’s http.Client, or a reverse shell — populate these fields differently, the **ClientHello** is effectively unique per application or TLS library. They may have Different cipher suites, Different extensions, Different order of fields, Different behavior depending on OS, browser version, or SSL library. The **clientHello** for chrome browser on windows may be diffrent from that of thesame browser on linux.Those patterns are like a fingerprint.
 
-This is where JA4 comes in. It combines these variables into a single fingerprint, essentially a hash that uniquely identifies each client. That fingerprint lets the server say:
-
+This is where JA4 comes in. It combines these variables into a single fingerprint, essentially a hash that uniquely identifies each client.
 And that was the key. Using JA4, I could reliably say:
-“Yep, this is Chrome”
+“Yep, this is Chrome, Allow it”
 or
-“Nope, this is a Python script. Block it.”
+“Nope, this is a Python script, Block it.”
 
 
 
+# Bot Protection
+
+Building the CTF architecture, I decided to use a reverse proxy to handle the TLS connections before passing traffic to the upstream application.
+
+Here’s the idea:
+
+Since the reverse proxy terminates the TLS connection, it can see the **ClientHello** during the TLS handshake.
+
+We can extract this **ClientHello** and generate a JA4 fingerprint.
+
+That fingerprint can then be sent as an internal header to the upstream server application, which can make access decisions based on it.
+
+In practice, it looked like this:
+
+```
+[HAProxy] -> [Django application]
+```
+
+With this setup, my upstream application doesn’t need to worry about TLS — it just trusts the fingerprint header coming from the reverse proxy. And because the fingerprint is unique per client, I could enforce browser-only access and keep any automated scripts out.
+I wanted to see if anyone else had already tried something like this. A quick search paid off, I found a Lua plugin for HAProxy that extracts and computes JA4 TLS fingerprints [here](https://github.com/O-X-L/haproxy-ja4-fingerprint/tree/latest). Perfect.
+
+
+
+Now that we have everything we need we can proceed to implementation 
+
+First I had to create a Haproxy Config that loads the lua plugin i discovered above , this lua plugin then computes the TLS fingerprint , which i then pass as a HTTP header to the upsteam server.  i also exposed an endpoint "/check-browserprint" that returns a browser fingerprint incase the whitelist missed a browser i have to manually add (never had to do this tho)
+
+```
+# /etc/haproxy/haproxy.cfg
+
+defaults
+    option httplog
+    mode http
+    log stdout format raw local0
+    timeout client 10s
+    timeout connect 10s
+    timeout server 10s
+
+global
+    tune.ssl.capture-buffer-size 192
+    lua-load /home/dev/ja4.lua
+
+frontend test_ja4
+    bind *:443 ssl crt /etc/ssl/private/haproxy.pem
+
+    # create fingerprint
+    http-request lua.fingerprint_ja4
+
+    # check for related user-agent/application
+
+    # set fingerprint header
+    http-request set-header X-JA4-Fingerprint %[var(txn.fingerprint_ja4)]
+    http-request set-header X-JA4-Raw %[var(txn.fingerprint_ja4_raw)]
+
+
+    http-request return status 200 content-type "application/json" lf-string "{\"fingerprint\": \"%[var(txn.fingerprint_ja4)]\", \"details\": \"%[var(txn.fingerprint_ja4_raw)]\", \"app\": \"%[var(txn.fingerprint_app)]\"}" if { path -i /check-browserprint }
+    default_backend gunicorn_backend
+
+backend gunicorn_backend
+    mode http
+    option httpclose
+    option forwardfor
+    server gunicorn unix@/run/gunicorn.sock check
+```
+
+X-JA4-Fingerprint
+
+### Getting to the Django Backend
+
+Since we only wanted a subset of clients to reach certain endpoints, i decided to go with a whitelist approach instead of a blacklist. Only clients on the whitelist would be allowed access to the system.
+
+The next step was to build the whitelist. We needed fingerprints for all the common browsers. Luckily, FoxIO‑LLC provides an API that lists known browser fingerprints, which we could query here:
+
+https://ja4db.com/api/read/
+
+
+By comparing incoming fingerprints against this list, our Django application could allow only legitimate browsers through, blocking any scripts, bots, or custom clients that tried to bypass the system.
+
+
+```
+import requests
+import json
+import sys
+
+URL = "https://ja4db.com/api/read/"
+
+def fetch_ja4_data():
+    print(f"Fetching {URL} ...")
+    resp = requests.get(URL, timeout=60)
+    resp.raise_for_status()
+    return resp.json()
+
+
+def extract_fingerprints(data):
+    chrome_fps = set()
+    firefox_fps = set()
+
+    for entry in data:
+        ua = (entry.get("user_agent_string") or "").lower()
+        ja4 = entry.get("ja4_fingerprint")
+
+        if not ja4 or not ua:
+            continue
+
+        if any(k in ua for k in ["chrome", "chromium", "edge", "brave"]):
+            chrome_fps.add(ja4)
+        elif "firefox" in ua:
+            firefox_fps.add(ja4)
+
+    return {
+        "chrome": sorted(chrome_fps),
+        "firefox": sorted(firefox_fps)
+    }
+
+if __name__ == "__main__":
+    data = fetch_ja4_data()
+    fingerprints = extract_fingerprints(data)
+
+    # Print summary
+    print(f"✅ Chrome-like fingerprints: {len(fingerprints['chrome'])}")
+    print(f"✅ Firefox fingerprints: {len(fingerprints['firefox'])}")
+
+    # Save only the JA4 fingerprint lists
+    with open("ja4_chrome_firefox.json", "w") as f:
+        json.dump(fingerprints, f, indent=2)
+        print("\n💾 Saved to ja4_chrome_firefox.json")
+
+
+```
+
+
+
+After extracting the fingerprints, the next step was simple: enforce them in our Django application.
+
+We created a Python decorator that checks incoming requests against the JSON file of known browser fingerprints.
+
+If the client’s JA4 fingerprint is in the whitelist → request is allowed.
+
+If not → request is blocked.
+
+This way, we could easily protect specific endpoints without changing the core logic of our application. Only legitimate browsers could reach the sensitive parts of the system, and any automated scripts or custom clients were effectively stopped in their tracks.
+
+```
+import os
+import json
+from django.conf import settings
+
+
+JA4_FILE_PATH = os.path.join(settings.BASE_DIR, "ja4_chrome_firefox.json")
+
+try:
+    with open(JA4_FILE_PATH) as f:
+        JA4_ALLOWED = json.load(f)
+except FileNotFoundError:
+    JA4_ALLOWED = {"chrome": [], "firefox": []}
+
+# Flatten all allowed fingerprints into a set
+JA4_ALLOWED_SET = set(JA4_ALLOWED.get("chrome", []) + JA4_ALLOWED.get("firefox", []))
+
+```
+
+
+
+
+
+```
+from django.http import JsonResponse
+from functools import wraps
+from .ja4_allowed import JA4_ALLOWED_SET
+import logging
+
+logger = logging.getLogger(__name__)
+
+def ja4_required(view_func):
+    """
+    Decorator that allows only requests with JA4 fingerprint in the allowed set.
+    Expects 'X-JA4-Fingerprint' header from HAProxy.
+    """
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        ja4 = request.headers.get("X-JA4-Fingerprint")
+        logging.info(f"Allowing:  {ja4}")
+        if not ja4:
+            return JsonResponse({"error": "Missing JA4 fingerprint header"}, status=400)
+
+        if ja4 not in JA4_ALLOWED_SET:
+            logging.info(f"Rejected Bot:  {ja4}")
+            return JsonResponse({"error": "Access denied: unrecognized User"}, status=403)
+
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+```
+
+
+<img width="559" height="162" alt="Screenshot 2025-11-25 153344" src="https://github.com/user-attachments/assets/e67d4920-c169-46c0-9c6b-7b9cc96c30b0" />
+
+
+
+
+Other Use Case
+
+
+Lets focus on defence for a bit
+
+
+You can extend this approach to mobile applications as well. By creating a custom TLS ClientHello and whitelisting its JA4 fingerprint, you can ensure only your mobile client can access the backend.
+
+This also prevents proxies or unauthorized clients from reaching your web application, effectively enforcing client-only access across platforms.
