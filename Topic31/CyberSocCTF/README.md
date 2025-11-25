@@ -1,4 +1,4 @@
-#### How I Stopped Everyone from Accessing My Web App Without a Browser
+## How I Stopped Everyone from Accessing My Web App Without a Browser
 
 There’s nothing like ending the year with a good ol’ CTF. For me, it’s not just about finding flags it’s about bringing the team together, sharpening skills, and getting that rush of solving real problems under pressure. 
 This year, I had the task of creating the CyberSOC CTF, and trust me, it was a wild ride.
@@ -132,7 +132,17 @@ I wanted to see if anyone else had already tried something like this. A quick se
 
 Now that we have everything we need we can proceed to implementation 
 
-First I had to create a Haproxy Config that loads the lua plugin i discovered above , this lua plugin then computes the TLS fingerprint , which i then pass as a HTTP header to the upsteam server.  i also exposed an endpoint "/check-browserprint" that returns a browser fingerprint incase the whitelist missed a browser i have to manually add (never had to do this tho)
+First, I had to create an HAProxy configuration that loads the Lua plugin I mentioned earlier. The Lua script handles all the heavy lifting. it reads the TLS ClientHello, computes the JA4 fingerprint, and attaches it to the request as an HTTP headers (I only used X-JA4-Fingerprint):
+
+```
+X-JA4-Fingerprint
+X-JA4-Raw
+```
+
+From there, HAProxy forwards the request upstream to the Django server, now carrying the fingerprint we can validate against.
+
+I also exposed a small utility endpoint, /check-browserprint, which returns the caller’s browser fingerprint. This was my fallback in case the whitelist ever missed a browser and I needed to manually add it.
+(*I never actually had to use it, but it was good to have a safety net.*)
 
 ```
 # /etc/haproxy/haproxy.cfg
@@ -172,7 +182,6 @@ backend gunicorn_backend
     server gunicorn unix@/run/gunicorn.sock check
 ```
 
-X-JA4-Fingerprint
 
 ### Getting to the Django Backend
 
@@ -185,6 +194,8 @@ https://ja4db.com/api/read/
 
 By comparing incoming fingerprints against this list, our Django application could allow only legitimate browsers through, blocking any scripts, bots, or custom clients that tried to bypass the system.
 
+
+Here I wrote a script to extract the common browsers we need and store it in a json format on disk.
 
 ```
 import requests
@@ -241,13 +252,14 @@ if __name__ == "__main__":
 
 After extracting the fingerprints, the next step was simple: enforce them in our Django application.
 
-We created a Python decorator that checks incoming requests against the JSON file of known browser fingerprints.
+I then created a Python decorator that checks incoming requests against the JSON file of known browser fingerprints.
 
 If the client’s JA4 fingerprint is in the whitelist → request is allowed.
 
 If not → request is blocked.
 
 This way, we could easily protect specific endpoints without changing the core logic of our application. Only legitimate browsers could reach the sensitive parts of the system, and any automated scripts or custom clients were effectively stopped in their tracks.
+
 
 ```
 import os
@@ -271,7 +283,7 @@ JA4_ALLOWED_SET = set(JA4_ALLOWED.get("chrome", []) + JA4_ALLOWED.get("firefox",
 
 
 
-
+Django decorator
 ```
 from django.http import JsonResponse
 from functools import wraps
@@ -302,17 +314,31 @@ def ja4_required(view_func):
 ```
 
 
-<img width="559" height="162" alt="Screenshot 2025-11-25 153344" src="https://github.com/user-attachments/assets/e67d4920-c169-46c0-9c6b-7b9cc96c30b0" />
+<img width="500" height="152" alt="Screenshot 2025-11-25 153344" src="https://github.com/user-attachments/assets/e67d4920-c169-46c0-9c6b-7b9cc96c30b0" />
+
+Implementing The Decorator
 
 
 
 
-Other Use Case
+### A player that says the CTF Creator will not sleep will also have no peace ..... 
 
+<img width="225" height="225" alt="image" src="https://github.com/user-attachments/assets/c742c4ec-ade7-4bd1-9f46-b4a0e72656db" />
 
-Lets focus on defence for a bit
+About 12 hours before the end of the challenge, I decided to tighten things even further and restrict the remaining endpoints as well.
 
+The moment I pushed the update…
+boom — every team’s automation broke.
+
+All the scripts they had relied on for days suddenly stopped working, and the panic set in. But in true CTF fashion, everyone adapted quickly. Teams scrambled, analyzed the new fingerprinting behavior, and came up with their own creative bypasses and browser-based automation solutions.
+
+Honestly, watching them pivot under pressure was fun and exactly the kind of real-world problem-solving we wanted from this challenge.
+
+If any team writes a post-CTF write-up, this last-minute twist will definitely be a chapter in theirs.
+
+### Other Use Case
 
 You can extend this approach to mobile applications as well. By creating a custom TLS ClientHello and whitelisting its JA4 fingerprint, you can ensure only your mobile client can access the backend.
 
-This also prevents proxies or unauthorized clients from reaching your web application, effectively enforcing client-only access across platforms.
+
+Ciao.
