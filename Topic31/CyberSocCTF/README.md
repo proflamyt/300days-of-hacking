@@ -68,10 +68,8 @@ The JA4+ suite is used for all sorts of serious stuff — spotting threat actors
 Me?
 I only needed JA4 (the TLS fingerprint) — nothing fancy — just enough information to identify the type of client talking to my server based on its TLS connection behavior.
 
-### Who is Who?
 
-
-#### TLS Connection
+### TLS Connection
 
 A TLS connection is how two parties (client ↔ server) create a secure, encrypted channel. It happens in phases:
 
@@ -95,6 +93,8 @@ The very first message the client sends we call  the **ClientHello**, this is us
 - Compression methods
 
 - Various extensions
+
+#### Who is Who?
 
 Because most clients — whether it’s Chrome, Python requests, curl, Go’s http.Client, or a reverse shell — populate these fields differently, the **ClientHello** is effectively unique per application or TLS library. They may have Different cipher suites, Different extensions, Different order of fields, Different behavior depending on OS, browser version, or SSL library. The **clientHello** for chrome browser on windows may be diffrent from that of thesame browser on linux.Those patterns are like a fingerprint.
 
