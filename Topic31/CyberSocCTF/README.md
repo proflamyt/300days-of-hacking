@@ -16,12 +16,11 @@ It became a game of strategy, skill, and adaptability. One moment, you’re fran
 
 
 ### The Game
-So this is how it works, each team had a secret(Flags) that rotated periodically (uptick time). Stealing another team’s secret and submitting it earned you points. But you cant be doing that manually for 2 weeks straight, 24/7, that would be insane. So of course they were expected to find vulnerabilities and automate their exploitation. We also set up CI/CD for rapid deployments because CTFs always have that one last‑minute fix or restriction that pops up out of nowhere.
+So this is how it works, each team had a secret(Flags) that rotated periodically (uptick time). Stealing another team’s secret and submitting it earned you points. But you cant be doing that manually for 2 weeks straight, 24/7, that would be insane. So of course they were expected to find vulnerabilities and automate their exploitation. We also set up CI/CD for rapid deployments because CTFs always have that one last‑minute fix or restriction that pops up out of nowhere. After deploying the challenges, there was a **foreseen problem** I had been thinking about from the start
 
 The problem?
-Each vulnerability in the challenge came with its own metrics, but one challenge in particular relied heavily on the browser.
 
-And knowing how smart my colleagues are (they love shortcuts way too much, lol), I had to find a way to keep them inside the browser to update their uptime. If they automated their uptime checks outside the browser — say with Python scripts or custom clients — other teams wouldnt be able to attack them easily as there are client side vulnerabilities. That wasn’t the experience I wanted.
+There is one challenge in particular that relied heavily on the browser and knowing how smart my colleagues are (they love shortcuts way too much, lol), I had to find a way to keep them inside the browser to update their uptime. If they automated their uptime checks outside the browser, say with Python scripts or custom clients, other teams wouldnt be able to attack them easily as these are client side vulnerabilities. That wasn’t the experience I wanted.
 
 So this left me with one big question:
 How do I stop them from automating uptime without a browser?
@@ -107,9 +106,9 @@ or
 
 
 
-# Bot Protection
+### The Bot Protection Implementation
 
-Building the CTF architecture, I decided to use a reverse proxy to handle the TLS connections before passing traffic to the upstream application.
+Building the CTF infra architecture, I decided to use a reverse proxy to handle the TLS connections before passing traffic to the upstream application.
 
 Here’s the idea:
 
@@ -122,7 +121,7 @@ That fingerprint can then be sent as an internal header to the upstream server a
 In practice, it looked like this:
 
 ```
-[HAProxy] -> [Django application]
+[HAProxy] -> [Gunicorn] -> [Django application]
 ```
 
 With this setup, my upstream application doesn’t need to worry about TLS — it just trusts the fingerprint header coming from the reverse proxy. And because the fingerprint is unique per client, I could enforce browser-only access and keep any automated scripts out.
