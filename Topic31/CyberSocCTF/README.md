@@ -1,4 +1,4 @@
-## How I Stopped Everyone From Accessing The CTF Web App Without A Browser
+## How I Stopped Everyone Without A Web Browser (Bots) From Accessing The CTF Web App 
 
 There’s nothing like ending the year with a good ol’ CTF. For me, it’s not just about finding flags it’s about bringing the team together, sharpening skills, and getting that rush of solving real problems under pressure. 
 This year, I had the task of creating the CyberSOC CTF, and trust me, it was a wild ride.
