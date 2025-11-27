@@ -1,6 +1,6 @@
 ## SAGE MATH
 
-Solving
+###  Single Variable (x)
 
 $$
 x + 2x^2 + x^3 = 100
@@ -32,3 +32,77 @@ leq(x=4) # 100
 ```
 
 
+solving 
+
+$$
+x_0^4 - 150x_0^3 + 4389x_0^2 - 43000x_0 +131100 = 0
+$$
+
+sage 
+```
+x =  var('x', domain=ZZ)
+leq = x**4 - 150*x**3 + 4389*x**2 - 43000*x + 131100
+sol = solve(leq == 0, x)
+sol
+```
+
+
+### Linear Equation 
+
+#### Two Variables (x, y)
+
+$$
+x + y = 10
+$$
+
+
+```
+x = var('x', domain=ZZ)
+y = var('y', domain=ZZ)
+sol = solve(x+y==10, (x,y))
+sol
+```
+
+Solution
+
+$$
+x = t_0, y = -t_0 + 10
+$$
+
+Say we have 2 equations
+
+$$
+x + y = 10, 
+x=y
+$$
+
+
+Solution
+
+```
+x = var('x', domain=ZZ)
+y = var('y', domain=ZZ)
+sol = solve([x+y==10, x==y], (x,y))
+sol
+```
+
+#### Three Variables (x, y, z)
+
+$$
+\begin{cases}
+2x + y = 15 \\
+x + y + z = 20 \\
+3z = 30
+\end{cases}
+$$
+
+
+Solution
+
+```
+x = var('x', domain=ZZ)
+y = var('y', domain=ZZ)
+z = var('z', domain=ZZ)
+sol = solve([x + x + y == 15, z + z + z==30, x+y+z ==20], (x,y,z))
+sol
+```
