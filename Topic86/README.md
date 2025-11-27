@@ -56,7 +56,7 @@ x + y = 10
 $$
 
 
-```
+```py
 x = var('x', domain=ZZ)
 y = var('y', domain=ZZ)
 sol = solve(x+y==10, (x,y))
@@ -79,7 +79,7 @@ $$
 
 Solution
 
-```
+```py
 x = var('x', domain=ZZ)
 y = var('y', domain=ZZ)
 sol = solve([x+y==10, x==y], (x,y))
@@ -99,7 +99,7 @@ $$
 
 Solution
 
-```
+```py
 x = var('x', domain=ZZ)
 y = var('y', domain=ZZ)
 z = var('z', domain=ZZ)
