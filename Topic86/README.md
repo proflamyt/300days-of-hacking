@@ -106,3 +106,24 @@ z = var('z', domain=ZZ)
 sol = solve([x + x + y == 15, z + z + z==30, x+y+z ==20], (x,y,z))
 sol
 ```
+
+
+
+## Matrix
+
+### Inverse of matrix Sage math
+
+$$
+\begin{bmatrix}
+0 & 2 & 0 & 0 \\
+3 & 0 & 0 & 0 \\
+0 & 0 & 5 & 0 \\
+0 & 0 & 0 & 7 \\
+\end{bmatrix}
+$$
+
+
+```py
+A = matrix([[0,2,0,0], [3,0,0,0], [0,0,5,0], [0,0,0,7]])
+A.inverse()
+```
