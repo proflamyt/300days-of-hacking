@@ -2,7 +2,7 @@
 
 
 ### Challenge 
-```
+```c
 #define _GNU_SOURCE
 #include <bpf/bpf.h>
 #include <bpf/libbpf.h>
