@@ -105,5 +105,11 @@ git is already preinstalled in most linux distro
 80. Desktop Application Security
 81. MAC IPC
 82. LLDB
+83. nop
+84. nop
+85. nop
+86. Sage Math
+87. Miscellaneous
+88. 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
