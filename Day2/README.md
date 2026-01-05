@@ -1,4 +1,4 @@
-### Shells (Hack Responsibly)
+# Shells 
 
 ## Introduction
 Gaining a shell on your attack system is the ultimate goal , this way the impact of the vulnerability can be stressed.
@@ -208,3 +208,8 @@ Replace 4444 with your chosen port
     ```
 
 
+### change $0
+
+```
+bash -c 'source binary' './first_arg'  ping
+```
