@@ -213,3 +213,12 @@ Replace 4444 with your chosen port
 ```
 bash -c 'source binary' './first_arg'  ping
 ```
+
+
+
+### Create shell Function  and export
+
+```
+did() {   echo "inherited"; }
+export -f did
+```
