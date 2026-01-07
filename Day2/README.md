@@ -267,3 +267,12 @@ export -f did
 - LC_ALL
 - LC_CTYPE
 ```
+
+
+
+## Injection
+
+```bash
+if [[ "$1" -eq 1337 ]]
+./run 'x[$(cat /flag)]'
+```
