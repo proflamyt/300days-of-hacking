@@ -222,3 +222,48 @@ bash -c 'source binary' './first_arg'  ping
 did() {   echo "inherited"; }
 export -f did
 ```
+
+
+
+### Dagerous Environment Variable
+
+```
+🧨 Execution & Loader Control
+
+- PATH – command hijacking
+- IFS – word-splitting abuse
+- LD_PRELOAD – shared object injection
+- LD_LIBRARY_PATH – library resolution hijack
+- LD_AUDIT – runtime auditing hooks
+- LD_DEBUG – information leakage
+
+🧪 Shell Execution & Evaluation
+
+- BASH_ENV – auto-executed in non-interactive bash
+- ENV – auto-executed in sh / dash / ksh
+- PS4 – command substitution during set -x
+- SHELLOPTS – forces shell behavior
+
+🐍 Language / Runtime Injection
+
+- PYTHONPATH
+- PYTHONHOME
+- PERL5LIB, PERLLIB
+- RUBYLIB
+- GEM_PATH, GEM_HOME
+- NODE_OPTIONS
+- JAVA_TOOL_OPTIONS
+
+🏠 Filesystem & Config Redirection
+
+- HOME
+- TMPDIR
+- XDG_CONFIG_HOME
+- XDG_DATA_HOME
+
+🌍 Locale / Parsing
+
+- LANG
+- LC_ALL
+- LC_CTYPE
+```
