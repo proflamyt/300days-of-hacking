@@ -276,3 +276,14 @@ export -f did
 if [[ "$1" -eq 1337 ]]
 ./run 'x[$(cat /flag)]'
 ```
+
+```
+-v x[$(cat /flag)]
+```
+
+# Restricted Eval
+
+```
+$0 = ./bash
+eval '${0:2:9}'
+```
