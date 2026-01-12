@@ -294,3 +294,14 @@ eval '${0:2:9}'
 
 # /???/$_
 ```
+
+```bash
+$#   – number of positional parameters
+$*   – all positional parameters as one word
+$@   – all positional parameters as separate words
+$?   – exit status of the last command
+$$   – process ID of the current shell
+$!   – process ID of the most recent background job
+$-   – current shell option flags
+$_   – last argument of the previous command
+```
