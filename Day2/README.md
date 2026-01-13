@@ -305,3 +305,89 @@ $!   – process ID of the most recent background job
 $-   – current shell option flags
 $_   – last argument of the previous command
 ```
+
+
+### Number of characters in the value
+
+```
+${#param}
+```
+
+
+```bash
+echo $$        # e.g. 12345
+echo ${#$}    # 5   (PID length)
+
+false
+echo $?       # 1
+echo ${#?}    # 1   (character count)
+```
+
+```bash
+set -- a bb ccc
+echo $@
+echo $*
+
+echo ${#@}    # 3 
+echo ${#*}    # 3
+```
+
+
+### Pattern removal
+
+```bash
+${parameter#pattern}
+${parameter##pattern}
+${parameter%pattern}
+${parameter%%pattern}
+
+```
+
+#### prefix removal
+
+```bash
+#   → remove shortest match
+##  → remove longest match
+```
+#### suffix removal
+```bash
+%   → remove shortest match
+%%  → remove longest match
+```
+
+
+```bash
+x="path/to/file.txt"
+
+${x#*/}     → to/file.txt
+${x##*/}    → file.txt
+${x%.*}     → path/to/file
+${x%%.*}    → path/to/file
+
+# / ## remove from the left
+% / %% remove from the right
+```
+
+```
+${@%.*} 
+```
+
+
+### Indirect Expansion
+
+```
+${!x}  → indirect expansion
+```
+
+```bash
+
+$# → 3
+${!#} → ${!3}
+${!3} → value of positional parameter $3
+$3 → file.txt
+```
+
+```
+$# = 0
+${!#} → ${!0} → $0 # script name
+```
