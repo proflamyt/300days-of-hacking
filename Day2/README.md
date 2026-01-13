@@ -391,3 +391,9 @@ $3 → file.txt
 $# = 0
 ${!#} → ${!0} → $0 # script name
 ```
+
+
+```
+$(($$==$$)) # 1
+_=$#   # stores variable in _
+```
