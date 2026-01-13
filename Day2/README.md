@@ -392,8 +392,21 @@ $# = 0
 ${!#} → ${!0} → $0 # script name
 ```
 
-
+```
 ```
 $(($$==$$)) # 1
 _=$#   # stores variable in _
+```
+
+
+### Conversion
+
+```
+${var,,} # convert to lower
+${var^^} # convert to upper
+```
+
+
+```
+ <(:) # /dev/fd/63
 ```
