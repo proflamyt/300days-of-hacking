@@ -432,3 +432,88 @@ x[$(cat</flag>&2)0]
 
 ### logical or physical 
 The logical size is the size reported by standard tools like ls, representing the file's full addressable range as seen by applications. The physical size (or disk usage) is the actual number of blocks allocated on the storage device, which is reported by the du command
+
+
+
+#### Watch directory for change 
+
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/inotify.h>
+#include <limits.h>
+#include <errno.h>
+#include <string.h>
+
+#define EVENT_BUF_LEN (1024 * (sizeof(struct inotify_event) + NAME_MAX + 1))
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <directory>\n", argv[0]);
+        return 1;
+    }
+
+    int fd = inotify_init1(IN_NONBLOCK);
+    if (fd < 0) {
+        perror("inotify_init1");
+        return 1;
+    }
+
+    int wd = inotify_add_watch(
+        fd,
+        argv[1],
+        IN_CREATE | IN_MOVED_FROM | IN_MOVED_TO | IN_DELETE | IN_CLOSE_WRITE
+    );
+
+    if (wd < 0) {
+        perror("inotify_add_watch");
+        close(fd);
+        return 1;
+    }
+
+    printf("[*] Watching directory: %s\n", argv[1]);
+
+    char buffer[EVENT_BUF_LEN];
+
+    while (1) {
+        ssize_t length = read(fd, buffer, sizeof(buffer));
+        if (length < 0) {
+            if (errno == EAGAIN) {
+                usleep(100000); // 100ms
+                continue;
+            }
+            perror("read");
+            break;
+        }
+
+        for (char *ptr = buffer; ptr < buffer + length; ) {
+            struct inotify_event *event = (struct inotify_event *)ptr;
+
+            if (event->len) {
+                printf("[event] ");
+
+                if (event->mask & IN_CREATE)
+                    printf("CREATE ");
+                if (event->mask & IN_MOVED_FROM)
+                    printf("MOVED_FROM ");
+                if (event->mask & IN_MOVED_TO)
+                    printf("MOVED_TO ");
+                if (event->mask & IN_DELETE)
+                    printf("DELETE ");
+                if (event->mask & IN_CLOSE_WRITE)
+                    printf("CLOSE_WRITE ");
+
+                printf("-> %s\n", event->name);
+            }
+
+            ptr += sizeof(struct inotify_event) + event->len;
+        }
+    }
+
+    inotify_rm_watch(fd, wd);
+    close(fd);
+    return 0;
+}
+
+```
