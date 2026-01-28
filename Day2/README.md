@@ -429,3 +429,6 @@ $~- # OLDPWD
 ```bash
 x[$(cat</flag>&2)0]
 ```
+
+### logical or physical 
+The logical size is the size reported by standard tools like ls, representing the file's full addressable range as seen by applications. The physical size (or disk usage) is the actual number of blocks allocated on the storage device, which is reported by the du command
