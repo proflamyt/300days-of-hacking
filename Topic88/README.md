@@ -3,4 +3,12 @@
 ### Fault Injection 
 
 
-### Side CHannel
+### Side channel
+
+
+
+JTAG 
+
+JTAG DEBUG INERFACE
+
+BOOT ROM
