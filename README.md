@@ -110,6 +110,6 @@ git is already preinstalled in most linux distro
 85. nop
 86. Sage Math
 87. Miscellaneous
-88. 
+88. Hardware Hacking
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
