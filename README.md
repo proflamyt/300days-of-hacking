@@ -111,5 +111,6 @@ git is already preinstalled in most linux distro
 86. Sage Math
 87. Miscellaneous
 88. Hardware Hacking
+89. VHDL 
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
