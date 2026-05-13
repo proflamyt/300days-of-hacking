@@ -106,7 +106,7 @@ git is already preinstalled in most linux distro
 81. MAC IPC
 82. LLDB
 83. nop
-84. nop
+84. Bluetooth
 85. nop
 86. Sage Math
 87. Miscellaneous
