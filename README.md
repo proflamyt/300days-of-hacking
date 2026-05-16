@@ -112,6 +112,9 @@ git is already preinstalled in most linux distro
 87. Miscellaneous
 88. Hardware Hacking
 89. VHDL
-90. format string
+90. Firmware 
+91. format string
+92. UEFI
+93. AI Redteaming
 
 ### PS: The table of contents will keep adding up with time as the repo grows...
