@@ -1,26 +1,41 @@
-title: My Knowledge Base
-description: Topics and Vulnerabilities
-sidebar: false
-# Use Just the Docs theme
+title: "300 Days of Hacking"
+description: "A practical hacking knowledge base covering 90+ security topics"
+author: proflamyt
+url: "https://proflamyt.github.io"
+baseurl: "/300days-of-hacking"
+
+# Theme — use Just the Docs (best for knowledge bases)
 remote_theme: just-the-docs/just-the-docs
 
-# Enable dark theme by default
-color_scheme: dark
-
-# Navigation order
-nav_order: 1
-
-# Hide sidebar globally
-hide_sidebar: true
-
-# Enable search
+# Navigation
+nav_sort: case_insensitive
 search_enabled: true
+search:
+  heading_level: 2
+  previews: 3
 
-# Optional: External link to repo
-nav_external_links:
-  - title: 300 days of Hacking
-    url: https://github.com/proflamyt/300days-of-hacking
+# Plugins
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
-# Include custom CSS (if needed)
-include:
-  - assets/css/custom.css
+# Markdown settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Collections — this is KEY for your folder structure
+collections:
+  topics:
+    output: true
+    permalink: /:collection/:name/
+
+# Exclude from build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules

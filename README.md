@@ -1,13 +1,13 @@
-# 300days of hackings
-This program is aimed at teaching young and aspiring hackers the skills they need to stand out in the pentesting community... 
-Keep your eyes out for updates on this repo. Professionals/Begginers are welcomed to fork and contribute to the community...
+# 300 Days of Hacking
+This program is aimed at teaching young and aspiring hackers the skills they need to stand out in the pentesting community.
+Keep your eyes out for updates on this repo. Professionals/Beginners are welcome to fork and contribute to the community.
 
 for version control and easier management 
 
 install git on windows 
-check [here](https://phoenixnap.com/kb/how-to-install-git-windows) for detailed instruction.
+check [here](https://phoenixnap.com/kb/how-to-install-git-windows) for detailed instructions.
 
-git is already preinstalled in most linux distro
+git is already preinstalled in most Linux distros
 
 > Folder should be structured like
 
@@ -44,7 +44,7 @@ git is already preinstalled in most linux distro
 19. ARP 
 20. Process Injection
 21. VPN
-22. CORS (Cross-site request forgery)
+22. CORS (Cross-Origin Resource Sharing)
 23. Android Debug shell
 24. Containerization
 25. EDR evasion
@@ -55,7 +55,7 @@ git is already preinstalled in most linux distro
 30. Android Hacking
 31. CTF (Capture The Flag)
 32. Same Origin Policy & Cross-Origin Resource Sharing
-33. Reseach (MTN Router)
+33. Research (MTN Router)
 34. Side Channel Attack
 35. RTOS (Real Time Operating System)
 36. Threads and Process
@@ -67,8 +67,8 @@ git is already preinstalled in most linux distro
 42. Exploit Development
 43. Network Security
 44. (User Account Control) UAC Bypass
-45. Windows Priviledge Escalation
-46. Prototype Parameter Polution
+45. Windows Privilege Escalation
+46. Prototype Parameter Pollution
 47. Windows Authentication
 48. OAUTH
 49. GRAPHQL
@@ -82,7 +82,7 @@ git is already preinstalled in most linux distro
 57. CVE
 58. XSS in React
 59. RED TEAM (Windows)
-60. Reverse WhataApp (Project)
+60. Reverse WhatsApp (Project)
 61. Building Custom Mail Server (Project)
 62. Azure (Cloud)
 63. Google (Cloud)
@@ -92,22 +92,22 @@ git is already preinstalled in most linux distro
 67. Certificates
 68. NOSQL
 69. Frontend Vulnerabilities
-70. nop
-71. nop
+70. DNS Spoofing
+71. ROP (Return-Oriented Programming)
 72. Heap Exploitation
-73. nop
+73. Embedded Systems
 74. Paging and Page Walking
 75. Fuzzing (AFL fuzzer)
 76. WinDBG
 77. Kernel Exploitation
-78. Nop
+78. Windows Injection and Hijacking
 79. Arm64 Assembly
 80. Desktop Application Security
 81. MAC IPC
 82. LLDB
-83. nop
+83. Rust
 84. Bluetooth
-85. nop
+85. Fault Injection
 86. Sage Math
 87. Miscellaneous
 88. Hardware Hacking

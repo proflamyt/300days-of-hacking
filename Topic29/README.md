@@ -1,161 +1,169 @@
-# REVERSE ENGINEERING
+---
+title: "Reverse Engineering"
+topic: "reverse-engineering"
+tags: [reverse-engineering, assembly, ghidra, gdb, elf, static-analysis, dynamic-analysis]
+difficulty: advanced
+day: 29
+layout: default
+parent: Topics
+nav_order: 29
+---
 
-https://0xinfection.github.io/reversing
+# Reverse Engineering
 
-Goal of reverse engineering is Understanding WHAT it does and HOW it does it .
+## What You Will Learn
+- What reverse engineering is and what its goals are
+- How x86 assembly relates to compiled programs
+- What ELF binaries are and how to inspect them
+- The difference between static and dynamic analysis
+- What tools are used for reverse engineering
 
-## X86 Assembly 
+## What Is It?
 
+The goal of reverse engineering is understanding **WHAT** a program does and **HOW** it does it — without access to the source code.
 
-## x86 Basic Architecture
+Security researchers reverse engineer malware to understand its capabilities. CTF players reverse engineer challenge binaries to find hidden flags. Vulnerability researchers reverse engineer software to find exploitable bugs.
 
-A computer application is simply a table of machine instructions stored in memory to which the binary numbers which make up the program are unique only in the way the CPU deals with them.
-The basic arcchitecture of thr computer comprises of the CPU, BUS, memory, Basic I/O
+Reference: https://0xinfection.github.io/reversing
 
-The CPU (central processing Unit) comprises the unit that executes the computer program, the BUS moves data from/to the memory and CPU for processing, the memory stores information to be processed, while the I/O devices acts as an external interface with the real world.
+## Why It Matters
 
-The CPU comprises of units that fetches and decodes instructions from memory, also  stores infomation to the memory , the CPU stores these data internally using it's registers , it also uses FLags to indicate events for execution.
+Reverse engineering is at the core of:
+- Malware analysis
+- Vulnerability research
+- CTF competitions
+- Software interoperability
 
-In a 32 bit processor , the CPU fetches 32 bits machine instruction at a go for execution from addresses , these instructions are strored in registers which are also 32 bits in lenght
+## Key Concepts
 
-In a 32-bit Intel processor, there are several types of registers, including:
+### x86 Basic Architecture
 
-1. General-purpose registers: There are 8 general-purpose registers, each of which is 32 bits wide. These registers are used to hold data and addresses during program execution.
+A computer application is simply a table of machine instructions stored in memory. The basic architecture of the computer comprises the CPU, bus, memory, and basic I/O.
 
-2. Segment registers: There are 6 segment registers, each of which is 16 bits wide. These registers are used to hold segment selectors that point to different segments of memory.
+The CPU (Central Processing Unit) executes the computer program. The bus moves data between the memory and CPU for processing. The memory stores information to be processed. The CPU stores data internally using its **registers** and uses **flags** to indicate events during execution.
 
-3. Control registers: There are several control registers, including the program counter (PC), the flags register, and the instruction pointer (IP). These registers are used to control program execution and to store information about the state of the processor.
+In a 32-bit Intel processor, there are several types of registers:
 
-4. Debug registers: There are several debug registers that are used by the processor to assist with debugging.
+1. **General-purpose registers**: 8 registers, each 32 bits wide. Used to hold data and addresses during program execution.
+2. **Segment registers**: 6 registers, each 16 bits wide. Hold segment selectors pointing to different segments of memory.
+3. **Control registers**: Include the program counter (PC), flags register, and instruction pointer (IP).
+4. **Debug registers**: Used by the processor to assist with debugging.
 
-In total, a 32-bit Intel processor has around 20 registers, including the above mentioned general-purpose, segment, control, and debug registers.
+A 32-bit Intel processor has around 20 registers in total.
 
-### Proceeding
-
-proceed on what your goal is , 
-
-find entry point
-
-
+### Memory Dereferencing
 
 ```assembly
-mov rax, [rdx]
+mov rax, [rdx]       ; Move the value AT the address in rdx into rax
+mov [rax], rdx       ; Move the value of rdx into the memory address stored in rax
 ```
 
-Will move the value pointed to by rdx into the rax register. 
-
 ```assembly
-mov [rax], rdx
-```
-
-Will move the value of the rdx register into whatever memory is pointed to by the rax register. The actual value of the rax register does not change.
-
-
-
-
-```assembly
+; If RBP = 0x7FFF0000 and local_18 is at offset -0x18:
 MOV RAX, qword ptr [RBP + local_18]
+; = MOV RAX, qword ptr [0x7FFF0000 - 0x18]
+; = MOV RAX, qword ptr [0x7FFFE7E8]
+; Fetches 8 bytes from that address into RAX
 ```
 
+## ELF Binary
 
-Let's assume the following:
+The **ELF (Executable and Linkable Format)** is the common standard file format for executable files on Unix/Linux systems.
 
-The base pointer (RBP) contains the value 0x7FFF0000.
-The variable local_18 is located 24 bytes (6 quadwords) below the base pointer.
-Given these values, the instruction MOV RAX, qword ptr [RBP + local_18] can be translated into the following assembly code:
+An ELF file consists of two main sections:
 
-therefore
-```assembly
-MOV RAX, qword ptr [0x7FFF0000 + 6 * 8]
+1. **ELF header**: 32 bytes long, starting with 4 unique bytes: `0x7F` followed by `0x45`, `0x4C`, `0x46` (which spells "ELF").
+2. **File data**: Program headers, section headers, and the actual code/data.
+
+![ELF Header](https://github.com/proflamyt/300days-of-hacking/assets/53262578/1499d412-d85f-4f68-a0b5-1e79e1c77320)
+
+![ELF Sections](https://github.com/proflamyt/300days-of-hacking/assets/53262578/71438ea0-ad14-480b-bc49-8d3ce19e8b7e)
+
+The `.interp` section of the ELF executable contains the location of its required loader — this tells the operating system which loader to use to execute the binary.
+
+![.interp section](https://github.com/proflamyt/300days-of-hacking/assets/53262578/a45003d9-8094-4662-85b9-f51b7f8ed2fd)
+
+### Check Libraries Required by an ELF Binary
+
+```bash
+ldd <elf_binary>
 ```
 
-Simplifying the calculation:
+`ld.so` is the dynamic linker/loader that comes with glibc. It loads shared libraries for an ELF executable during execution so the process has access to external functions.
 
-```assembly
-MOV RAX, qword ptr [0x7FFF0030]
-```
-This means the instruction is fetching a 64-bit (quadword) value from the memory address 0x7FFF0030 and storing it in the RAX register.
+## Tools
 
+- **GDB**: GNU debugger — for dynamic analysis of Linux binaries.
+- **Ghidra**: Open-source reverse engineering suite by the NSA. Excellent decompiler.
+- **IDA Pro**: Industry-standard disassembler and decompiler.
+- **Radare2**: Open-source framework for reverse engineering and binary analysis.
 
-### ELF BINARY
+## Static Analysis
 
-is a common standard file format for executable files in unix system .
+Static analysis examines a binary without executing it.
 
-![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/1499d412-d85f-4f68-a0b5-1e79e1c77320)
+```bash
+# Decompile and view binary online
+# dogbolt.org — compare multiple decompiler outputs
 
-an ELF file consists of two sections 
-- ELF header :  32 bytes long starting with 4 unique bytes 0x7F followed by 0x45, 0x4c, and 0x46
-- File data
+# View strings in a binary
+strings <binary>
 
-  ![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/71438ea0-ad14-480b-bc49-8d3ce19e8b7e)
+# Check for symbols
+nm <binary>
 
-
-the ".interp" section of the ELF executable contains the location of its required loader so as to let the operating system knows which specific loader to use.
-
-![image](https://github.com/proflamyt/300days-of-hacking/assets/53262578/a45003d9-8094-4662-85b9-f51b7f8ed2fd)
-
-checking libraries required to run program 
-```
-ldd elf program
+# Disassemble
+objdump -d <binary>
 ```
 
-ld.so is usually the executable which is prepackaged with glibc that loads shared library for an elf executable during execution for the process to have access to the external function
+Unpacking the app and checking its content is the first step in static analysis.
 
-### Tools
-- GDB
-- Ghidra
+## Dynamic Analysis
 
+Dynamic analysis examines a binary while it is running — observing its behavior at runtime.
 
+```bash
+# Attach GDB to a running process
+gdb -p <PID>
 
+# Run binary under GDB
+gdb ./<binary>
 
+# Set a breakpoint at main
+(gdb) break main
+(gdb) run
+(gdb) disassemble main
+```
 
-#### Static Analysis 
-dogbolt.org
+## IDA Pro Tips
 
-Unpacking the app and check its content 
-
-#### Dynamic Analysis
-
-Trying to find out what is going on in run-time 
-
-
-
-
-
-
-
-### IDA 
-
-Define struct process 
+**Define a custom struct:**
 
 ```
-shift f1;
-local types
-insert
+Shift+F1
+→ Local Types
+→ Insert
 
 struct yarn_struct {
-char buf[256];
-char reg1;
-char reg2;
-char reg3;
-char reg4;
-char reg5;
+    char buf[256];
+    char reg1;
+    char reg2;
+    char reg3;
+    char reg4;
+    char reg5;
 }
-
-enter
-
-
-rename type to
-
-yarn_struct 
-
-
 ```
 
-convert to signed 
-```
-hex((-0x72) & (2**64-1))
+**Convert to signed:**
+
+```python
+hex((-0x72) & (2**64 - 1))
 ```
 
+## Resources
 
-reference : https://0xinfection.github.io/reversing/pages/
+- [0xinfection.github.io — Reversing](https://0xinfection.github.io/reversing/pages/)
+- [Ghidra](https://ghidra-sre.org/)
+- [dogbolt.org — Online Decompiler Explorer](https://dogbolt.org/)
+- [TryHackMe — Reverse Engineering](https://tryhackme.com/room/reverseengineering)
+- [pwn.college — Reverse Engineering Module](https://pwn.college/)

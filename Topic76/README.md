@@ -1,133 +1,174 @@
+---
+title: "WinDbg"
+topic: "windbg"
+tags: [windbg, windows, debugging, reverse-engineering, kernel, malware-analysis]
+difficulty: advanced
+day: 76
+layout: default
+parent: Topics
+nav_order: 76
+---
+
 # WinDbg
 
- go (contine with execution)
- ```
- g
- ```
+## What You Will Learn
+- How to navigate and debug programs with WinDbg
+- How to set breakpoints, inspect registers, and examine memory
+- How to step through code and analyze function calls
+- How to use WinDbg for kernel and malware analysis
 
-list module
+## What Is It?
+
+**WinDbg** is Microsoft's official debugger for Windows. It supports both user-mode and kernel-mode debugging. It is the standard tool for Windows crash dump analysis, malware analysis, and kernel debugging.
+
+Unlike GDB, WinDbg uses a different syntax and has a unique command structure.
+
+## Basic Navigation
+
 ```
-lm
+g                     ; go (continue execution)
 ```
 
-address func
+## Listing Modules
+
 ```
-x module!function
+lm                    ; list all loaded modules
 ```
 
-back trace 
+## Symbols and Addresses
+
 ```
-k
+x module!function     ; get address of a function in a module
+x ntdll!NtCreateFile  ; example: address of NtCreateFile in ntdll
 ```
-unassemble 
+
+## Call Stack
+
 ```
-u $entry
+k                     ; display call stack (backtrace)
+kv                    ; verbose call stack with parameters
+kb                    ; call stack with first 3 parameters
 ```
-break at first assembly (bp <address or symbol name>)
+
+## Disassembly
+
 ```
+u $entry              ; unassemble from entry point
+uf module!function    ; unassemble entire function
+u @rip                ; unassemble from current instruction pointer
+```
+
+## Breakpoints
+
+```
+bp $exentry           ; break at entry point
+bp 0x00401000         ; break at address
+bu module!function    ; breakpoint on unresolved function (set when loaded)
+bd <num>              ; disable breakpoint number
+be <num>              ; enable breakpoint number
+bl                    ; list all breakpoints
+```
+
+## Stepping
+
+```
+t                     ; trace — step into one instruction
+p                     ; step over one instruction
+p 5                   ; step over 5 instructions
+gu                    ; go up — run until current function returns
+tc                    ; trace until next call instruction
+```
+
+## Registers
+
+```
+r                     ; display all registers
+r rax = 0xdeadbeef    ; set rax to a value
+r ax = 0xf00d, rbx = 0xdeadfacebeefd00d, bl = 0x0f
+```
+
+## Memory Examination
+
+```
+# Display memory at address
+db <address> L<count>   ; display <count> bytes as hex+ASCII
+dd <address> L<count>   ; display <count> doublewords (4 bytes) as hex
+dq <address> L<count>   ; display <count> quadwords (8 bytes) as hex
+da <address>            ; display as ASCII string until null terminator
+
+# Examples
+db 0x00401000 L10       ; 10 bytes from 0x00401000
+dq @rsp L8              ; 8 quadwords from stack pointer
+da @rdi                 ; ASCII string at rdi
+```
+
+## Memory Modification
+
+```
+ed rsp 0xdeadbeef       ; write doubleword to rsp
+eq rsp 0xdeadfacebeef   ; write quadword to rsp
+```
+
+## Expression Evaluation
+
+```
+? a - b                 ; evaluate expression a minus b
+? 0x1000 + 0x100        ; calculate hex arithmetic
+```
+
+## Reload Symbols
+
+```
+.reload /f              ; force reload all symbols
+```
+
+## Dump from RSP
+
+```
+dq @rsp                 ; dump quadwords from stack pointer
+```
+
+## Example: Analyzing a Windows Binary
+
+```
+# 1. Load the binary
+windbg -o "C:\target.exe"
+
+# 2. Set symbol path
+.sympath SRV*C:\symbols*https://msdl.microsoft.com/download/symbols
+
+# 3. Break at entry
 bp $exentry
-```
-breakpoint unresolved func
-```
-bu module!function
-```
+g
 
-disable and enable breakpoint
-```
-bd <addr>
-be <addr>
-```
-
-list breakpoint 
-
-```
-bl
-```
-unassemble  function
-
-```
-uf module!function
-```
-
-unassemble 
-
-```
+# 4. See where we are
+k
 u @rip
+
+# 5. Find a specific function
+x target!main
+
+# 6. Break at main
+bp target!main
+g
 ```
 
-dump from rsp
-```
-dq @rsp
-```
-registers
-```
-r
-```
+## Kernel Debugging
 
-evaluation
+WinDbg is used for kernel debugging by connecting a debugger machine to the target over a serial cable, network, or virtual machine serial port.
 
 ```
-? a- b
+# On target machine
+bcdedit /debug on
+bcdedit /dbgsettings net hostip:192.168.1.100 port:50000 key:1.1.1.1
+
+# On debugger machine
+windbg -k net:port=50000,key=1.1.1.1
 ```
 
-trace (step instruction)
-```
-t
-```
+## Resources
 
-trace until call (stop at call)
-```
-tc
-```
-
-next instruction
-```
-p
-```
-go up 
-```
-gu
-```
-
-reload
-
-```
-.reload /f
-```
-
-
-modifying registers
-```
- r ax = 0xf00d, rbx = 0xdeadfacebeefd00d, bl = 0x0f
-```
-
-display from address
-```
-db <address> L<number> == displays <number> bytes starting at <address>.
-
-dd <address> L<number> == displays <number> doublewords (4 bytes) starting at <address>.
-
-dq <address> L<number> == displays <number> quadwords (8 bytes) starting at <address>.
-
-da <address> == displays as ASCII string at that address until first null terminator.
-```
-modifying address
-```
-ed rsp 0xdeadbeef
-```
-
-p command to step over a function call 
-```
-p 5 // step over 5 instructions and calls
-```
-step into
-```
-t 
-```
-
-go up (run until current function finishes)
-```
-gu
-```
-
-Reference : https://apps.p.ost2.fyi/learning/course/course-v1:OpenSecurityTraining2+Dbg1011_WinDbg1+2021_v1/block-v1:OpenSecurityTraining2+Dbg1011_WinDbg1+2021_v1+type@sequential+block@19803fcd787841369365ba76577b81a0/block-v1:OpenSecurityTraining2+Dbg1011_WinDbg1+2021_v1+type@vertical+block@7e7475bbf5b7441e953f5466535a911d
+- [OpenSecurityTraining2 — WinDbg Course](https://apps.p.ost2.fyi/learning/course/course-v1:OpenSecurityTraining2+Dbg1011_WinDbg1+2021_v1)
+- [Microsoft WinDbg Documentation](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/)
+- [TryHackMe — Windows Debugging](https://tryhackme.com/)
+- [WinDbg Preview (App Store)](https://apps.microsoft.com/detail/windbg-preview/9PGJGD53TN86)

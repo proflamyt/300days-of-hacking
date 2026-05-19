@@ -1,215 +1,150 @@
-# Understanding-HTTP-Hyper-Text-Transfer-Protocol-Secure-for-dummies 
+---
+title: "Understanding HTTP"
+topic: "understanding-http"
+tags: [http, https, web, protocols, headers, cookies]
+difficulty: beginner
+day: 3
+layout: default
+parent: Topics
+nav_order: 3
+---
 
+# Understanding HTTP (Hyper Text Transfer Protocol)
 
+## What You Will Learn
+- What HTTP is and how it works
+- The difference between HTTP and HTTPS
+- How requests and responses are structured
+- What HTTP methods, status codes, and headers are
+- What cookies are and why they matter for security
+- How HTTP has evolved from version 1.0 to HTTP/3
 
 ## What is HTTP?
-HTTP is the fundamental of data exchange on the web
-It is a set of agreed rules on how data is being transmitted on the web. The client (in this case you)
-and the web server (try hackme.com) must agree on how communications is to be exchanged
-between in order to have a meaningful conversation.
-Clients and servers communicate by exchanging individual messages (as opposed to a stream of
-data). The messages sent by the client, usually a Web browser, are called requests and the messages
-sent by the server as an answer are called responses.
-What most websites use nowadays is the http, an upgrade of http. This S -meaning (secure)- added
-an encryption layer to the data in transit, this way anyone between you and the server you are
-communicating with will only see jumbled, rubbish and un-meaningful data , also, won’t be able
-to change it in transit , thus affecting your data integrity.
-For you to understand the ways data are transmitted and received you have to understand these;
 
-• Request and
-• Responses.
+HTTP is the foundation of data exchange on the web. It is a set of agreed rules on how data is transmitted between a client and a server. The client (in this case, you) and the web server (e.g., tryhackme.com) must agree on how communication is to be exchanged in order to have a meaningful conversation.
 
-Earlier, it was mentioned, that data being transferred to and from you to a webserver, in this case
-“tryhackme.com”, these data are in form of request and responses, most times you access a website
-through a browser, your browser underneath the hood has to get the images, texts, html from the
-server you want to access, this way you can see a nicely rendered page which you make sense of.
-These exchange is possible due to your browser asking your website for these resource
-(REQUEST) and the webserver understanding this language (since you both speak http), replies
-with the resource you requested for (RESPONSE).
+Clients and servers communicate by exchanging individual messages (as opposed to a stream of data). The messages sent by the client, usually a web browser, are called **requests** and the messages sent by the server as an answer are called **responses**.
 
-## URLS (Uniform Resource Locator)
-There is high likelihood you’ve come across URLS, if you've visited websites before , you might
-not have made sense of it till now.
-A URL is predominantly an instruction on how to access a resource on the internet. You want your
-profile on tryhackme you have to tell the website where to look for it, if you want to check a
-different part of the website, you have to tell this website where to look for them. You have to tell
-it the protocol you would like, where you want to access , how you want to access it , what you
-want to access from it
+What most websites use nowadays is **HTTPS**, an upgrade of HTTP. The "S" stands for "Secure" — it adds an encryption layer to data in transit. Anyone between you and the server you are communicating with will only see jumbled, meaningless data and will not be able to change it in transit, which protects your data integrity.
 
-### Making a request
-Now let us talk about request. You've been making requests all your life, asking for resources from
-servers, giving them resources to save or use. Now hackers, let us look at how these requests are
-made.
+For you to understand the ways data is transmitted and received, you have to understand:
 
-#### HTTP Methods
-HTTP methods are a way for the client to show their intended action when making an HTTP
-request. There are a lot of HTTP methods but we'll cover the most common ones, although mostly
-you'll deal with the GET and POST method.
-• GET Request: This is used when requesting information from a web server
-• POST Request: This is used when submitting data to the web server and potentially
-creating new records.
-• PUT Request: This is used when you want to modify a single resource which is already
-part of a resource collection.
-• DELETE Request: This is used for deleting information/records from a web server.
+- Requests
+- Responses
 
-#### HTTP Status code
-When surfing the web there is a high probability that you have come across the word “404-page
-not found” and this is a response telling you that you have no permission to view this page whether
-logged in on not. In this case we will go through the possible http response you are most likely to
-come across.
-Table showing the popular http status code
-S/n Responses Meaning
-1. 200 - OK The request was completed successfully
-2. 201 - Created A resource has been created (for example a new user or new
+When you access a website through a browser, your browser underneath the hood has to get the images, text, and HTML from the server. These exchanges are possible because your browser asks the website for these resources (**REQUEST**), and the web server (which speaks the same language) replies with the resource requested (**RESPONSE**).
 
-blog post).
+## URLs (Uniform Resource Locator)
 
-3. 302 - Temporary
-Redirect
+A URL is essentially an instruction on how to access a resource on the internet. You want your profile on TryHackMe? You have to tell the website where to look for it. You have to tell it:
 
-Similar to the above permanent redirect, but as the name
-suggests, this is only a temporary change and it may change
-again in the near future.
+- The protocol you want to use
+- Where you want to access
+- What you want to access
 
-4. 301 - Permanent
-Redirect
+## Making a Request
 
-This redirects the client's browser to a new webpage or tells
-search engines that the page has moved somewhere else and to
-look there instead.
+Now let's talk about requests. You've been making requests all your life — asking for resources from servers, giving them resources to save or use. Let's look at how these requests are made.
 
-5. 400 - Bad Request This tells the browser that something was either wrong or
-missing in their request. This could sometimes be used if the
-web server resource that is being requested expected a certain
-parameter that the client didn't send.
+### HTTP Methods
 
-6. 401 - Not Authorized You are not currently allowed to view this resource until you
-have authorized with the web application, most commonly with
-a username and password.
+HTTP methods are a way for the client to show their intended action when making an HTTP request. There are a lot of HTTP methods but we'll cover the most common ones — although mostly you'll deal with GET and POST.
 
-7. 403 - Forbidden You do not have permission to view this resource whether you
+- **GET Request**: Used when requesting information from a web server.
+- **POST Request**: Used when submitting data to the web server and potentially creating new records.
+- **PUT Request**: Used when you want to modify a single resource that is already part of a resource collection.
+- **DELETE Request**: Used for deleting information or records from a web server.
 
-are logged in or not.
+### HTTP Status Codes
 
-8. 404- Page Not Found The page/resource you requested does not exist.
-9. 405 - Method Not
-Allowed
+When surfing the web there is a high probability that you have come across "404 Page Not Found." Status codes are responses that tell you what happened to your request.
 
-The resource does not allow this method request, for example,
-you send a GET request to the resource /create-account when it
-was expecting a POST request instead.
-
-10. 500 - Internal Service
-Error
-
-The server has encountered some kind of error with your request
-that it doesn't know how to handle properly.
-
-11. 503 - Service
-Unavailable
-
-This server cannot handle your request as it's either overloaded
-or down for maintenance
-
-12. 504 Gateway Timeout The server was acting as a gateway or proxy and did not
-receive a timely response from the upstream server.
-
-13. 505 HTTP Version Not
-Supported
-
-The server does not support the HTTP protocol version used in
-the request
+| Code | Name | Meaning |
+|------|------|---------|
+| 200 | OK | The request was completed successfully. |
+| 201 | Created | A resource has been created (e.g., a new user or blog post). |
+| 301 | Permanent Redirect | This redirects the client's browser to a new webpage or tells search engines the page has moved. |
+| 302 | Temporary Redirect | A temporary change; it may change again in the near future. |
+| 400 | Bad Request | Something was either wrong or missing in the request. |
+| 401 | Not Authorized | You are not currently allowed to view this resource until you have authorized with the web application. |
+| 403 | Forbidden | You do not have permission to view this resource whether you are logged in or not. |
+| 404 | Page Not Found | The page/resource you requested does not exist. |
+| 405 | Method Not Allowed | The resource does not allow this method request (e.g., you sent a GET request when it expected POST). |
+| 500 | Internal Server Error | The server has encountered some kind of error it doesn't know how to handle properly. |
+| 503 | Service Unavailable | The server cannot handle your request as it's either overloaded or down for maintenance. |
+| 504 | Gateway Timeout | The server was acting as a gateway or proxy and did not receive a timely response from the upstream server. |
+| 505 | HTTP Version Not Supported | The server does not support the HTTP protocol version used in the request. |
 
 ## Headers
-Headers are additional bit of information you send to the servers when making request. An HTTP
-header consists of its case-insensitive name followed by a colon (:), then by its value.
-Request header
-A request header is an HTTP header that can be used in an HTTP request to provide information
-about the request context, so that the server can tailor the response. Common request headers are
-• Host: Some web servers host multiple websites so by providing the host headers you can
-tell it which one you require, otherwise you'll just receive the default website for the server.
-• Authorization: Authorization headers are used to control caching, or to get information
-about the user agent or referrer.
-• Accept-Encoding: Tells the web server what types of compression methods the browser
-supports so the data can be made smaller for transmitting over the internet.
-• Content- type: This is a way to specify the media type of request being sent from the client
-to the server.
-• User-Agent: This is your browser software and version number, telling the web server your
-browser software helps it format the website properly for your browser and also some
-elements of HTML, JavaScript and CSS are only available in certain browsers.
-Response header
 
-These are the headers that are returned to the client from the server after a request. A response
-header is an HTTP header that can be used in an HTTP response and that doesn't relate to the
-content of the message. Response headers, like Age , Location or Server are used to give a more
-detailed context of the response. Common response headers are:
-• Content-Type: This is a representation header that tells the client what type of data is being
-returned, i.e., HTML, CSS, JavaScript, Images, PDF, Video, etc. Using the content-type
-header the browser then knows how to process the data.
-• Content-Encoding: What method has been used to compress the data to make it smaller
-when sending it over the internet.
-• Set-Cookie: Information to store which gets sent back to the web server on each request.
-• Cache-Control: How long to store the content of the response in the browser's cache before
-it requests it again.
+Headers are additional bits of information you send to the server when making a request. An HTTP header consists of its case-insensitive name followed by a colon (`:`), then by its value.
 
-Cookies
-A cookie is a small piece of data that a server sends to the user's web browser. The browser may
-store it and send it back with later requests to the same server. Typically, it's used to tell if two
-requests came from the same browser keeping a user logged-in. Because HTTP is stateless (doesn't
-keep track of your previous requests), cookies can be used to remind the web server who you are,
-some personal settings for the website or whether you've been to the website before. Cookies are
-used mainly for three purposes:
-• Session management i.e. logins, game scores, or anything else the server should remember
-• Personalization like user preferences, themes, and other settings
-• Tracking i.e. recording and analyzing user behavior
-Viewing Your Cookies
-You can easily view what cookies your browser is sending to a website by using the developer
-tools, in your browser. If you're not sure how to get to the developer tools in your browser, click
-on the "View Site" button at the top of this task for a how-to guide.
+### Request Headers
 
-Once you have developer tools open, click on the "Network" tab. This tab will show you a list of
-all the resources your browser has requested. You can click on each one to receive a detailed
-breakdown of the request and response. If your browser sent a cookie, you will see these on the
-"Cookies" tab of the request.
+A request header provides information about the request context so the server can tailor the response. Common request headers:
+
+- **Host**: Some web servers host multiple websites, so providing the host header tells it which one you require.
+- **Authorization**: Used to control caching or to pass user credentials.
+- **Accept-Encoding**: Tells the web server what types of compression the browser supports so data can be made smaller for transmission.
+- **Content-Type**: Specifies the media type of the request being sent from the client to the server.
+- **User-Agent**: Your browser software and version number, helping the web server format the website properly for your browser.
+
+### Response Headers
+
+These headers are returned to the client from the server after a request. Common response headers:
+
+- **Content-Type**: Tells the client what type of data is being returned (HTML, CSS, JavaScript, Images, PDF, Video, etc.).
+- **Content-Encoding**: What compression method has been used on the data.
+- **Set-Cookie**: Information to store which gets sent back to the web server on each subsequent request.
+- **Cache-Control**: How long to store the content of the response in the browser's cache before requesting it again.
+
+## Cookies
+
+A cookie is a small piece of data that a server sends to the user's web browser. The browser may store it and send it back with later requests to the same server. Because HTTP is stateless (it doesn't keep track of your previous requests), cookies are used to remind the web server who you are, some personal settings for the website, or whether you've been to the website before.
+
+Cookies are used mainly for three purposes:
+
+- **Session management**: Logins, game scores, or anything else the server should remember.
+- **Personalization**: User preferences, themes, and other settings.
+- **Tracking**: Recording and analyzing user behavior.
+
+### Viewing Your Cookies
+
+You can view what cookies your browser is sending to a website by using the browser's developer tools. Open developer tools, click on the **Network** tab, then click on a request. If your browser sent a cookie, you will see it on the **Cookies** tab of the request.
 
 
 
-# HTTP VERSIONS 
+# HTTP Versions
 
 ### HTTP/0.9
-This starts the beginning of HTTP Versioning, In  this version of http protocol only one method is available which is the GET request, there were no HTTP headers hence only Html files can be transmitted.
+
+This is the beginning of HTTP versioning. In this version, only one method was available — the GET request. There were no HTTP headers, so only HTML files could be transmitted.
 
 ### HTTP/1.0
-The protocol becomes more evolved and the concept of HTTP headers was introduced for both requests and responses. Metadata could be transmitted and the protocol became extremely flexible and extensible. Other documents asides HTML Files can be transmitted.
+
+The protocol became more evolved and the concept of HTTP headers was introduced for both requests and responses. Metadata could be transmitted and the protocol became extremely flexible and extensible. Documents other than HTML files could be transmitted.
 
 ### HTTP/1.1
 
-- Connection Reuse:
+- **Connection Reuse**: Prior to this version, every HTTP request required a new TCP connection. HTTP/1.1 allows connection reuse — after the initial handshake, requests and responses can continue without closing the connection. Both parties include a `Connection: keep-alive` header to indicate their intention to reuse the TCP connection. The connection stays open until either side explicitly closes it with `Connection: close` or a timeout occurs.
 
-Prior to this version, every time a client wants to connect to a server , it has to create new TCP connection request. Upgrade was made with HTTP/1.1 that allows connection reuse ,  It reduce the connection overhead of having to tear down TCP connections for every HTTP request/response pair. With the version of HTTP, after the initial handshake, request and response can continue without having to close down the connection . To achieve this , the HTTP client has to tell the server about its intention to reuse TCP connection they just established using the HTTP header. They both have to include  
-a Connection header with the value "keep-alive" to indicate their intention to reuse the TCP connection for multiple requests. Until the client or the server indicates they are xplicitly done by issueing a Connection: close header in an HTTP request or response, the connection stays open until timeout.
+- **HTTP Pipelining**: Before a response to one request is complete, HTTP/1.1 supports sending another request.
 
-- HTTP Pipelining: 
-
-Before a HTTP response to a request is complete, HTTP/1.1 supports another request to be sent .
-
-- Support for Chunked responses:
-
-This feature allows server to send a response as a series of "chunks" instead of sending the entire response at once. This encoding method is particularly useful when the server cannot determine the total size of the response in advance or when the response needs to be streamed progressively to the client. 
-
+- **Chunked Responses**: This feature allows the server to send a response as a series of "chunks" instead of sending the entire response at once. Particularly useful when the server cannot determine the total response size in advance, or when the response needs to be streamed progressively.
 
 ### HTTP/2
-The Http/2 has some improvemts such as :
 
-- It's a binary protocol
-- Parallel requests can be made over the same connection
--  It compresses headers.
--  It allows a server to populate data in a client cache through a mechanism called the server push.
+HTTP/2 has several improvements:
+
+- It is a binary protocol.
+- Parallel requests can be made over the same connection.
+- It compresses headers.
+- It allows a server to populate data in a client cache through server push.
 
 ### HTTP/3
-This HTTP version use QUIC protocol for data exchange 
 
+HTTP/3 uses the QUIC protocol for data exchange, which runs over UDP instead of TCP, reducing latency.
 
+---
 
-
-reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP
+Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP

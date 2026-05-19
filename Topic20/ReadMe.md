@@ -1,69 +1,109 @@
-Process Injection
+---
+title: "Process Injection"
+topic: "process-injection"
+tags: [process-injection, dll-injection, windows, malware, evasion, reflective-dll]
+difficulty: advanced
+day: 20
+layout: default
+parent: Topics
+nav_order: 20
+---
 
-Before we dig into process injection, let us try to understand what is a process, an application and a service.
-Application
+# Process Injection
 
-An application is a program with which we interact on the desktop. This is where we spend most of us spend our time on a desktop or a laptop. Google Chrome, MS Word, iTunes, Skype - these are all applications.
-Service
+## What You Will Learn
+- What processes, applications, and services are on Windows
+- What process injection is and why attackers use it
+- The most common process injection techniques
+- Which Windows processes are most commonly targeted
 
-A service is a process which runs in the background and does not interact with the desktop. There are some services which run before the user has even logged in.
+Before we dig into process injection, let's understand what a process, an application, and a service are.
 
-Services can be viewed through Task Manager  Open Services.
+## What Is an Application?
 
-Under the “Startup Type” value, they are classified as follows:
+An application is a program you interact with on the desktop. This is where most users spend their time — Google Chrome, MS Word, iTunes, Skype are all applications.
 
-    Automatic:These are started at boot time
-    Automatic Delayed: Services that are started after almost everything else has powered up
-    Manual:These are started either by a user or specific circumstances.
-    Disabled:These services should not be run at all.
-    
-Process
+## What Is a Service?
 
-A process is an instance of a particular executable (.exe program file) running. A given application may have several processes running simultaneously. For example, all major browsers such as google chrome, Firefox run several processes at once, with each tab, utility and extension is actually being a separate instance/process of the same executable. 
-Each process has its own private virtual memory space also known as sandbox that is isolated from other processes. Inside this memory space, you can find the process executable; its list of loaded modules (DLLs or shared libraries); and its stacks, heaps, and allocated memory regions containing everything from user input to application-specific data structures (such as SQL tables, Internet history logs, and configuration files).
+A service is a process that runs in the background and does not interact with the desktop. Some services run before the user has even logged in.
 
-Handle 
+Services can be viewed through **Task Manager → Services**.
 
-An handle is an integer value that identifies a thread/registry/files/process to Windows. handles should be released after use, just like free after malloc . If you do not release your handle to a resource fter use (use CloseHandle()), other people may not be able to access it - this is why you sometimes cannot delete a file because Windows claims it is in use. 
+Under the "Startup Type" column, they are classified as:
 
-_EPROCESS is the name of the structure that Windows uses to represent a process. Below image shows the basic process resources. SIDs (security identifiers) are used by the kernel to enforce security and access control.
+- **Automatic**: Started at boot time.
+- **Automatic (Delayed)**: Started after almost everything else has powered up.
+- **Manual**: Started by a user or specific circumstances.
+- **Disabled**: Should not run at all.
 
-Process Injection (also known as Code Injection)
+## What Is a Process?
 
-Some antimalware defences rely on process names to detect malwares in a system. Hence, adversaries started injecting code into processes in order to evade these types of defences.
+A process is an instance of a particular executable (`.exe`) running. A given application may have several processes running simultaneously. For example, major browsers like Chrome and Firefox run several processes at once — each tab, utility, and extension is a separate instance of the same executable.
 
-Process injection is a method of executing arbitrary code in the address space of a separate live process. Running code in the context of another process may allow access to the process's memory, system/network resources, and possibly elevated privileges.
+Each process has its own private virtual memory space (a sandbox) that is isolated from other processes. Inside this memory space, you can find:
 
-But there are various legitimate uses for process injection as well. For Ex: debuggers use this method to hook into applications and allow developers to troubleshoot their programs. Antivirus programs often inject code into web browsers. They can use it to monitor network traffic and block dangerous web content.
-Processes Targeted by Adversaries for Process Injection
+- The process executable
+- Its list of loaded modules (DLLs or shared libraries)
+- Its stacks, heaps, and allocated memory regions containing everything from user input to application-specific data structures
 
-Windows processes that are commonly used by threat actors are as follows:
+## What Is a Handle?
 
-    Processes of common software including iexplore.exe, ieuser.exe, opera.exe, chrome.exe, firefox.exe and outlook.exe
-    Built-in native Windows processes including explorer.exe, svchost.exe, regsvr32.exe, dllhost.exe, services.exe, cvtres.exe,msbuild.exe, RegAsm.exe, RegSvcs.exe, rundll32.exe, arp.exe, PowerShell.exe, vbc.exe, csc.exe, AppLaunch.exe and cmd.exe
+A handle is an integer value that identifies a thread, registry key, file, or process to Windows. Handles should be released after use (with `CloseHandle()`), just like you would call `free()` after `malloc()`. If you do not release a handle to a resource after use, other processes may not be able to access it — this is why you sometimes cannot delete a file because Windows claims it is in use.
 
-DLL Injection technique is one of the majorly used process injection technique.
-What are DLL files?
+`_EPROCESS` is the name of the structure that Windows uses to represent a process. SIDs (Security Identifiers) are used by the kernel to enforce security and access control.
 
-A Dynamic Link Library (DLL) file is a file containing a library of functions and data. It facilitates code reuse as many programs can do common tasks by simply loading a DLL and call its functions
-Process Injection Techniques
+## What Is It?
 
-As per Mitre there are 11 process injections techniques for windows, Linux and MacOS but we will only discuss 4 techniques.
+**Process Injection** (also known as Code Injection) is a method of executing arbitrary code in the address space of a separate, live process.
 
-CLASSIC DLL INJECTION VIA CREATEREMOTETHREAD AND LOADLIBRARY: the malware writes the path to its malicious dynamic-link library (DLL) in the virtual address space of another process, and ensures the remote process loads it by creating a remote thread in the target process.
+Some antivirus defenses rely on process names to detect malware. Adversaries started injecting code into legitimate processes to evade these defenses — the malicious code runs under the name of a trusted process like `explorer.exe` or `svchost.exe`.
 
-Remote DLL injection: A malicious process forces the target process to load a specified DLL from disk by calling LoadLibrary or the native LdrLoadDll. (Note: the DLL must exist on disk of the victim system prior to being injected).
+Running code in the context of another process may allow:
+- Access to the target process's memory
+- Access to system/network resources
+- Possibly elevated privileges
 
-LoadLibrary is a function that loads the specified module into the address space of the calling process. The specified module may cause other modules to be loaded.
+There are also legitimate uses for process injection — debuggers use it to hook into applications, and antivirus programs often inject code into browsers to monitor network traffic and block dangerous content.
 
-PE Injection: A Portable Execution (PE) is a Windows file format for executable code. It is a data structure containing all the information required so that Windows knows how to execute it. Here the malware injects a malicious PE image into an already running process. This is a disk-less operation, i.e. the malware does not need to write its payload onto disk prior to the injection.
+## Processes Targeted by Adversaries
 
-Reflective DLL injection: A malicious process writes a DLL (as a sequence of bytes) into the memory space of a target process. The DLL handles its own initialization without the help of the Windows loader. The DLL does not need to exist on disk prior to being injected.
+Windows processes commonly used by threat actors:
 
-Hollow process injection: A malicious adversary can start a new instance of a legitimate process, such as lsass.exe. Before the process’ first thread begins, the malware frees the memory containing the lsass.exe code and replaces it with the body (payload) of the malware. In this sense, it executes only malicious code for the remainder of the process’ lifetime.
+- **Common software**: `iexplore.exe`, `chrome.exe`, `firefox.exe`, `outlook.exe`
+- **Built-in Windows processes**: `explorer.exe`, `svchost.exe`, `regsvr32.exe`, `dllhost.exe`, `services.exe`, `msbuild.exe`, `rundll32.exe`, `PowerShell.exe`, `cmd.exe`
 
+## Process Injection Techniques
 
+According to MITRE ATT&CK, there are 11 process injection techniques for Windows, Linux, and macOS. Here are the 4 most common:
 
+### 1. Classic DLL Injection via CreateRemoteThread and LoadLibrary
 
+The malware writes the path to its malicious DLL in the virtual address space of another process, and creates a remote thread in the target process to load it.
 
-https://www.elastic.co/blog/ten-process-injection-techniques-technical-survey-common-and-trending-process
+Steps:
+1. Open the target process with `OpenProcess()`
+2. Allocate memory in the target process with `VirtualAllocEx()`
+3. Write the DLL path into that memory with `WriteProcessMemory()`
+4. Create a remote thread to call `LoadLibrary()` with `CreateRemoteThread()`
+
+### 2. Remote DLL Injection
+
+A malicious process forces the target process to load a specified DLL from disk by calling `LoadLibrary` or the native `LdrLoadDll`. The DLL must exist on disk before injection.
+
+### 3. PE (Portable Executable) Injection
+
+The malware injects a malicious PE image into an already-running process. This is a disk-less operation — the malware does not need to write its payload to disk before injection. The PE handles its own relocation and execution.
+
+### 4. Reflective DLL Injection
+
+A malicious process writes a DLL (as a sequence of bytes) into the memory space of a target process. The DLL handles its own initialization — mapping itself into memory, resolving imports, and running `DllMain` — all without using the Windows loader. The DLL does not need to exist on disk.
+
+### 5. Process Hollowing
+
+A malicious process starts a new instance of a legitimate process (e.g., `svchost.exe`) in a suspended state. It then unmaps the legitimate code from memory and replaces it with the malicious payload. When the process is resumed, it executes the malicious code entirely.
+
+## Resources
+
+- [Elastic — Ten Process Injection Techniques](https://www.elastic.co/blog/ten-process-injection-techniques-technical-survey-common-and-trending-process)
+- [MITRE ATT&CK — Process Injection (T1055)](https://attack.mitre.org/techniques/T1055/)
+- [TryHackMe — Windows Internals](https://tryhackme.com/room/windowsinternals)

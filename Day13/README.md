@@ -1,78 +1,86 @@
+---
+title: "Networking"
+topic: "networking"
+tags: [networking, tcp-ip, osi-model, protocols, ip, mac, arp]
+difficulty: beginner
+day: 13
+layout: default
+parent: Topics
+nav_order: 13
+---
+
 # Networking Explained
 
-*Five-layer Model*
+## What You Will Learn
+- How the five-layer networking model works
+- What each layer does and what protocols live there
+- How data travels from one device to another over a network
+- What IP addresses, MAC addresses, ports, and protocols are
 
-![Five Layer Model](resources/Layers-in-Networking-Models-Coursera-768x668.png "Five Layer Moddel")
+## What Is It?
 
-**Physical Layer** : This provide the means of transferring streams of data over a physical medium . The physical layer transfers data by converting it into electric signals and sends in through a wired or wireless medium (networking cable,  network adapters, ethernet, repeaters, networking hubs)
+Networking is the foundation of everything in cybersecurity. Every attack and every defense relies on understanding how data moves between devices. The **five-layer model** (also called the TCP/IP model) gives us a framework to understand this.
 
-**Data Link Layer** : Responsible for interpreting the data transmitted in the physical layer , it allows protocols that makes sense of the streams of signals transferred in the physical layer 
+## The Five-Layer Model
 
-**Network Layer** : Allows Diffrent network to connect with each other, responsible for getting data across a collection of networks, from one node to another.It selects and manages the best logical path for data transfer between nodes (IP)
+![Five Layer Model](resources/Layers-in-Networking-Models-Coursera-768x668.png "Five Layer Model")
 
-**Transport Layer** : Sorts out who is suppose to get that data, make sure it gets to them . (TCP, UDP)
+| Layer | Name | Responsibility | Examples |
+|-------|------|----------------|---------|
+| 5 | Application | Makes sense of the data | Browser, Xender, HTTP, DNS |
+| 4 | Transport | Gets data to the right service on the right machine | TCP, UDP |
+| 3 | Network | Routes data across different networks | IP, ARP |
+| 2 | Data Link | Transfers data between nodes on the same network | Ethernet, MAC address |
+| 1 | Physical | Transmits raw bits over a physical medium | Cables, Wi-Fi, Hubs |
 
-**Application Layer** : This "makes sense" of the data transmitted. The primary user interface with communication system   (Browser, Xender)
+**Physical Layer**: Provides the means of transferring streams of data over a physical medium. The physical layer transfers data by converting it into electric signals and sends them through a wired or wireless medium (networking cable, network adapters, Ethernet, repeaters, hubs).
 
+**Data Link Layer**: Responsible for interpreting the data transmitted in the physical layer. It allows protocols that make sense of the streams of signals transferred at the physical layer.
 
-Port : 16-bit number used to direct traffic to specific services on a network computer.  
+**Network Layer**: Allows different networks to connect with each other. Responsible for getting data across a collection of networks from one node to another. It selects and manages the best logical path for data transfer between nodes. This is where IP operates.
 
-Protocol :
+**Transport Layer**: Sorts out who is supposed to get that data and makes sure it gets there. This is where TCP and UDP operate.
 
-To Understand this better, i will use a scenario of transferring a picture from your mobile phone to your laptop through Xender . 
+**Application Layer**: "Makes sense" of the data transmitted. The primary user interface with the communication system (browser, Xender).
 
-Now, using the 5 layers model, lets see how this picture is being RECEIVED.
+---
 
-First, 
+**Port**: A 16-bit number used to direct traffic to specific services on a networked computer.
 
-Application Layer : 
+---
 
-Sending a picture to your PC , takes alot of steps , we are lucky we dont have to go through these processs everytime we want to send a file . still it is important to understand how this works . Before communication even start it important that  devices that want to communicate are thesame network. you have to be in thesame room or hearing distance with your friend before you start speaking , else , you speak to yourself without passing any information along . for a computer to be on the same network they have to be connected wired or wirelessly .
+## How It All Works Together — Sending a Picture with Xender
 
-In our case, the laptop and the computer are connected through WIFI hence , wireless . In this application layer we specify what data we want to send to the laptop (picture)
-.then which of the devices we want to send it to, as we may be connected to multiple devices at once.
+To understand this better, let's look at a scenario of transferring a picture from your mobile phone to your laptop through Xender.
 
-Transport Layer :
+Using the five-layer model, here is how this picture is **received**:
 
-Here the port we want to transfer it through is determined and the mode we want to use to send this data ( TCP, UDP ). 
-Your mobile phone does multiple operations at a time , you may be visiting the Web , streaming some music etc , this diffrent services make use of diffrent port . so the port opened for the communication of this data is where the data will be sent through
+**Application Layer:**
 
+Sending a picture takes many steps — we're lucky we don't have to go through them manually every time. Before communication even starts, both devices must be on the same network. In our case, the laptop and the phone are connected through Wi-Fi. At this layer, we specify what data we want to send (the picture) and which device we want to send it to.
 
-Network Layer
+**Transport Layer:**
 
-Attached to this laptop mac address is an IP address which is handled in this layer , it allows cross communication between nodes even if they are not on thesame network. accepts and delivers packets for the network by mapping the IP address to the MAC address using ARP 
+Here the port we want to transfer through is determined and the mode we want to use (TCP or UDP). Your mobile phone does multiple operations at a time — you may be visiting the web, streaming some music, etc. These different services use different ports. The port opened for this communication is where the data will be sent through.
 
+**Network Layer:**
 
+Attached to the laptop's MAC address is an IP address, which is handled in this layer. It allows cross-network communication between nodes — even if they are not on the same network. It accepts and delivers packets for the network by mapping the IP address to the MAC address using ARP.
 
-Now , Lets look at the next layer of the data transfer
-Data Link Layer : the primary purpose is to abstract away the need for other layers to care about the physical layer and the hardware in use This layer checks if there is an error during transfer of the picture may also possibly correct errors that can occur in the physical layer, remember if just a bit 0 is missing it may render the picture unreadable.  It also helps to know which node the connection is meant for. now back our scenario , the xender may be connected to diffrent devices it has to know which particular device to send the image to . this layer uses the MAC address to determine this Since both the phone and the laptop are thesame local network.
+**Data Link Layer:**
 
+The primary purpose of this layer is to abstract away the need for other layers to care about the physical layer and the hardware in use. This layer checks for errors during transfer — if just one bit is missing, it may render the picture unreadable. It also determines which node the connection is meant for, using the MAC address, since both the phone and the laptop are on the same local network.
 
+**Physical Layer:**
 
-The Physical Layer :  Data at this layer is passed in form of electrical signal , the data sent in this form has been converted from binary (1s and 0s) to its equivalent voltage signal (usually 5v and 0v). at the receiving end the data is received and converted from these signals back into bits. using a general protocol both nodes understand, the receiver is able to make sense of (how quickly these data is sent , resolve collision domain ..etc.). 
+Data at this layer is passed as electrical signals. The data has been converted from binary (1s and 0s) to equivalent voltage signals (usually 5V and 0V). At the receiving end, the data is received and converted from these signals back into bits. The picture of a cat would be represented as something like `100000111100000` — the only way a computer can send it to another computer. If just one bit is lost during transmission, the picture could be corrupted.
 
-Xender is an **application** that uses WIFI as a medium of communication (commmunication in this context means transferring and receiving data). The picture to be transferred through xender would have been converted to bits (1s and 0s , that's what the computer understands anyway) , visualize it this way, a picture of a cat will first represented as 100000111100000 , this is the only way a computer can send the picture to another computer. The phone to receive this picture has to get this stream of data 100000111100000 exactly and convert it into a picture. Note if just one of this bit is lost during transmission , it can corrupt the data , the picture will be unviewable .
-Wifi in this case , is the physical layer in this model. how fast these is sent , frequency to use is determined by this physical layer protocol. In this layer we assume the 1s and 0s has been transferred and received from the phone to the laptop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Wi-Fi is the physical layer in this model — it determines how fast data is sent and what frequency to use.
 
 
 
-IP : https://www.linode.com/docs/guides/how-to-use-the-linux-ip-command/
+## Resources
 
-Scapy cheat sheet : https://wiki.sans.blue/Tools/pdfs/ScapyCheatSheet_v0.2.pdf
-
-
-
+- IP command reference: https://www.linode.com/docs/guides/how-to-use-the-linux-ip-command/
+- Scapy cheat sheet: https://wiki.sans.blue/Tools/pdfs/ScapyCheatSheet_v0.2.pdf
+- [TryHackMe — Pre-Security Networking](https://tryhackme.com/path/outline/presecurity)

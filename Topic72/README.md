@@ -1,105 +1,139 @@
+---
+title: "Heap Exploitation"
+topic: "heap-exploitation"
+tags: [heap, ptmalloc, tcache, fastbin, use-after-free, double-free, heap-overflow, pwn]
+difficulty: advanced
+day: 72
+layout: default
+parent: Topics
+nav_order: 72
+---
+
 # Heap Exploitation
 
-### tcahe
-singly linked list
-mangled pointer
-maximum of 7 chunks 
-per thread
+## What You Will Learn
+- How glibc's heap allocator (ptmalloc2) organizes free memory
+- What tcache, fastbins, smallbins, and largebins are
+- How Use-After-Free (UAF) and double-free vulnerabilities work
+- The maximum sizes for each bin type
 
-### Fast bins
-Singly linked list with safe-linking - similar to tcache
-Bin lists grow to unlimited length
-Bins of constant size up to 0x80 bytes
-P bit is never cleared for chunks in the fast bin
-Only checks top chunk for double-free
+## What Is It?
 
+The **heap** is where dynamically allocated memory lives (via `malloc`/`free`). When memory is freed, glibc organizes it into **bins** based on size for quick reuse. Heap exploitation involves corrupting these structures to gain control of memory allocation.
+
+## Why It Matters
+
+Heap exploitation is a core technique in:
+- Modern CTF pwn challenges
+- Browser exploitation (Chrome, Firefox)
+- Kernel exploitation
+- Real-world CVE exploitation
+
+## Heap Bin Types
+
+### tcache (Thread-Local Cache)
+
+- Singly linked list with **mangled pointers**
+- Maximum of **7 chunks per bin**
+- Per-thread — each thread has its own tcache
+- **Maximum chunk size**: 1032 bytes (`0x408`) on x86_64
+- Freed chunks go here first; malloc checks here first
+
+### Fastbins
+
+- Singly linked list with safe-linking (similar to tcache)
+- Bin lists can grow to unlimited length
+- Fixed-size chunks up to **128 bytes (`0x80`)**
+- The `P` (previous in-use) bit is never cleared
+- Only checks the top chunk for double-free detection
 
 ### Unsorted Bins
-Freed not fit for tchache and fast bins stays here first
-On malloc if chunk is not satisfied, it gets sorted into fast or small bins
-consolidates
 
-### Small bins
-Doubly linked lists
-size up to 1024
+- Freed chunks that do not fit in tcache or fastbins land here first
+- On the next `malloc`, if no chunk satisfies the request, chunks get sorted into small or large bins
+- Chunks may be consolidated (merged with adjacent free chunks)
 
+### Small Bins
 
-### Large bins
-Doubly linked lists
-stored in sorted order 
-Each freed chunk has forward (fd) and backward (bk) pointers to link it to the next and previous chunks.
+- Doubly linked list
+- Fixed-size chunks up to **1024 bytes (`0x400`)**
 
+### Large Bins
 
-The **maximum chunk size** in glibc's heap memory allocator (`ptmalloc2`) depends on whether the chunk is allocated from the **TCache**, **Fastbin**, **Smallbin**, **Largebin**, or is handled by the **mmap system call**. 
----
+- Doubly linked lists, stored in **sorted order**
+- Each chunk has forward (`fd`) and backward (`bk`) pointers
+- Size up to the `mmap_threshold` (~128 KB by default)
 
-### **1. TCache (Thread-local Cache) Maximum Chunk Size**
-- **Maximum chunk size:** **1032 bytes** (on x86_64).
-- **Why?** TCache bins store chunks up to `0x408` bytes (1032 bytes), aligned to 16 bytes.
+### Maximum Chunk Sizes (x86_64)
 
----
-
-### **2. Fastbin Maximum Chunk Size**
-- **Maximum chunk size:** **0x80 (128 bytes)**
-- **Why?** Fastbins are for quick allocations of small chunks and are limited to prevent fragmentation.
-
----
-
-### **3. Smallbin Maximum Chunk Size**
-- **Maximum chunk size:** **1024 bytes (0x400)**.
-- **Why?** Smallbins store fixed-size allocations that avoid merging.
-
----
-
-### **4. Largebin Maximum Chunk Size**
-- **Maximum chunk size:** **Up to the system `mmap_threshold` (typically ~128 KB, configurable).**
-- **Why?** Largebins store bigger chunks and are merged when freed.
-
----
-
-### **5. mmap (Direct Memory Mapping)**
-- **Threshold:** **Typically 128 KB (`MMAP_THRESHOLD`)**.
-- **Why?** Chunks larger than the `mmap_threshold` bypass the heap and are allocated directly via `mmap()`.  
-- **Maximum chunk size:** **Limited by available virtual memory** (theoretically **several terabytes** on 64-bit systems).
-
----
-
-### **Practical Maximum Chunk Sizes (x86_64 Default)**
 | Allocation Type | Max Chunk Size |
-|---------------|--------------|
+|----------------|---------------|
 | **TCache** | 1032 bytes (`0x408`) |
 | **Fastbin** | 128 bytes (`0x80`) |
 | **Smallbin** | 1024 bytes (`0x400`) |
 | **Largebin** | Up to `mmap_threshold` (~128 KB) |
 | **mmap** | Several TB (limited by virtual memory) |
 
+Chunks larger than `mmap_threshold` bypass the heap entirely and are allocated via `mmap()`.
 
+## Common Heap Vulnerabilities
 
-### Use After Free (Tcache)
+### Use-After-Free (UAF)
+
+Use-After-Free occurs when a program continues to use a pointer after the memory it points to has been freed.
 
 ```c
-a = malloc(128);
-free(a);
-scanf("%d", a);
-password_pointer = malloc(128)
-printf("%s", password_pointer)
+a = malloc(128);      // allocate chunk
+free(a);              // free it — chunk goes to tcache
+scanf("%d", a);       // write to freed chunk (overwrites tcache fd pointer)
+password_pointer = malloc(128);  // malloc returns our controlled chunk
+printf("%s", password_pointer);  // we control what this prints
 ```
 
+An attacker controlling the freed chunk can set the `fd` pointer to any address — the next `malloc` returns that address.
 
 ### Double Free
 
-corrupt next in tcache
+Freeing the same chunk twice corrupts the bin's linked list.
 
-```
+```c
 a = malloc(128);
-free(a);
-a[1]= 1234
-free(a)
+free(a);         // a goes to tcache
+a[1] = 1234;     // overwrite the tcache fd pointer with a target address
+free(a);         // free again — corrupt the tcache list
+// Next two mallocs: first returns a normally, second returns address 1234
 ```
 
+Modern glibc has mitigations against double-free — tcache checks for double-free by checking if the chunk is already at the head of the bin.
 
+## Heap Hardening
 
+Modern glibc includes several protections:
 
-https://infosecwriteups.com/the-toddlers-introduction-to-heap-exploitation-part-1-515b3621e0e8
+- **SLUB allocation randomization**: Random ordering in slab allocation
+- **Hardened Usercopy**: Validates copies between user space and kernel space
+- **Freelist hardening**: Mangles `next` pointers: `rev(ptr) ^ ptr_addr ^ random`
+- **Freelist randomization**: Objects are returned in random order from slabs
+- **Free list poisoning**: Overwrite the `next` pointer — if the chunk is allocated, returns your controlled address
 
-https://infosecwriteups.com/the-toddlers-introduction-to-heap-exploitation-part-2-d1f325b74286
+## Useful Commands
+
+```bash
+# View heap in GDB with pwndbg
+heap
+bins
+
+# Show tcache contents
+tcache
+
+# Check free list state
+vis_heap_chunks
+```
+
+## Resources
+
+- [Toddler's Introduction to Heap Exploitation Part 1](https://infosecwriteups.com/the-toddlers-introduction-to-heap-exploitation-part-1-515b3621e0e8)
+- [Toddler's Introduction to Heap Exploitation Part 2](https://infosecwriteups.com/the-toddlers-introduction-to-heap-exploitation-part-2-d1f325b74286)
+- [how2heap — Heap Exploitation Techniques](https://github.com/shellphish/how2heap)
+- [glibc malloc internals](http://www.jikos.cz/jikos/Kmalloc_Internals.html)
+- [pwn.college — Heap Exploitation](https://pwn.college/)

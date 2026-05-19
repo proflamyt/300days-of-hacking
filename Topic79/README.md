@@ -1,291 +1,260 @@
-# ARM 
+---
+title: "ARM64 Assembly"
+topic: "arm64-assembly"
+tags: [arm64, aarch64, assembly, apple-silicon, macos, ios, registers, syscalls, pac]
+difficulty: advanced
+day: 79
+layout: default
+parent: Topics
+nav_order: 79
+---
 
- Register 64-bit X register (X0..X30), or as a 32-bit W register (W0..W30).# ARM 
+# ARM64 Assembly
 
-### mov instruction
+## What You Will Learn
+- How ARM64 registers work (X and W variants)
+- Core instructions: mov, add, mul, ldr/str, ldp/stp, branches
+- How function prologue and epilogue work on ARM64
+- How syscalls work on Linux and macOS ARM64
+- What PAC (Pointer Authentication Codes) is
+
+## What Is It?
+
+ARM64 (also called AArch64) is the 64-bit ARM instruction set. It is used on Apple Silicon (M1/M2/M3), iOS devices, Android devices, and modern Linux servers. Understanding ARM64 assembly is essential for iOS/macOS security research and embedded exploitation.
+
+## Registers
+
+ARM64 registers are either 64-bit **X registers** (X0..X30) or 32-bit **W registers** (W0..W30). W registers are the lower 32 bits of the corresponding X register.
+
+| Register | Purpose |
+|----------|---------|
+| X0–X7 | Arguments and return values |
+| X8 | Indirect result register |
+| X9–X15 | Caller-saved (temporary) |
+| X19–X28 | Callee-saved |
+| X29 (FP) | Frame pointer |
+| X30 (LR) | Link register (return address) |
+| SP | Stack pointer |
+| PC | Program counter (not directly accessible) |
+
+### Equivalent x86-64 Registers
+
+```
+RIP → PC
+RAX → X0 (first integer/return arg)
+RBX → X19 (callee-saved)
+RCX → X1
+RDX → X2
+RSP → SP (stack pointer)
+RBP → X29 (frame pointer)
+LR (return address) → X30 (link register)
+```
+
+## Instructions
+
+### mov — Load Immediate
 
 ```asm
-  mov x1, #0xbeef
-  movk x1, #0xdead, lsl 16
-  result : 0xdeadbeef
+mov x1, #0xbeef
+movk x1, #0xdead, lsl 16   ; load upper 16 bits
+; result: x1 = 0xdeadbeef
 ```
 
-
-### mul instruction
+### Arithmetic
 
 ```asm
-  mul X1, X0, X1
-  result : X1 = X0 * X1
+add X0, X1, X2       ; X0 = X1 + X2
+mul X1, X0, X1       ; X1 = X0 * X1
+udiv X2, X0, X1      ; X2 = X0 / X1 (unsigned)
+madd X3, X0, X1, X2  ; X3 = X2 + (X0 * X1)
+msub X3, X0, X1, X2  ; X3 = X2 - (X0 * X1)
 ```
 
-### add instruction
+### Modulus
+
+ARM64 has no modulus instruction. Compute it manually:
+
+```
+5 / 2 = 2 remainder 1
+remainder = dividend - (quotient * divisor)
+= 5 - (2 * 2) = 1
+```
 
 ```asm
-add X0, X1, X2
-# X0 = X1 + X2
+udiv X2, X0, X1        ; X2 = X0 / X1 (quotient)
+msub X3, X2, X1, X0    ; X3 = X0 - (X2 * X1) = remainder
 ```
 
-### MADD instruction
-multiply 2 regs,  adds a third register value, and writes the result to the destination register
+### Shifts
 
 ```asm
- madd X3, X0, X1, X2
- X3 = X2 + (X0 * X1) 
+lsl X3, X2, #3    ; X3 = X2 << 3 (multiply by 8)
+lsr X3, X2, #1    ; X3 = X2 >> 1 (divide by 2)
 ```
 
-### Unsigned divide
+### Load and Store
 
 ```asm
-udiv X2, X0, X1
+ldr x0, [x1]           ; x0 = *x1 (load 8 bytes from address x1)
+ldr x0, [x1, #8]       ; x0 = *(x1 + 8)
+str x0, [x1]           ; *x1 = x0 (store x0 to address x1)
+str X4, [X3, #0x10]    ; *(X3 + 0x10) = X4
 ```
 
-### MSUB instruction
-multiply 2 regs, and subtract 3rd value
+### Load/Store Pair
 
 ```asm
- msub X3, X0, X1, X2
- X3 =  X2 - (X0 * X1) 
+stp X0, X1, [X3]       ; stores X0 at [X3], X1 at [X3+8]
+ldp X0, X1, [X3]       ; loads X0 from [X3], X1 from [X3+8]
+
+; Push/pop on stack
+stp x29, x30, [sp, #-16]!   ; push X29, X30 (pre-decrement SP)
+ldp x29, x30, [sp], #16     ; pop X29, X30 (post-increment SP)
 ```
 
-### can you get modulus?
+Note: `stp x29, x30` saves x29 first, then x30. `ldp x29, x30` loads x29 first, then x30.
 
-```
-5/2
-
-remainder?
-
-5 - (2 * 2)
-
-dividend - (res * divisor )
-
-remainder 1
-```
-
-### lsl instruction shift left 
+### Indexing Modes
 
 ```asm
-lsl reg1, reg1, reg2
-result : reg1 = reg1 << reg2
+[SP, #-16]!   ; pre-indexing: SP -= 16, then access [SP]
+[SP], #16     ; post-indexing: access [SP], then SP += 16
+[SP, #offset] ; offset: access [SP + offset], SP unchanged
 ```
--> X2 * 2^3
-```
-lsl X3, X2, #3 
-```
-### lsr instruction shift left 
+
+### Branches
 
 ```asm
-lsr reg1, reg1, reg2
-result : reg1 = reg1 >> reg2
+b #0x40           ; unconditional branch to PC + 0x40
+br X0             ; branch to address in X0
+
+cbz x0, label     ; branch to label if x0 == 0
+cbnz x1, label    ; branch to label if x1 != 0
 ```
 
-
-### ldr instruction load from memory to register
+### PC-Relative Address
 
 ```asm
-ldr x0, [x1]
-result: goes into memory pointed to by X1 fetch content and put into X0
-> can compute offset by
-ldr x0, [x1, #8]
-result : memory pointed to by X1 + 8
+adr x0, my_label   ; x0 = address of my_label (PC-relative, like lea rax, [rip+offset])
 ```
 
-### str instruction stores from register to memory
+## Function Prologue and Epilogue
 
 ```asm
-str x0, [x1]
-result: goes into memory pointed to by X1 put what is in X0
-> can compute offset
-str X4, [X3, #0x10]
-store into memory pointed to by X3+ 0x10 X4
-```
-
-
-### stp instruction
-store 2 registers at once 
-
-```asm
-  stp X0, X1, [X3]
-  result: stores X0 into memory pointed to by X3 and X1 into next 8 bytes  
-```
-
-### ldp instruction
-Loads two 64-bit registers from memory.
-
-```asm
-  ldp X0, X1, [X3]
-  result: load into X0 into memory pointed to by X3 and into X1 memory pointed to by the next 8 bytes  
-```
-
-pop 2 instruction from the stack
-```asm
-  ldp X1, X2, [sp], #16
-```
-
-push on the stack
-
-```asm
-str X0, [sp, #-8]!
-```
-Remember Stack grows "down" memory, that is it grows by reducing in mordern architecture
-
- > Pre-indexing: [SP, #-16]! – updates the base register before accessing memory.
- 
- > Post-indexing: [SP], #16 – accesses memory, then updates the base register.
- 
- > Offset: [SP, #offset] – accesses memory at the address SP + offset
-
-Note: 
-stp x29, x30 saves x29 first, then x30
-
-ldp x29, x30 loads x29 first, then x30
-
-```asm
-CBZ     x0, is_zero    ; if x0 == 0, branch to is_zero
-CBNZ    x1, not_zero   ; if x1 != 0, branch to not_zero
-```
-
-
-### Branch (jump)
-
-```asm
-b #0x40
-```
-brrance to register
-```asm
-BR X0
-```
-
-Prologue
-```asm
+; Prologue — save frame pointer and link register
 stp x29, x30, [sp, #-16]!
-mov x29, sp 
-```
+mov x29, sp
 
-Epilogue
-```asm
+; Epilogue — restore and return
 ldp x29, x30, [sp], #16
 ret
 ```
 
-
-Project (Fibonacci in arm)
-
-
-```py
-def fibonacci(n):
-    if n <= 1:
-        return n
-    else:
-        return fibonacci(n-1) + fibonacci(n-2)
-```
+## Fibonacci in ARM64
 
 ```asm
-
-
-
-  fib:
+fib:
     cmp X0, #1
     b.le finish
 
-
     stp x29, x30, [sp, #-0x20]!
-    mov x29, sp 
-
+    mov x29, sp
 
     sub X1, X0, #1
     str X1, [sp, #0x10]
 
-
     sub X2, X0, #2
     str X2, [sp, #0x18]
 
-    mov X0, X1 // did x1
+    mov X0, X1
     bl fib
     str X0, [sp, #0x10]
 
-
-    ldr X2,  [sp, #0x18]
+    ldr X2, [sp, #0x18]
     mov X0, X2
     bl fib
-    
+
     ldr X3, [sp, #0x10]
     add X0, X3, X0
 
+    ldp x29, x30, [sp], #0x20
 
-    ldp x29, x30, [sp], #0x20  
-
-    finish:
-      
-      ret
-
+finish:
+    ret
 ```
 
+## Syscalls
 
-### Equivalent X86_64 Registers 
-
-```
-RIP → PC (program counter). Not directly accessible as a general-purpose register.
-
-RAX → X0 (first integer/return arg)
-
-RBX → X19 (callee-saved)
-
-RCX → X1
-
-RDX → X2
-
-RSP → SP (stack pointer)
-
-RBP → X29 (frame pointer / FP)
-
-LR (return address) → X30 (link register; holds return address after BL)
-```
-
-
-
-### Store Offset from pc to register
+### Linux ARM64
 
 ```asm
-adr x0, my_label   // x0 := address of my_label (PC-relative)  now x0 is like lea rax, [rip + offset]
+mov x8, <syscall_number>   ; syscall number in x8
+svc #0                     ; invoke syscall
 ```
 
-### Syscall On arm64
+Reference: https://arm64.syscall.sh/
+
+### macOS ARM64
 
 ```asm
-mov x8, syscall_no
-svc     #0
-```
-https://arm64.syscall.sh/
-
-### Syscall On MacOS
-
-```asm
-mov x16, 0x2000000 | n
-svc     #0x80
+mov x16, 0x2000000 | <syscall_number>   ; macOS uses BSD syscall number with 0x2000000 offset
+svc #0x80
 ```
 
+Reference: https://github.com/opensource-apple/xnu/blob/master/bsd/kern/syscalls.master
 
+### macOS chmod Example
 
-### chmod MacOs arm64
-
-```
+```python
 from pwn import *
 context.arch = 'aarch64'
 
+asm_bytes = asm("""
+mov x0, #-100      ; AT_FDCWD
+adr x1, flag       ; path
+mov x2, #0o777     ; mode
 
-asm_bytes = asm(f"""
-mov x0, #{-100 & 0xffffffffffffffff}
-adr x1, flag
-mov x2, #{0o777}
+movz x16, #0x1d3
+movk x16, #0x2000, lsl #16   ; chmod syscall
+svc #0x80
 
-movz    x16, #0x1d3
-movk    x16, #0x2000, lsl #16
-svc     #0x80
 flag:
-     .ascii "/flag\\0"
+    .ascii "/flag\\0"
 """)
-
 ```
-https://github.com/opensource-apple/xnu/blob/master/bsd/kern/syscalls.master
 
-reference: https://cocomelonc.github.io/macos/2025/07/18/malware-mac-6.html
+## PAC (Pointer Authentication Codes)
+
+PAC is a hardware security feature on ARMv8.3-A+ that prevents pointer corruption (ROP/JOP exploits). A cryptographic tag is embedded in unused pointer bits. If the tag does not match when the pointer is used, the CPU faults.
+
+64-bit addresses use only the lower 48 bits (or 39 bits on XNU). The upper bits hold the PAC tag.
+
+### PAC Keys
+
+| Key | Used for |
+|-----|---------|
+| IA, IB | Instruction pointers (return addresses, code pointers) |
+| DA, DB | Data pointers |
+| GA | Generic (less common) |
+
+PAC keys are per-process but shared across threads.
+
+### PAC Operations
+
+```asm
+PACIA X8, X9    ; sign X8 using IA key with context X9
+PACIZA X8       ; sign X8 using IA key with context 0
+AUTIA X8, X9    ; authenticate X8 using IA key with context X9 — faults if invalid
+XPACD x1        ; strip PAC from data pointer
+BLRAA X8, X9    ; authenticate X8 using IA key with X9 context, then branch
+LDRAA X8, [X9] ; authenticate X9 using DA key, load result into X8
+RETAB           ; authenticate LR using IB key with SP context, then return
+```
+
+## Resources
+
+- [arm64.syscall.sh — ARM64 Linux Syscalls](https://arm64.syscall.sh/)
+- [macOS ARM64 Syscalls](https://github.com/opensource-apple/xnu/blob/master/bsd/kern/syscalls.master)
+- [Azeria Labs — ARM Assembly](https://azeria-labs.com/writing-arm-assembly-part-1/)
+- [PAC Research — cocomelonc](https://cocomelonc.github.io/macos/2025/07/18/malware-mac-6.html)
+- [Mach IPC Security on macOS](https://karol-mazurek.medium.com/mach-ipc-security-on-macos-63ee350cb59b)

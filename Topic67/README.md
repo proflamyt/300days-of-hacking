@@ -1,85 +1,135 @@
-# Certificates 
+---
+title: "Certificates and PKI"
+topic: "certificates-pki"
+tags: [ssl, tls, certificates, pki, ca, certificate-pinning, handshake, x509]
+difficulty: intermediate
+day: 67
+layout: default
+parent: Topics
+nav_order: 67
+---
 
- Electronic credentials used to verify the identity of a user, device, or server, and to encrypt communication.
+# Certificates and PKI
 
+## What You Will Learn
+- What digital certificates are and what they contain
+- How the SSL/TLS handshake works step by step
+- What a Certificate Authority (CA) is
+- How certificate pinning works and how to bypass it
+- How to implement and work with certificates in Python
 
-### SSL certificate 
+## What Is It?
 
-A digital certificate that authenticates a website's identity and enables an encrypted connection between a web server and a web browser. 
+**Digital certificates** are electronic credentials used to verify the identity of a user, device, or server, and to encrypt communication. They are the foundation of HTTPS and Public Key Infrastructure (PKI).
+
+## SSL Certificates
+
+An SSL/TLS certificate is a digital certificate that authenticates a website's identity and enables an encrypted connection between a web server and a web browser.
+
+A certificate contains:
 
 ```
-certificate :
-issued by 
-issued to
-public key
-misc 
-signature
+certificate:
+  issued by    (the CA that signed it)
+  issued to    (the domain or entity)
+  public key   (used to encrypt data)
+  validity     (not before / not after dates)
+  signature    (the CA's signature over all the above)
 ```
 
+## Certificate Authority (CA)
 
+A **CA** is a trusted third-party entity that issues SSL certificates. The CA verifies your identity and signs your certificate with its own private key.
 
-### Certificate Authority (CA)
+To get a certificate:
+1. Generate a public/private key pair
+2. Create a Certificate Signing Request (CSR) containing your domain details and public key
+3. Submit the CSR to the CA
+4. CA verifies ownership (DV), organization (OV), or extended info (EV)
+5. CA returns a certificate signed with its private key
 
- A trusted third-party entity, known as a CA, issues the SSL certificate, which includes the public key along with the server’s identity information.
+## How the SSL/TLS Handshake Works
 
-You genrate a public/private key pair, then request a certificate from the CA by providing a certificate signing request, which contains your domain details and your public key. The CA returns a certificate signed with its private key.
+### a. Client Hello
 
-### How the SSL/TLS Handshake Works
-The SSL/TLS handshake is the process of establishing a secure connection between the client and the server. Here’s how it works:
+The client sends a "Client Hello" message including:
+- The SSL/TLS version it supports
+- A randomly generated number (used to derive session keys)
+- A list of supported cipher suites (encryption algorithms)
 
-a. Client Hello
+### b. Server Hello
 
-The client sends a "Client Hello" message to the server, which includes:
-- The SSL/TLS version it supports.
-- A randomly generated number (used in the creation of sessionwsssww2aqqqaA'/ keys).
-- A list of supported cipher suites (encryption algorithms).
--
+The server responds with:
+- The selected TLS version and cipher suite
+- The server's SSL certificate (containing its public key)
+- A randomly generated number
 
-b. Server Hello
+### c. Certificate Verification
 
-The server responds with a "Server Hello" message, which includes:
-- The SSL/TLS version and cipher suite selected from the client's list.
-- The server’s SSL certificate, containing its public key.
-- A randomly generated number (used in the creation of session keys).
+The client verifies the server's certificate against its list of trusted CAs. If valid, the handshake continues.
 
-c. Certificate Verification
+### d. Pre-Master Secret Generation
 
-The client verifies the server’s certificate against a list of trusted CAs. If the certificate is valid, the handshake continues.
+- The client generates a pre-master secret and encrypts it with the server's public key
+- The client sends this encrypted value to the server
 
+### e. Session Key Derivation
 
+Both sides use:
+- The pre-master secret
+- The two random numbers from steps a and b
 
+...to independently derive the same symmetric session key.
 
+### f. Final Handshake
 
-d. Pre-Master Secret Generation
+The client sends a "Finished" message encrypted with the session key, and the server responds with its own "Finished" message. All future data is encrypted.
 
-- The client generates a pre-master secret, which is another random value, and encrypts it with the server’s public key.
-- The client sends this encrypted pre-master secret to the server.
+## Certificate Pinning
 
-e. Session Key Derivation
+**Certificate pinning** is a defense mechanism where a client hardcodes the expected certificate (or its hash) for a specific server. If the certificate changes — even to a valid CA-signed one — the connection is rejected.
 
-- Both the client and server use the pre-master secret, along with the two random numbers exchanged earlier, to independently generate the same session key.
-- This session key is symmetric, meaning the same key is used for both encryption and decryption of the data during the session.
+Pinning is commonly used in mobile apps to prevent MITM attacks with custom CA certificates.
 
-f. Final Handshake
+### Pinning Bypass
 
-The client sends a “Finished” message encrypted with the session key, signaling that future communication will be encrypted.
-The server responds with its own “Finished” message, also encrypted with the session key.
+For penetration testing of mobile apps, pinning must be bypassed to intercept HTTPS traffic:
 
+```bash
+# Frida-based bypass (Android)
+objection patchapk -s target.apk
+objection --gadget "com.target.app" explore
+android sslpinning disable
 
+# Using Frida script directly
+frida -U -f com.target.app -l ssl_bypass.js
+```
+
+### Network-Level Port Forwarding
+
+For intercepting traffic on Windows with Burp:
+
+```cmd
+netsh interface portproxy add v4tov4 listenport=9900 listenaddress=0.0.0.0 connectport=9900 connectaddress=<burp_host>
+netsh interface portproxy show v4tov4
+```
+
+## Working with Certificates in Python
 
 ```python
 import base64
 from Crypto.PublicKey import RSA
-import json
 from Crypto.Hash.SHA256 import SHA256Hash
-import pwn
+import json
 
+# Generate RSA key pair
 user_key = RSA.generate(1024)
 
+# Create a certificate (simplified)
 user_certificate = {
     "name": "ola",
-    "issued by" : "ola",
-    "issued to" : "bola",
+    "issued by": "ola",
+    "issued to": "bola",
     "key": {
         "e": user_key.e,
         "n": user_key.n,
@@ -87,89 +137,24 @@ user_certificate = {
     "signer": "root",
 }
 
+# Hash the certificate data
+cert_data = json.dumps(user_certificate).encode()
+cert_hash = SHA256Hash(cert_data).digest()
 
-root_trusted_certificates = {
-    "root": user_certificate,
-}
-
-
-user_certificate_data = json.dumps(user_certificate).encode()
-
-
-user_certificate_hash = SHA256Hash(user_certificate_data).digest()
-
-
-target = pwn.process('/challenge/run')
-
-target.readuntil("root key d: ")
-
-d = target.readline()
-
-target.readuntil("root certificate (b64): ")
-
-certificate = target.readline()
-
-
-cert = base64.b64decode(certificate)
-
-root_cert =  json.loads(cert)
-
-print(root_cert)
-
-user_certificate_signature = pow(
-    int.from_bytes(user_certificate_hash, "little"),
-    int(d, 16),
-    root_cert['key']['n']
+# Sign with a private key (using RSA raw signing)
+signature = pow(
+    int.from_bytes(cert_hash, "little"),
+    user_key.d,
+    user_key.n
 ).to_bytes(256, "little")
 
-# print(base64.b64encode(user_certificate_signature))
-
-
-target.readuntil("user certificate (b64): ")
-
-target.sendline(base64.b64encode(user_certificate_data))
-
-target.readuntil("user certificate signature (b64): ")
-
-target.sendline(base64.b64encode(user_certificate_signature))
-
-target.readuntil("secret ciphertext (b64): ")
-
-cipher = target.readline()
-
-c = base64.b64decode(cipher)
-
-result =  pow(int.from_bytes(c, 'little'), user_key.d, user_key.n )
-
-
-print(result.to_bytes(256, "little"))
+print(base64.b64encode(signature))
 ```
 
+## Resources
 
-
-
-### Certificate Pinning Bypass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```
-netsh interface portproxy add v4tov4 listenport=9900 listenaddress=0.0.0.0 connectport=9900 connectaddress=$hostname -I
-netsh interface portproxy show v4tov4 
-```
-
+- [Let's Encrypt — Free SSL Certificates](https://letsencrypt.org/)
+- [PortSwigger — TLS Security](https://portswigger.net/web-security/information-disclosure/exploiting/lab-infoleak-in-error-messages)
+- [Mozilla — SSL Configuration Generator](https://ssl-config.mozilla.org/)
+- [Frida — SSL Pinning Bypass](https://github.com/httptoolkit/frida-android-unpinning)
+- [TryHackMe — TLS](https://tryhackme.com/)

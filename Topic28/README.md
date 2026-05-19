@@ -1,164 +1,180 @@
-# Windows And Networking 
+---
+title: "Windows and Networking"
+topic: "windows-networking"
+tags: [windows, networking, smb, ntlm, kerberos, ntfs, permissions, registry, wmi]
+difficulty: intermediate
+day: 28
+layout: default
+parent: Topics
+nav_order: 28
+---
 
-## INTRODUCTION TO WINDOWS
+# Windows and Networking
 
+## What You Will Learn
+- How to enumerate Windows systems using WMI and PowerShell
+- How Windows file system permissions work with icacls
+- What the Windows Registry is and how it is used for persistence
+- What SAM, UAC, WMI, and Security Identifiers (SIDs) are
+- How SMB sharing and Kerberos/NTLM authentication work
 
-Useful Classes for enumeration 
+## Introduction to Windows
 
-- win32_OperatingSystem 
-- win32_Bios
-- win32_Service
-- win32_Process
+### Useful WMI Classes for Enumeration
 
 ```powershell
-Get-WmiObject -Class <class> 
+Get-WmiObject -Class win32_OperatingSystem   # OS information
+Get-WmiObject -Class win32_Bios              # BIOS information
+Get-WmiObject -Class win32_Service           # Running services
+Get-WmiObject -Class win32_Process           # Running processes
 ```
 
+### Windows Directory Structure
 
-### Windows Directory structure
+| Directory | Purpose |
+|-----------|---------|
+| `Perflogs` | Windows performance logs |
+| `Program Files` | Installed 64-bit program files |
+| `Program Files (x86)` | Installed 32-bit program files |
+| `ProgramData` | Application data shared across users |
+| `Users` | User profile directories |
+| `Windows` | Core Windows OS files |
+| `Windows\System32` | Core 64-bit DLLs and system executables |
+| `Windows\SysWOW64` | 32-bit compatibility DLLs on 64-bit systems |
 
-- Perflogs : Windows Perfomance logs
-- Program Files: Installed program files 
-- Program Files (x86): holds 64bits program files on 64bit machine
-- ProgramData
-- Users 
-- Default
-- Windows: majority of the files required for windows os
-- System, System32, SysWOW64 : Contains DLL for core windows features
-- WinSxS
+## Windows File System
 
+Windows uses two main file systems:
 
-# Windows File System
+- **FAT32**: Older, simpler file system. No permissions or journaling.
+- **NTFS**: Modern Windows file system. Supports permissions, journaling, encryption (EFS), and large volumes.
 
-Majourly 
+### The icacls Utility
 
-- FAT32
-- NTFS
+`icacls` lists and manages NTFS permissions on a specific directory or file.
 
+**Inheritance flags:**
 
-#### The icacls utility
+| Flag | Meaning |
+|------|---------|
+| `(I)` | Permission inherited from parent container |
+| `(OI)` | Object inherit — this folder and files |
+| `(CI)` | Container inherit — this folder and subfolders |
+| `(IO)` | Inherit only — ACE does not apply to the current folder |
+| `(NP)` | Do not propagate inherit |
 
-List and Manage NTFS permissions on a specific directory 
+**Combinations:**
 
-Inherit Directory permissions
-- (I) : Permission Inherited from parent container
-- (OI) : Object inherit : This folder and files
-- (CI) : Container Inherit : This folder and subfolder
-- (IO): Inherit Only : ACE does not apply to current folder
-- (NP): Do not propergate inherit
+| Combo | Scope |
+|-------|-------|
+| `(OI)(CI)` | This folder, files, and subfolders |
+| `(CI)(IO)` | Subfolders only |
+| `(OI)(IO)` | Files only |
+| `(OI)(CI)(IO)` | Files and subfolders only |
 
-Combines as
+**File permissions:**
 
-- (OI)(CI): This folder, files and subfolders
-- (CI)(IO): Subfolders Only
-- (OI)(IO): Files Only
-- (OI)(CI)(IO): files and subfolders only
-
-File Permissions
-
-- (F) : full access
-- (D): Delete access
-- (N): No access
-- (M): Modify access
-- (RX): Read and execute access
-- (R): Read-only
-- (W): write-only
-
-
-Usage: 
-
-List permissions 
+| Flag | Permission |
+|------|-----------|
+| `(F)` | Full access |
+| `(M)` | Modify access |
+| `(RX)` | Read and execute access |
+| `(R)` | Read-only |
+| `(W)` | Write-only |
+| `(D)` | Delete access |
+| `(N)` | No access |
 
 ```powershell
+# List permissions
 icacls <directory>
-```
+
 # Remove permissions
-```powershell
 icacls <directory> /remove <user>:<permission>
-```
 
 # Grant permissions
-```powershell
 icacls <directory> /grant <user>:<permission>
 ```
 
-### Windows Servce
+### Windows Service Commands
 
-query service
 ```powershell
+# Query a service
 sc qc <servicename>
-```
-stop service
-```cmd
-sc  stop <servicename>
-```
-cconfigure serviec
 
-```cmd
+# Stop a service
+sc stop <servicename>
+
+# Configure a service
 sc configure <servicename> <configuration>
 ```
 
+## Windows Users
 
-### Windows Users
-The  built-in Administrator account is not the most powerful account in Windows . If you want to find something in Windows like root is for Linux, it would be the SYSTEM user account
+The built-in Administrator account is not the most powerful account in Windows. The most powerful is the **SYSTEM** user account — this is the Windows equivalent of root in Linux.
 
-#### Service accounts 
+### Service Accounts
 
-- LocalService (granted limited fuctionalities): NT AUTHORITY\LocalService
-- NetworkService (can establish authenticated sessions for some network services ): NT AUTHORITY\NetworkService
-- LocalSysten (highest level priviledge) : NT AUTHORITY\SYSTEM
+| Account | Privilege | Description |
+|---------|-----------|-------------|
+| `NT AUTHORITY\LocalService` | Limited | Limited local system access |
+| `NT AUTHORITY\NetworkService` | Limited + network | Can authenticate to network services |
+| `NT AUTHORITY\SYSTEM` | Highest | Full system access |
 
+### Windows Sessions
 
+- **Interactive Session**: A session created when a user logs in at the console or via RDP.
+- **Non-Interactive Session**: Account with no password (used for services and scheduled tasks).
 
-### Windows Session
+## Windows WMI
 
-- Interactive Session: 
-- Non-interactive Session : account has no password associated to it
+Windows Management Instrumentation is used for:
 
-### Windows WMI
-used for :
 - Code execution
-- Scheduling process
+- Scheduling processes
 - Setting up logging
 - Managing user and group permissions
-- modifying and setting system properties
-
-
+- Modifying and setting system properties
 
 ```cmd
 wmic os list brief
 ```
 
 ```powershell
-Get-WmiObject -Class Win32_OperatingSystem 
+Get-WmiObject -Class Win32_OperatingSystem
 ```
 
+## Windows Security Identifier (SID)
 
-### Windows Security Identifier
-These are unique ID stored in the security databse that windows uses to identify users on a system,
+SIDs are unique IDs stored in the security database that Windows uses to identify users on a system. They are assigned at account creation and never reused.
 
+## Windows SAM
 
-### Windows SAM
-The Security Account Manager is a registry file on windows  that stores local user's account passwords hash. The file is stored on your system drive at C:\WINDOWS\system32\config. However, it is not accessible (it cannot be moved nor copied) from within the Windows OS since Windows keeps an exclusive lock on the SAM file and that lock will not be released until the computer has been shut down.
+The **Security Account Manager** is a registry file on Windows that stores local user account password hashes. The file is stored at `C:\Windows\system32\config`. It is not accessible while Windows is running — Windows keeps an exclusive lock on it until the computer is shut down.
 
-### Windows UAC
+```bash
+# Extract SAM hash (from offline system or shadow volume)
+reg save hklm\sam %tmp%/sam.reg
+```
 
+## Windows UAC (User Account Control)
 
-### Windows Registry
+UAC is a Windows security feature that prevents unauthorized changes to the operating system. When an app tries to perform a privileged action, UAC prompts the user for approval. Attackers try to bypass UAC to escalate privileges silently.
 
-Types of values :
+## Windows Registry
 
-- REG_BINARY: Binary
-- REG_DWORD: 32 bit
-- REG_DWORD_LITTLE_ENDIAN: 32 bit little endian
-- REG_DWORD_BIG_ENDIAN: 32 bit big endian
-- REG_EXPAND_AZ: null terminated string, reference to unexpanded env variables
-- REG_LINK: null terminated string, symlink
-- REG_NONE: none
-- REG_QWORD: 64 bits
-- REG_QWORD_LITTLE ENDIAN: 64 bits little endian
-- REG_SZ: null terminated string, unicode or ansi
+The registry stores system and application configuration in a hierarchical key-value database.
 
+**Common value types:**
+
+| Type | Description |
+|------|-------------|
+| `REG_BINARY` | Binary data |
+| `REG_DWORD` | 32-bit integer |
+| `REG_QWORD` | 64-bit integer |
+| `REG_SZ` | Null-terminated Unicode or ANSI string |
+| `REG_EXPAND_SZ` | String with unexpanded environment variable references |
+
+**Persistence registry keys:**
 
 ```powershell
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
@@ -167,11 +183,9 @@ HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
 ```
 
-### Windows API
+## Windows API
 
-These are application programming interface by microsoft that allows user applications to interact with operating system.
-
-These APIs are basically seperated into various groups as follows:
+Windows APIs allow user applications to interact with the operating system, separated into:
 
 - System Services
 - Multimedia
@@ -179,59 +193,46 @@ These APIs are basically seperated into various groups as follows:
 - User Interface
 - Window Registry
 
+### Evading Malware Detection (Awareness)
 
-Evading Maleare Detection
+Common techniques attackers use to bypass AV/EDR:
 
-- syscalls 
-- use of ordinals
-- Hooks
-- iat patching
-
-
-### Windows Rights/Privileges
-
-Rights deal with permission to access object such as files
-Privileges grant user permission to perform an action such as run a program
-
-
-
-
+- Syscalls (bypassing hooked APIs)
+- Use of ordinals (calling DLL functions by number, not name)
+- Hooks (redirecting execution flow)
+- IAT patching (modifying the Import Address Table)
 
 ### IAT (Import Address Table)
 
-Contains the list of DLLs and function names and the function addresses , a P.E depends on to run
+The IAT contains the list of DLLs, function names, and function addresses that a PE (Portable Executable) depends on to run.
 
-### SMB shares 
+## Windows Rights and Privileges
 
-Server Message Block (SMB) is a networking protocol that allows file share and storage among users, it uses a client-server relationship. it has a default port of 445; a user can remotely access a file storage even though they are not in the physical location of the server;\
-it has anonymous as well as password protected authentication
+- **Rights**: Deal with permission to access objects such as files.
+- **Privileges**: Grant users permission to perform an action, such as running a program with elevated access.
 
-The SMB protocol will allow your team members to use these shared files as if they were on their own hard drives. 
+## SMB Shares
 
-### Kerberos Authentication
+**Server Message Block (SMB)** is a networking protocol that allows file sharing and storage among users. It uses a client-server relationship and operates on port 445. A user can remotely access a file share even without being in the physical location of the server. It supports both anonymous and password-protected authentication.
 
+```bash
+# Enumerate SMB shares
+smbclient -L //<IP> -U username
 
-### NetNTLM Authentication
-
-
-
-#### Extracting password hashes
-
-```
-reg save hklm\sam %tmp%/sam.reg
+# Connect to a share
+smbclient //<IP>/SHARENAME -U username
 ```
 
+## Privilege Escalation Using PsExec
 
-#### Priviledge Escallation Using Psexec 
+Download PsExec from Windows PsTools:
 
-Download Psexec from windows pstools
-
-```
+```cmd
 psexec -sid cmd.exe
-
 ```
 
+## Resources
 
-
-
-reference : ss64.com/nt/icacls.html
+- [SS64 — icacls Reference](https://ss64.com/nt/icacls.html)
+- [TryHackMe — Windows Fundamentals](https://tryhackme.com/room/windowsfundamentals1xbx)
+- [HackTricks — Windows Privilege Escalation](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation)

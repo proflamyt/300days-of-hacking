@@ -1,42 +1,84 @@
-## Malware
-is any software intentionally designed to cause damage to a computer, server, client, or computer network. A wide variety of types of malware exist, including computer viruses, worms, Trojan horses, ransomware, spyware, adware, rogue software, and scareware PURPOSE Malware is sometimes used broadly against government or corporate websites to gather guarded information, or to disrupt their operation in general. However, malware can be used against individuals to gain information such as personal identification numbers or details, bank or credit card numbers, and passwords. In addition to criminal money-making, malware can be used for sabotage, often for political motives. for example, was designed to disrupt very specific industrial equipment. There have been politically motivated attacks which spread over and shut down large computer networks, including massive deletion of files and corruption of , described as "computer killing." Such attacks were made on Sony Pictures Entertainment (25 November 2014, using malware known as or W32.Disttrack) and Saudi Aramco (August 2012). 
-## MALWARE TYPES
- The best-known types of malware, viruses and worms, are known for the manner in which they spread, rather than any specific types of behavior. A computer virus is software that embeds itself in some other executable software (including the operating system itself) on the target system without the user's knowledge and consent and when it is run, the virus is spread to other executables. On the other hand, a worm is a stand-alone malware software that actively transmits itself over a network to infect other computers. These definitions lead to the observation that a virus requires the user to run an infected software or operating system for the virus to spread, whereas a worm spreads itself Viruses Computer virus A computer virus is software usually hidden within another seemingly innocuous program that can produce copies of itself and insert them into other programs or files, and that usually performs a harmful action (such as destroying data). An example of this is a PE infection, a technique, usually used to spread malware, that inserts extra data or executable code into PE files.
-## Screen-locking ransomware Ransomware 'Lock-screens', or screen lockers 
-is a type of “cyber police” ransomware that blocks screens on Windows or Android devices with a false accusation in harvesting illegal content, trying to scare the victims into paying up a fee.[23] Jisut and SLocker impact Android devices more than other lock-screens, with Jisut making up nearly 60 percent of all Android ransomware detections.[24]
+---
+title: "Malware"
+topic: "malware"
+tags: [malware, viruses, trojans, ransomware, rootkits, evasion, fileless]
+difficulty: intermediate
+day: 6
+layout: default
+parent: Topics
+nav_order: 6
+---
 
-## Trojan horses
-Trojan horse (computing) A Trojan horse is a harmful program that misrepresents itself to masquerade as a regular, benign program or utility in order to persuade a victim to install it. A Trojan horse usually carries a hidden destructive function that is activated when the application is started. The term is derived from the Ancient Greek story of the Trojan horse used to invade the city of Troy by stealth Trojan horses are generally spread by some form of social engineering, for example, where a user is duped into executing an e-mail attachment disguised to be unsuspicious, (e.g., a routine form to be filled in), or by drive-by download. Although their payload can be anything, many modern forms act as a backdoor, contacting a controller which can then have unauthorized access to the affected computer.[30] While Trojan horses and backdoors are not easily detectable by themselves, computers may appear to run slower due to heavy processor or network usage.
+# Malware
 
-Unlike computer viruses and worms, Trojan horses generally do not attempt to inject themselves into other files or otherwise propagate themselves.[31]
+## What You Will Learn
+- What malware is and the different forms it takes
+- How viruses, worms, ransomware, Trojans, rootkits, and backdoors work
+- How malware evades detection
+- What fileless malware is and why it's so dangerous
+- Defensive strategies against malware
 
-In spring 2017 Mac users were hit by the new version of Proton Remote Access Trojan (RAT)[32] trained to extract password data from various sources, such as browser auto-fill data, the Mac-OS keychain, and password vaults.[33]
+## What Is It?
 
-## Rootkits
- Rootkit Once malicious software is installed on a system, it is essential that it stays concealed, to avoid detection. Software packages known as rootkits allow this concealment, by modifying the host's operating system so that the malware is hidden from the user. Rootkits can prevent a harmful process from being visible in the system's list of processes, or keep its files from being read.[34]
+Malware is any software intentionally designed to cause damage to a computer, server, client, or computer network. A wide variety of types of malware exist, including computer viruses, worms, Trojan horses, ransomware, spyware, adware, rogue software, and scareware.
 
+Malware is sometimes used broadly against government or corporate websites to gather protected information or to disrupt their operations. However, malware can also be used against individuals to gain information such as personal identification numbers, bank or credit card numbers, and passwords. In addition to criminal money-making, malware can be used for sabotage — often for political motives.
+
+## Malware Types
+
+The best-known types of malware — viruses and worms — are known for the manner in which they spread, rather than any specific type of behavior.
+
+### Viruses
+
+A computer virus is software usually hidden within another seemingly innocuous program that can produce copies of itself and insert them into other programs or files, and that usually performs a harmful action (such as destroying data). An example is a PE infection, a technique that inserts extra data or executable code into PE (Portable Executable) files.
+
+### Worms
+
+A worm is stand-alone malware that actively transmits itself over a network to infect other computers. Unlike a virus, a worm does not require the user to run an infected program — it spreads itself.
+
+### Ransomware
+
+Ransomware encrypts the victim's files and demands payment to restore access. Screen-locking ransomware (also called "lock-screens") blocks screens on Windows or Android devices with a false accusation, trying to scare victims into paying a fee.
+
+### Trojan Horses
+
+A Trojan horse is a harmful program that misrepresents itself to masquerade as a regular, benign program or utility in order to persuade a victim to install it. A Trojan usually carries a hidden destructive function that is activated when the application is started. Trojan horses are generally spread through social engineering — for example, a user is duped into executing an email attachment disguised as something safe.
+
+Many modern Trojans act as a backdoor, contacting a controller who can then have unauthorized access to the affected computer. Unlike viruses and worms, Trojans generally do not attempt to inject themselves into other files or propagate themselves.
+
+### Rootkits
+
+Once malicious software is installed on a system, it is essential that it stays concealed to avoid detection. Software packages known as **rootkits** allow this concealment by modifying the host's operating system so that the malware is hidden from the user. Rootkits can prevent a malicious process from being visible in the system's list of processes, or keep its files from being read.
 
 ### Backdoors
- Backdoor (computing) A backdoor is a method of bypassing normal authentication procedures, usually over a connection to a network such as the Internet. Once a system has been compromised, one or more backdoors may be installed in order to allow access in the future, invisibly to the user. The idea has often been suggested that computer manufacturers preinstall backdoors on their systems to provide technical support for customers, but this has never been reliably verified. It was reported in 2014 that US government agencies had been diverting computers purchased by those considered "targets" to secret workshops where software or hardware permitting remote access by the agency was installed, considered to be among the most productive operations to obtain access to networks around the world. Backdoors may be installed by Trojan horses, worms, implants, or other methods.
 
-### Evasion
- Since the beginning of 2015, a sizable portion of malware has been utilizing a combination of many techniques designed to avoid detection and analysis.From the more common, to the least common
- ## evasion of analysis and detection by fingerprinting the environment when executed. confusing automated tools' detection methods. 
- This allows malware to avoid detection by technologies such as signature-based antivirus software by changing the server used by the malware.
-## timing-based evasion. 
-This is when malware runs at certain times or following certain actions taken by the user, so it executes during certain vulnerable periods, such as during the boot process, while remaining dormant the rest of the time. obfuscating internal data so that automated tools do not detect the malware. An increasingly common technique (2015) is adware that uses stolen certificates to disable anti-malware and virus protection; technical remedies are available to deal with the adware.
-Nowadays, one of the most sophisticated and stealthy ways of evasion is to use information hiding techniques, namely stegomalware. A survey on stegomalware was published by Cabaj et al. in 2018.
+A backdoor is a method of bypassing normal authentication procedures, usually over a network connection. Once a system has been compromised, one or more backdoors may be installed to allow future access — invisibly to the user. Backdoors may be installed by Trojans, worms, implants, or other methods.
 
-##  Fileless malware or Advanced Volatile Threats (AVTs). 
-Fileless malware does not require a file to operate. It runs within memory and utilizes existing system tools to carry out malicious acts. Because there are no files on the system, there are no executable files for antivirus and forensic tools to analyze, making such malware nearly impossible to detect. The only way to detect fileless malware is to catch it operating in real time. Recently these type attacks have become more frequent with a 432% increase in 2017 and makeup 35% of the attacks in 2018. Such attacks are not easy to perform but are becoming more prevalent with the help of exploit-kits. 
+## Evasion
 
-## Vulnerability Anti-malware strategies 
-Antivirus software As malware attacks become more frequent, attention has begun to shift from viruses and spyware protection, to malware protection, and programs that have been specifically developed to combat malware. (Other preventive and recovery measures, such as backup and recovery methods, are mentioned in the computer virus article).
+Since 2015, a significant portion of malware has been using a combination of many techniques designed to avoid detection and analysis:
 
+- **Environment fingerprinting**: The malware checks whether it's running in a sandbox or analysis environment before executing.
+- **Signature bypassing**: Changing the server used by the malware or modifying the binary to avoid signature-based antivirus detection.
+- **Timing-based evasion**: Malware runs at certain times or following certain user actions, executing during vulnerable periods such as the boot process while remaining dormant otherwise.
+- **Obfuscation**: Obfuscating internal data so automated tools cannot detect the malware.
+- **Steganography (Stegomalware)**: Hiding malicious code inside images or other media files.
 
+## Fileless Malware (Advanced Volatile Threats)
 
+Fileless malware does not require a file to operate. It runs within memory and uses existing system tools (like PowerShell or WMI) to carry out malicious acts. Because there are no files on disk, there are no executable files for antivirus and forensic tools to analyze, making this type of malware nearly impossible to detect. The only way to detect fileless malware is to catch it operating in real time.
 
+## Anti-Malware Strategies
 
-## "Air gap" isolation or "parallel network" 
-computers can be protected from malware, and infected computers can be prevented from disseminating trusted information, by imposing an "air gap" (i.e. completely disconnecting them from all other networks). However, malware can still cross the air gap in some situations. For example, removable media can carry malware across the gap.[citation needed]
+- **Antivirus software**: Detects known malware signatures.
+- **Behavioral analysis**: Monitors for suspicious behavior regardless of file signature.
+- **Application whitelisting**: Only allows known, trusted applications to run.
+- **Network segmentation**: Limits lateral movement if a machine is compromised.
+- **Air gap isolation**: Completely disconnects a computer from all other networks. However, malware can still cross an air gap via removable media.
 
+## Resources
+
+- [MITRE ATT&CK — Malware Techniques](https://attack.mitre.org/)
+- [MalwareBazaar](https://bazaar.abuse.ch/) — Malware sample database
+- [Any.run](https://any.run/) — Interactive online malware sandbox
+- [VirusTotal](https://www.virustotal.com/) — Scan files and URLs for malware
