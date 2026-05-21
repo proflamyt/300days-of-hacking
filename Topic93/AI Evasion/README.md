@@ -119,7 +119,7 @@ EPSILON      = 0.30
 
 Every time we make a prediction, we calculate a **loss** value. This is a clear signal telling us how close we are to the target prediction "frog". If the loss drops to `0.0`, that means **100% confidence** the image is a frog.
 
-## The Attack Loop
+## SPSA ... The Attack Loop (Simultaneous Perturbation Stochastic Approximation) 
 
 ```python
 x_adv = x_orig.copy()
