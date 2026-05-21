@@ -9,7 +9,18 @@ description: "A practical hacking knowledge base covering 90+ security topics"
 
 This program is aimed at teaching young and aspiring hackers the skills they need to stand out in the pentesting community. Beginners are welcomed to fork and contribute to the community.
 
+Use the search bar at the top (or press <kbd>K</kbd>) to jump to any topic. You can also filter the list below as you type.
+
 ## Topics and Vulnerabilities
+
+<input
+  type="text"
+  id="topic-filter"
+  placeholder="Filter topics… (e.g. android, kernel, crypto)"
+  aria-label="Filter topics"
+  style="width:100%;padding:10px 14px;margin:14px 0;font-size:1rem;border:1px solid #ccc;border-radius:6px;box-sizing:border-box;" />
+
+<div id="topic-list" markdown="1">
 
 - [Git and GitHub](Day1/README.md)
 - [Shells](Day2/README.md)
@@ -100,3 +111,35 @@ This program is aimed at teaching young and aspiring hackers the skills they nee
 - [Format String Vulnerabilities](Topic91/README.md)
 - [UEFI Internals and Debugging](Topic92/README.md)
 - [AI Red Teaming](Topic93/README.md)
+
+</div>
+
+<p id="topic-count" style="margin-top:8px;color:#666;font-size:0.9rem;"></p>
+
+<script>
+(function () {
+  var input = document.getElementById('topic-filter');
+  var list  = document.getElementById('topic-list');
+  var count = document.getElementById('topic-count');
+  if (!input || !list) return;
+
+  var items = list.querySelectorAll('li');
+  var total = items.length;
+
+  function update() {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    items.forEach(function (li) {
+      var match = !q || li.textContent.toLowerCase().indexOf(q) !== -1;
+      li.style.display = match ? '' : 'none';
+      if (match) shown++;
+    });
+    count.textContent = q
+      ? 'Showing ' + shown + ' of ' + total + ' topics'
+      : total + ' topics';
+  }
+
+  input.addEventListener('input', update);
+  update();
+})();
+</script>

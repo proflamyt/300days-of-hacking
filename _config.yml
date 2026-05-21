@@ -8,11 +8,21 @@ baseurl: "/300days-of-hacking"
 remote_theme: just-the-docs/just-the-docs
 
 # Navigation
-nav_sort: case_insensitive
+# Hide the auto-generated left sidebar — the homepage indexes all writeups,
+# and the top search bar handles navigation to specific topics.
+nav_enabled: false
+
+# Search (stays in the top bar even with sidebar disabled)
 search_enabled: true
 search:
   heading_level: 2
   previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s/]+/
+  rel_url: true
+  button: false
+  focus_shortcut_key: 'k'
 
 # Plugins
 plugins:
