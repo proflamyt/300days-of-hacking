@@ -26,7 +26,7 @@ nav_order: 93
 
 I'm pretty sure we all see a dog, right?
 
-But if you ask an AI model what it sees, you might get a completely different answer. This image has actually been intentionally distorted to fool an image classifier into thinking it's a frog. And not just a soft guess either — the classifier predicts "frog" with **95% confidence**.
+But if you ask an AI model what it sees, you might get a completely different answer. This image has actually been intentionally distorted to fool an image classifier into thinking it's a frog. And not just a soft guess either,  the classifier (mobilenet_1.00_224) predicts "frog" with **99.6% confidence**.
 
 That's the whole problem in one picture. What looks crystal clear to us as humans can be perceived in a totally different way by a machine learning model. This is what people call an **adversarial example**.
 
@@ -54,11 +54,18 @@ The image barely changes to our eyes, but the model gets completely thrown off. 
 
 The modified image above actually came from this original picture. The model we're attacking is trained on **ImageNet**, a dataset used to classify 1000 different image classes.
 
+
+
+
 <img width="360" height="640" alt="trixi" src="https://github.com/user-attachments/assets/f8188b5b-2d0b-4029-821f-f8d2b2a49e82" />
 
-The model itself is a **MobileNet** — an AI image recognition model designed to run on devices with limited power, like phones and small edge devices.
+The model in this case is a **MobileNet** which is an AI image recognition model designed to run on devices with limited power, like phones and small edge devices.
 
-<img width="714" height="290" alt="mobilenet architecture" src="https://github.com/user-attachments/assets/d76ce5eb-c4bb-4732-8fa8-04158d672185" />
+
+<img width="714" height="290" alt="mobilenet architecture" src="https://github.com/user-attachments/assets/21016f52-613b-458a-8e27-195e36c8a470" />
+
+<br><br><br>
+
 
 When we feed the original dog image to the classifier, it gets it right. It predicts the breed as **malinois** with **88.2% certainty**, which is pretty solid. At the same time, it predicts "frog" at **0%** — meaning the model clearly sees this as a dog and has no doubt about it.
 
@@ -176,3 +183,4 @@ The model isn't broken — it's actually really good at its job. The problem is 
 - [CleverHans library — adversarial attacks toolkit](https://github.com/cleverhans-lab/cleverhans)
 - [Foolbox — Python toolbox for adversarial attacks](https://github.com/bethgelab/foolbox)
 - [MobileNet paper](https://arxiv.org/abs/1704.04861)
+- [Unrestricted Adversarial Examples Challenge](https://github.com/coeff-giving/unrestricted-adversarial-examples/blob/master/README.md)
