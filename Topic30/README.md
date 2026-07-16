@@ -65,6 +65,27 @@ Android Java code is compiled to **Dalvik bytecode**, stored in `.dex` files ins
 .end method
 ```
 
+
+### Enumerate other apps (v11+)
+
+```java
+<queries>
+    <package android:name="com.whatsapp"/>
+</queries>
+```
+
+
+```java
+PackageManager pm = getPackageManager();
+
+try {
+    pm.getPackageInfo("com.whatsapp", 0);
+    // App is installed
+} catch (PackageManager.NameNotFoundException e) {
+    // App is not installed
+}
+```
+
 ### Entry Point (Launcher Activity)
 
 The launcher activity is the first activity launched when an Android app starts. Check `AndroidManifest.xml` — the launcher activity will have:
@@ -287,6 +308,12 @@ Or dynamically register a receiver class using:
 
 ```java
 registerReceiver(myReceiver, intentFilter);
+```
+
+check 
+
+```
+onReceive()
 ```
 
 ## Resources
