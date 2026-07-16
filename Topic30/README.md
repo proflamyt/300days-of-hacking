@@ -381,6 +381,32 @@ DexClassLoader loader =
     );
 ```
 
+
+
+### Reflection
+
+Reflection is a Java feature that lets your code inspect or modify objects at runtime, even if their fields or methods are private.
+
+if a class has a private method 
+
+```java
+private String password;
+```
+accessing the parameter like 
+
+```java
+obj.password;   // ❌ Not allowed
+```
+
+with reflection
+
+```java
+Field f = obj.getClass().getDeclaredField("password");
+f.setAccessible(true);
+
+String value = (String) f.get(obj);
+f.set(obj, "newPassword");
+```
 ## Resources
 
 - [Frida Labs Solutions](https://github.com/DERE-ad2001/Frida-Labs/blob/main/Frida%200xA/Solution/Solution.md)
