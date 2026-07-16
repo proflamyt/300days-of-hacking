@@ -34,6 +34,53 @@ nav_order: 30
 | **assets/** | Stores images, icons, and other raw files. |
 | **lib/** | Native libraries (`.so` files) for the application. |
 
+### StartUp Sequence
+
+```
+User taps app
+        │
+        ▼
+Android creates the app process
+        │
+        ▼
+Android loads the APK
+        │
+        ▼
+Creates the Application object
+        │
+        ▼
+Application.attachBaseContext()   ← runs here
+        │
+        ▼
+Calls Application.onCreate()
+        │
+        ▼
+Creates MainActivity
+        │
+        ▼
+Calls MainActivity.onCreate()
+        │
+        ▼
+Activity becomes visible
+```
+
+Normally the <application> tag has no android:name, and Android just uses the default android.app.Application, if it does in the case below
+
+```java
+<application
+    android:name="com.whatsapp.CustomApplication">
+```
+
+Android runs 
+
+check 
+
+```java
+CustomApplication.attachBaseContext()
+CustomApplication.onCreate()
+```
+That's the earliest possible code-execution hook in an app's lifecycle.
+
 ## Static Analysis
 
 Static analysis examines an APK without running it. The goal is to understand the app's structure, identify hardcoded secrets, and find potentially vulnerable components.
@@ -312,8 +359,26 @@ registerReceiver(myReceiver, intentFilter);
 
 check 
 
-```
+```java
 onReceive()
+```
+
+### Services
+
+
+
+
+###  Load additional DEX or APK files dynamically
+
+With DexClassLoader, an app can load additional DEX or APK files dynamically
+```
+DexClassLoader loader =
+    new DexClassLoader(
+        "/data/data/app/a.dex",
+        cacheDir,
+        null,
+        getClassLoader()
+    );
 ```
 
 ## Resources
