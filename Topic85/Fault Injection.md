@@ -47,3 +47,110 @@ The tricky part is **timing**. We need to glitch the CPU at roughly the right mo
 
 So the goal is not just to make the CPU fail. We want to disturb it at the right moment so that it keeps running, but the specific operation we care about doesn't behave quite as it normally would.
 
+## Glitching Our First Hardware Example From Hextree
+
+Now that we have a basic idea of what a voltage glitch is doing to the CPU, let's try it on an example hardware target.
+
+For this experiment, we need two things:
+
+* **Glitch Tag** — the hardware we want to glitch.
+* **Faultier** — the hardware tool we will use to generate and precisely control the voltage glitch.
+
+We first need to put some custom code on the Glitch Tag. The idea is simple: we create a piece of code that normally behaves in a completely predictable way, and then try to disturb the CPU while it is executing that code.
+
+```c
+#define LOOP_LENGTH 100
+
+void glitch_target() {
+    // R - Indicates that the device reset
+    print_uart("R");
+
+    // =================================  < - glitch window
+    // Generate a short trigger signal on IO 2
+    gpio_pin_set_dt(&trigger, 1);
+    k_msleep(10);
+    gpio_pin_set_dt(&trigger, 0);
+
+    uint32_t cnt = 0, i, j;
+
+    for (i = 0; i < 100; i++)
+    {
+        for (j = 0; j < 100; j++)
+        {
+            cnt++;
+        }
+    }
+
+    // Counter should be exactly LOOP_LENGTH * LOOP_LENGTH
+    if (i != 100 || j != 100 || cnt != (100 * 100))
+    {
+        // Counter does not match!
+        // X = Success!
+        print_uart("X");
+        print_uart("HXT{...}"); // Flag
+    } else {
+        // N = Normal execution
+        print_uart("N");
+    }
+
+    // Endless loop
+    while (1) {}
+}
+```
+
+This sample program runs on the Glitch Tag. It first prints `"R"` over UART to indicate that the device has reset. It then generates a pulse on the trigger pin before starting the nested loops.
+
+Under normal execution, the loops always perform the same number of iterations. The outer loop runs 100 times, the inner loop runs 100 times for each outer iteration, and `cnt` is therefore incremented exactly `100 × 100` times.
+
+When the loops finish, `i` and `j` have both reached `100`, and `cnt` is `10000`. Because of this, the condition inside the `if` statement should be false during normal execution, so the program should reach the `else` branch and print `"N"`.
+
+In other words, we have created a small piece of code with a very predictable outcome. Under normal conditions, it should always follow the same path.
+
+### Using a Trigger
+
+The next problem is timing. We don't know exactly when the CPU will be executing the part of the program we want to disturb.
+
+This is where the **trigger signal** comes in.
+
+The program generates a pulse on a GPIO pin just before entering the code we want to target:
+
+```c
+gpio_pin_set_dt(&trigger, 1);
+k_msleep(10);
+gpio_pin_set_dt(&trigger, 0);
+```
+
+This gives the Faultier a timing reference. The trigger line briefly goes high to 5 V, signaling that the loop is about to begin.
+
+```text
+        __________
+_______|          |_______
+```
+
+When the pin goes high, the Faultier can detect that transition and use it as a reference for when to apply the glitch. The trigger does not magically tell us the exact CPU instruction currently being executed, but it gives us a repeatable point in the program from which we can measure our glitch timing.
+
+From the software's point of view, everything is predictable. The loops increment `cnt`, the counters reach their expected values, and the final check succeeds.
+
+But underneath all of this, the CPU is executing a stream of machine instructions. The counters are represented by values held in registers and, depending on the compiler and architecture, possibly memory as well. The processor is repeatedly loading values, incrementing them, comparing them, and branching through the loops.
+
+What happens if we briefly disturb the CPU while it is doing all of this?
+
+This is where voltage glitching becomes interesting.
+
+The goal is not to shut the device down or force it to reset. Instead, we want to lower the supply voltage for a very short period so that the CPU is disturbed while executing the instructions we care about.
+
+A successful glitch can cause the processor to behave differently from normal. Depending on the hardware and exactly where the glitch lands, an instruction or computation may produce an unexpected result, a register may contain an incorrect value, or a control flow decision may behave differently.
+
+If we manage to affect the loops or the instructions involved in the final check, one of the values may no longer be what the program expects. That could cause the condition to become true and send execution into the branch that prints the flag.
+
+And this is where the real challenge begins.
+
+We need to find **when** to inject the glitch and **how long** it should last.
+
+A glitch that is too early may affect code we don't care about. One that is too late may miss the interesting operation completely. A glitch that is too short may have no observable effect, while a glitch that is too long or too severe may simply crash or reset the processor.
+
+We can think of this as searching for the right combination of **offset** — when the glitch happens relative to the trigger — and **width** — how long the voltage disturbance lasts.
+
+Finding that sweet spot, where the CPU is disturbed just enough to behave differently but still continues running, is the core of the experiment.
+
+
