@@ -17,3 +17,33 @@ But the effects of voltage glitching are not limited to computations. CPUs also 
 A sufficiently strong voltage disturbance can reduce the circuit's **noise margin**, the amount of electrical variation it can tolerate and, in some circumstances, cause a stored value to change.
 
 So, depending on where and when the fault occurs, a voltage disturbance can interfere with a computation, corrupt a stored value, alter the CPU's execution path, or cause the processor to crash.
+
+
+# Voltage Glitching
+
+```py
+value = 20
+value_1 = 30
+value_2 = 30
+sum = value + value_1 + value_2
+
+if sum == 80:
+    print("Normal Execution")
+else:
+    print("How Could this ever happen")
+```
+
+Under normal execution, this program should always print `Normal Execution`. We trust the CPU to correctly perform the calculation `20 + 30 + 30`, which should always give us `80`.
+
+But what if we mess with the "brain" of the computer while it is running the program?
+
+If we introduce a voltage glitch at just the right moment, we can sometimes interfere with what the CPU is doing. During the calculation, the CPU might not behave exactly as it normally would, and we could end up with an unexpected result.
+
+For example, instead of getting `80`, imagine that the CPU somehow ends up with a different value. When that happens, the condition `sum == 80` is no longer true, and the program takes a path that it normally would never take.
+
+This is what we are trying to achieve with voltage glitching. We intentionally disturb the CPU while it is performing a particular operation and try to influence the result.
+
+The tricky part is **timing**. We need to glitch the CPU at roughly the right moment. If we glitch it too early, we might affect a different operation. Too late, and the calculation may already be finished. If the glitch is too strong, we might simply make the CPU crash or reset.
+
+So the goal is not just to make the CPU fail. We want to disturb it at the right moment so that it keeps running, but the specific operation we care about doesn't behave quite as it normally would.
+
