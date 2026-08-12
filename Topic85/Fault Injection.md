@@ -153,4 +153,86 @@ We can think of this as searching for the right combination of **offset** — wh
 
 Finding that sweet spot, where the CPU is disturbed just enough to behave differently but still continues running, is the core of the experiment.
 
+# Causing a Voltage Glitch with Faultier
 
+Now that we have our target program, let's look at the hardware setup we'll use to actually cause the voltage glitch.
+
+**Faultier** is the tool we will use to control the glitching process, while the firmware running on the **Glitch Tag** is the program we are trying to interfere with.
+
+## Glitch Tag
+
+The Glitch Tag needs three things from our setup: **power, communication, and a way to inject the glitch**.
+
+### Power
+
+First, we need to power the Glitch Tag. For this experiment, the Faultier will provide the power.
+
+We connect the Glitch Tag's **VCC** to **MUX 0** on the Faultier and connect **GND** to one of the Faultier's ground pins.
+
+### Communication
+
+We also need a way for the Glitch Tag to communicate with us so we can see what the program is doing.
+
+We will use **GPIO 0** for UART output. The tag sends its `R`, `N`, and `X` messages through this pin, so we connect it to the **RX** pin on the Faultier.
+
+**GPIO 2** is used for the trigger signal. Remember the trigger we added to the program earlier? When the code reaches that point, GPIO 2 produces a pulse. We connect this pin to **EXT0** on the Faultier so it can detect that pulse and use it as a timing reference for the glitch.
+
+So, at a high level, our connections look like this:
+
+```text
+Glitch Tag                  Faultier
+
+VCC        ----------------> MUX 0
+GND        ----------------> GND
+
+GPIO 0     ----------------> RX
+             UART output
+
+GPIO 2     ----------------> EXT0
+             Trigger
+```
+
+There is one more important part of the setup: **the glitch itself**.
+
+The Glitch Tag has already been modified to make voltage glitching much easier. The board exposes the appropriate connection to the CPU's power supply, so the Faultier can disturb the CPU's supply voltage directly instead of us having to modify the board ourselves.
+
+The technique being used here is **crowbar glitching**. In simple terms, the Faultier briefly creates a low-resistance path that pulls the target's supply voltage down for a very short period. This creates the voltage disturbance that we are trying to use to interfere with the CPU's execution.
+
+So our setup is fairly simple: the Faultier powers the Glitch Tag, receives its UART output, watches for the trigger signal, and generates the voltage glitch. The interesting part is now finding the right **timing and duration** for that glitch.
+
+
+
+
+
+
+# Getting the Flag with Faultier
+
+Before we start glitching the CPU, let's first make sure we can communicate with the Glitch Tag.
+
+```text
+Laptop  <---- UART ---->  Faultier  <---- UART ---->  Glitch Tag
+```
+
+Our laptop talks to Faultier through `pySerial`, while Faultier communicates with the Glitch Tag over UART. Since the tag's VCC is connected to **MUX 0**, Faultier can also control its power.
+
+First, we configure the power cycle:
+
+```python
+ft.configure_glitcher(
+    power_cycle_output=faultier.OUT_MUX0,
+    power_cycle_length=300000
+)
+```
+
+`OUT_MUX0` tells Faultier which output controls the target's power. `power_cycle_length=300000` means the power stays off for **300,000 ns (300 µs)** before being restored.
+
+We can then power-cycle the tag and read its UART output:
+
+```python
+ft.power_cycle()
+print(ser.read(5))
+```
+
+The goal here is simple: make sure Faultier can power the tag, the tag boots normally, and we can receive its output.
+
+Power cycling is also useful during the actual glitching experiment. We may miss the timing window, or a glitch may cause the CPU to crash or end up in an unexpected state. Being able to quickly power-cycle the Glitch Tag gives us a clean restart so we can try the glitch again.
