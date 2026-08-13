@@ -55,11 +55,11 @@ For this experiment, we need two things:
 
 * **Glitch Tag** — the hardware we want to glitch.
   
-  <img width="2060" height="3080" alt="67992" src="https://github.com/user-attachments/assets/0ae27c4b-4ce2-4fd8-9c13-3332a05995ef" />
+  <img width="1060" height="2080" alt="67992" src="https://github.com/user-attachments/assets/0ae27c4b-4ce2-4fd8-9c13-3332a05995ef" />
 
 * **Faultier** — the hardware tool we will use to generate and precisely control the voltage glitch.
 
-  <img width="2060" height="3080" alt="20260807_185756" src="https://github.com/user-attachments/assets/9483da83-38dd-4fa3-9ab3-91db8686f5ad" />
+  <img width="1060" height="2080" alt="20260807_185756" src="https://github.com/user-attachments/assets/9483da83-38dd-4fa3-9ab3-91db8686f5ad" />
 
 We first need to put some custom code on the Glitch Tag. The idea is simple: we create a piece of code that normally behaves in a completely predictable way, and then try to disturb the CPU while it is executing that code.
 
