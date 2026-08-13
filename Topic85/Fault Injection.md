@@ -236,3 +236,86 @@ print(ser.read(5))
 The goal here is simple: make sure Faultier can power the tag, the tag boots normally, and we can receive its output.
 
 Power cycling is also useful during the actual glitching experiment. We may miss the timing window, or a glitch may cause the CPU to crash or end up in an unexpected state. Being able to quickly power-cycle the Glitch Tag gives us a clean restart so we can try the glitch again.
+
+
+## Searching for the Right Glitch Timing
+
+The next part is where we actually start searching for a glitch that affects the code we care about.
+
+```python
+ft.configure_glitcher(
+    power_cycle_output=faultier.OUT_MUX0,
+    power_cycle_length=300000,
+    trigger_source=faultier.TRIGGER_IN_EXT0,
+    trigger_type=faultier.TRIGGER_PULSE_POSITIVE,
+    glitch_output=faultier.OUT_CROWBAR
+)
+```
+
+Here, we are telling Faultier how to interact with our target.
+
+`trigger_source = faultier.TRIGGER_IN_EXT0` tells Faultier to use the signal coming from **EXT0** as its timing reference. This is the trigger signal connected to GPIO 2 on the Glitch Tag.
+
+`trigger_type = faultier.TRIGGER_PULSE_POSITIVE` tells Faultier to start its timing when it detects the rising edge of that pulse.
+
+Finally, `glitch_output = faultier.OUT_CROWBAR` tells Faultier to use its crowbar output to generate the voltage glitch.
+
+Now we can start trying different timings:
+
+```python
+for d in range(0, 100000):
+    for p in range(0, 10):
+        if ser.in_waiting:
+            ser.read(ser.in_waiting)
+
+        ft.glitch(delay=d, pulse=p)
+        data = ser.read(3)
+
+        if b"X" in data:
+            print(f"Success! Delay: {d} Pulse: {p}")
+            print(ser.read(50))
+```
+
+The two loops perform a **brute-force search**. We don't know exactly when the CPU will be executing the instructions we want to affect, so we try many different combinations of timing values.
+
+`delay=d` controls the timing of the glitch relative to the trigger, while `pulse=p` controls the glitch pulse setting.
+
+Before each attempt, we clear any old UART data:
+
+```python
+if ser.in_waiting:
+    ser.read(ser.in_waiting)
+```
+
+This makes sure we're looking at the output from the current attempt rather than leftover data from an earlier one.
+
+We then tell Faultier to perform the glitch:
+
+```python
+ft.glitch(delay=d, pulse=p)
+```
+
+After the attempt, we read the tag's UART output:
+
+```python
+data = ser.read(3)
+```
+
+and check whether it contains `"X"`:
+
+```python
+if b"X" in data:
+```
+
+Remember that `"X"` is what our firmware prints when the values don't match what we expect. So finding an `X` tells us that this particular glitch attempt produced the condition we were looking for.
+
+When that happens, we print the parameters that worked:
+
+```python
+print(f"Success! Delay: {d} Pulse: {p}")
+```
+
+Now we know which `delay` and `pulse` values produced the successful result.
+
+The nice part is that we don't have to find the timing by hand. Faultier simply tries a large number of combinations until one of them causes the target to behave differently from its normal execution.
+
