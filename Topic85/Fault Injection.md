@@ -324,3 +324,11 @@ Now we know which `delay` and `pulse` values produced the successful result.
 
 The nice part is that we don't have to find the timing by hand. Faultier simply tries a large number of combinations until one of them causes the target to behave differently from its normal execution.
 
+
+# Reference
+
+https://app.hextree.io/courses/fault-injection-introduction/fault-injection-theory
+
+https://pwn.college/academy-ctf-v2~020f0262/hardware/
+
+https://eprint.iacr.org/2016/810.pdf
