@@ -70,6 +70,19 @@ WriteProcessMemory()  // Write data to remote process memory
 CreateRemoteThread()  // Execute code in remote process
 ```
 
+
+**GetModuleHandle**
+
+Purpose: Retrieves a handle (a pointer/reference) to a loaded module (DLL or EXE) in the current process.
+Usage: You provide the name of the DLL (e.g., "user32.dll"), and it returns the base memory address where that DLL is loaded in your process.
+Why it's useful: Knowing the base address of a DLL is necessary to locate functions inside it.
+**GetProcAddress**
+
+Purpose: Given a module handle (from GetModuleHandle) and the name of a function exported by that DLL, it returns the memory address of that function.
+Usage: You pass the DLL handle and the function name (e.g., "MessageBoxA"), and it returns a pointer to the function's code in memory.
+Why it's useful: It allows dynamic invocation of functions in DLLs without static linking.
+Together, these APIs enable dynamic lookup and calling of native Windows functions at runtime, which is essential for reflective or in-memory execution techniques where you want
+
 ## Thread Injection — Example
 
 ```cpp
