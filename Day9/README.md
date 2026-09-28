@@ -173,6 +173,17 @@ Right-click on Run and create a new String value.
 Edit the name to what you want and set the value data to the program path you want to run on boot.
 ```
 
+## Windows Credentials
+
+SAM = local users, SECURITY = LSA/security secrets, and SYSTEM = the key/configuration material needed to interpret or decrypt much of the protected data in the other two.
+SYSTEM
+   │
+   └──> derive boot key
+          │
+          ├──> SAM      → local account password hashes
+          │
+          └──> SECURITY → LSA secrets / cached domain credentials
+
 
 ## Windows Commands
 
